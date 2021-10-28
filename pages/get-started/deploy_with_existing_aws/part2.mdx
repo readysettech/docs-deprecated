@@ -1,0 +1,18 @@
+# Part 2: Connect ReadySet to your primary database
+
+1. After successfully deploying ReadySet, connect ReadySet to your database by adding the `ReadysetDBSecurityGroup` to your existing RDS database. 
+
+> You can do this through the AWS RDS console: navigate to the RDS database that you 
+> wish to connect to ReadySet. Click the Modify button to edit your RDS instance. Go to Security Groups under Connectivity. 
+
+2. Add the security group created by the ReadySet CloudFormation stack to this database, then click Continue at the bottom of the page.
+On the next page, select Apply immediately under Scheduling of modifications. Submit your modifications.
+
+> The `ReadysetDBSecurityGroup` output from the ReadySet stack is the ID of the security group. The RDS console 
+> requires you to type in the name of the security group; to find it, navigate to the EC2 Console, Security Groups, 
+> filter by ID and copy the name over.
+
+3. Wait about thirty seconds to allow ReadySet to connect to the underlying database. Once that is complete, ReadySet Adapters and Servers will be able to read your database!
+
+Logs will be uploaded to CloudWatch in a Log Group with the same name as the CloudFormation stack. In the Log Stream named 
+`readyset`, once you see a message containing "Snapshot finished" then you can move on to Part 3.

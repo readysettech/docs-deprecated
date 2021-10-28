@@ -1,0 +1,50 @@
+# Part 1: Deploy ReadySet
+
+If you created a Consul stack using the ReadySet-provided CloudFormation template, you will need to wait for it to complete. 
+Once the stack has reached the `CREATE_COMPLETED` state, copy the `ConsulJoinManagedPolicy` output and provide it as the 
+`ConsulJoinManagedPolicyArn` input as a part of launching this stack.
+
+For the next steps, use the ReadySet CloudFormation template link we sent you. 
+
+## Launch ReadySet via CloudFormation
+### Step 1: Specify Template
+The first page should already be pre-configured for you. You can just click Next at the bottom of the page. Fill in the fields that are blank following the instructions in the gray text. 
+### Step 2: Specify Stack Details
+Fill in the fields using the guidance below.
+| Parameter      | Guidance |
+| ----------- | ----------- |
+| `Stack name` | We recommend naming your stack something like "ReadySet".   |
+| `VPCID`   | This should be the ID of the VPC that will have  Consul and ReadySet installed.  |
+| `VPCCIDR` | Copy the CIDR from the VPC provided in VPCID. To find the CIDR, navigate to the VPC console, find the row corresponding to your selected VPCID, and copy the CIDR.|
+| `PrivateSubnet<1, 2, 3>ID` | Fill in the IDs of the subnets referenced in Part 0 Step 2. |
+| `BastionSecurityGroupID` | This should be a security group that will be added to all ReadySet instances for access. |
+| `KeyPairName` | Paste in the name of the key you copied from Part 0 Step 3. |
+| `ConsulJoinManagedPolicyArn` | Paste the IAM Managed Policy ARN you copied from. This is the output from the Consul stack if you used the ReadySet-provided Consul CloudFormation template. |
+| `ReadySetAdapterInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadySetAdapterNodes` | We recommend setting this to at least 3 for high-availability. |
+| `ReadySetServerInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadySetServerNodes` | We recommend setting this to at least 3 for high-availability. |
+| `ReadySetMonitorInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadySetServerVolumeSizeGB` | This is the volume size for storing the base tables. We recommend setting this to the storage size of your RDS instance. |
+| `ReadySetMemoryLimitGB` | This is the memory limit for ReadySetServerInstances in GB. We recommend setting this to 80% of the total memory on the selected ReadySetServerInstanceType. |
+| `MySQLDatabaseURL` | database connection string of the form `mysql://<user>:<password>@<host>:<port>/<db_name>` |
+
+
+
+
+
+
+
+
+
+### Step 3: Configure Stack Options
+Fill in your desired stack options. We highly recommend selecting "Preserve successfully provisioned resources" to allow ReadySet to help debug deployment issues that may arise.
+
+These options are dependent on your company's AWS security policies. We currently do not have a list of all IAM permissions required to deploy these stacks. 
+
+### Step 4: Review
+This page provides a review of your Consul setup configurations. 
+You must accept the Capabilities acknowledgement before creating your stack.
+Once the ReadySet stack has reached the `CREATE_COMPLETED` state, go to the Outputs tab in the ReadySet stack to obtain the following values:
+- The value of the key corresponding to `ReadysetDBSecurityGroup` for use in Part 2. 
+- The value of the key corresponding to `ReadysetAdapterNLBDNSName` for use in Part 3.
