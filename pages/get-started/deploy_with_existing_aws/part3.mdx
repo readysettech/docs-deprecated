@@ -1,4 +1,5 @@
 # Start using ReadySet 
+## Get your ReadySet connection string 
 Copy the `ReadysetAdapterNLBDNSName` from the ReadySet CloudFormation stack output. This a DNS host name that will resolve 
 to live ReadySet adapters. This DNS host name is only valid inside the VPC the stack was started in.
 
@@ -8,6 +9,7 @@ requires no authentication or database name. For example, the connection string 
 If you are using the command  line MySQL client, you can connect to ReadySet by running `mysql -h <ReadysetAdapterNLBDNSName>`.
 We recommend using a different instance to test connections, such as an application server, rather than using any individual Adapter or Server instance.
 
+## Notes 
 The `BastionSecurityGroupID` and `KeyPairName` were added to every adapter and server instance which will allow you to SSH into any individual adapter or 
 server instance assuming you have those credentials. This should not need to be done. 
 
