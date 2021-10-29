@@ -4,9 +4,14 @@ export default {
   titleSuffix: ' – Nextra',
   logo: (
     <>
-      <span className="mr-2 font-extrabold hidden md:inline">Nextra</span>
+      {/* <span style="padding-right:3px; padding-top: 3px; display:inline-block;">
+
+      <img class="manImg" src="/2x-Color.gif"></img>
+
+      </span> */}
+      <span className="mr-2 font-extrabold hidden md:inline">ReadySet</span>
       <span className="text-gray-600 font-normal hidden md:inline">
-        The Next.js Static Site Generator
+        Documentation
       </span>
     </>
   ),
@@ -60,8 +65,6 @@ export default {
   search: true,
   prevLinks: true,
   nextLinks: true,
-  footer: true,
-  footerEditLink: 'Edit this page on GitHub',
-  footerText: <>MIT {new Date().getFullYear()} © Nextra.</>,
+  
   unstable_faviconGlyph: '👋',
 }
