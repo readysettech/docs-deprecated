@@ -1,7 +1,6 @@
 export default {
-  github: 'https://github.com/shuding/nextra',
-  docsRepositoryBase: 'https://github.com/shuding/nextra/blob/master',
-  titleSuffix: ' – Nextra',
+  github: 'https://github.com/readysettech',
+  titleSuffix: ' – ReadySet',
   logo: (
     <>
       {/* <span style="padding-right:3px; padding-top: 3px; display:inline-block;">
