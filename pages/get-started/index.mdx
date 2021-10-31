@@ -1,0 +1,27 @@
+
+## Workload Requirements
+ReadySet should be used for **cacheable workloads**. Cacheable workloads are **read-heavy** with 
+**predictable access patterns**. 
+
+#### Read-Heavy Workloads 
+Read-heavy workloads are characterized by a high read-to-write ratio. In other words, of the requests
+being sent to your database, the vast majority of them are reads rather than writes. 
+
+Caching query results entails computing the result of a query and storing it in memory so that is readily accessible
+the next time the same query is issued. Therefore, caching accelerates reads so for your application to see improvements
+from caching, it must perform a non-trivial number of reads. 
+
+#### Predictable Access Patterns
+Predictable access patterns are another caching prerequisite. This is because most caches (ReadySet included) are populated based on *demand*– 
+i.e. the first time a user requests a given key, the result will be computed around stored in memory so that it is available the next time 
+the same query is issued. However, if you never issue the same query again, the result will be stored in memory but unused. 
+
+
+> ReadySet should be used for cacheable workloads. You can use ReadySet for workloads that deviate from this 
+> specification, but unsurprisingly, the performance improvements you can expect to see from ReadySet will decrease accordingly.
+
+
+## Configuring ReadySet
+Similarly, it's important to configure ReadySet in a way that sets yourself up for success. 
+
+There is a notion of a "working set" in caching that 

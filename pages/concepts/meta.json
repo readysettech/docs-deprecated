@@ -1,6 +1,6 @@
 {
-    "dataflow_engine": "Computational Model", 
-    "partial": "Minimizing Memory Overhead", 
+    "dataflow_engine": "How it Works", 
+    "partial": "Efficiency", 
     "geo": "Caching at the Edge"
   }
   
