@@ -12,16 +12,21 @@ the next time the same query is issued. Therefore, caching accelerates reads so 
 from caching, it must perform a non-trivial number of reads. 
 
 #### Predictable Access Patterns
-Predictable access patterns are another caching prerequisite. This is because most caches (ReadySet included) are populated based on *demand*– 
-i.e. the first time a user requests a given key, the result will be computed around stored in memory so that it is available the next time 
-the same query is issued. However, if you never issue the same query again, the result will be stored in memory but unused. 
+Most caches (ReadySet included) are populated based on *demand*– i.e. the first time a user issues a request, the result for that request be computed and then stored in memory so that it is 
+readily available the next time the same query is issued. 
 
-
-> ReadySet should be used for cacheable workloads. You can use ReadySet for workloads that deviate from this 
-> specification, but unsurprisingly, the performance improvements you can expect to see from ReadySet will decrease accordingly.
+If the same request is never issued again, storing the result for that request in memory will not improve performance. Therefore, it is important that your application's access patterns are at least 
+somewhat predictable.
 
 
 ## Configuring ReadySet
-Similarly, it's important to configure ReadySet in a way that sets yourself up for success. 
+An application's **working set** refers to the set of items that is useful to cache (i.e. items that are frequently accessed).
 
-There is a notion of a "working set" in caching that 
+To achieve the best results, ensure that ReadySet's memory budget can accommodate the working set of your application. Since ReadySet stores intermediate state in addition to the final query results, 
+the memory required to accommodate the working set will be at least somewhat larger than the size of your working set. 
+
+If the working set cannot be accommodated by ReadySet due to resource constraints, thrashing will occur. Thrashing refers to 
+the frequent swapping in and out of items to and from the cache due to the frequent eviction and reintroduction of this useful state 
+to and from the cache. 
+
+Thrashing wastes CPU cycles and leads to performance degradation due to the increased frequency of cache misses. 
