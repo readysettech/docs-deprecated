@@ -1,6 +1,10 @@
 
+# Overview 
+
+You can expect great results from using ReadySet in any contexts that would benefit from more traditional caching layers. 
+
 ## Workload Requirements
-ReadySet should be used for **cacheable workloads**. Cacheable workloads are **read-heavy** with 
+Specifically, ReadySet should be used for **cacheable workloads**. Cacheable workloads are **read-heavy** with 
 **predictable access patterns**. 
 
 #### Read-Heavy Workloads 
@@ -18,8 +22,9 @@ readily available the next time the same query is issued.
 If the same request is never issued again, storing the result for that request in memory will not improve performance. Therefore, it is important that your application's access patterns are at least 
 somewhat predictable.
 
+## Resource Recommendations
 
-## Configuring ReadySet
+### Memory Allocation
 An application's **working set** refers to the set of items that is useful to cache (i.e. items that are frequently accessed).
 
 To achieve the best results, ensure that ReadySet's memory budget can accommodate the working set of your application. Since ReadySet stores intermediate state in addition to the final query results, 

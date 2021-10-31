@@ -1,23 +1,8 @@
 import Bleed from 'nextra-theme-docs/bleed'
 import Image from 'next/image'
 
-# Background
 
-When dealing with large datasets, complicated queries, or high request volumes, off-the-shelf 
-relational databases often face performance problems that can get in the way of a seamless user experience. 
-This can be catastrophic for a business – page load delays of even just 1/10th of a second have been shown 
-to have an outsized detrimental impact on KPIs like conversion rates, and failure to handle spikes in usage 
-patterns could lead to websites going down during critical sales periods (e.g. during flash sales or Black Friday).
-
-Developers therefore rarely rely on relational databases alone to meet SLAs. Instead, they denormalize data or build 
-infrastructure around read replicas and custom query caching layers on top of Redis or Memcached. These approaches ultimately 
-incur significant engineering overhead, have high maintenance costs, introduce operational complexity, 
-and often even increase risk of failures and outages.  
-
-\
-&nbsp;
-
-# ReadySet Distributed SQL Cache
+# Overview: ReadySet Distributed SQL Cache
 
 ReadySet is a distributed SQL cache that precomputes the results of prepared statements (parameterized SQL queries) 
 and incrementally updates these results as the underlying data in your database changes. 

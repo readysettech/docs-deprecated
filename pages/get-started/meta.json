@@ -1,5 +1,5 @@
 {
-    "index": "Background", 
-    "deploy_with_existing_aws": "Deploy ReadySet with CloudFormation"
+    "index": "Usage Guidelines", 
+    "deploy_with_existing_aws": "Deploy with CloudFormation"
 }
   
