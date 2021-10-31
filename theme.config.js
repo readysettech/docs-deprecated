@@ -6,7 +6,7 @@ export default {
 
       <span className="rslogo">
 
-      <img class="manImg" src="/Color-2x.png" width="30" height="30" style={{ 'padding-left': '1px', 'padding-right': '3px'}}></img>
+      <img class="manImg" src="/Color-2x.png" width="32" height="32" style={{ 'padding-left': '1px', 'padding-right': '5px'}}></img>
 
       </span>
       <span className="mr-2 font-extrabold hidden md:inline">ReadySet</span>
