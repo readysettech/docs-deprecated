@@ -3,11 +3,12 @@ export default {
   titleSuffix: ' – ReadySet',
   logo: (
     <>
-      {/* <span style="padding-right:3px; padding-top: 3px; display:inline-block;">
 
-      <img class="manImg" src="/2x-Color.gif"></img>
+      <span className="rslogo">
 
-      </span> */}
+      <img class="manImg" src="/Color-2x.png" width="30" height="30" style={{ 'padding-left': '1px', 'padding-right': '3px'}}></img>
+
+      </span>
       <span className="mr-2 font-extrabold hidden md:inline">ReadySet</span>
       <span className="text-gray-600 font-normal hidden md:inline">
         Documentation
@@ -21,7 +22,7 @@ export default {
       <meta httpEquiv="Content-Language" content="en" />
       <meta name="description" content="ReadySet Documentation" />
       <meta name="og:description" content="ReadySet Documentation" />
-      <meta name="og:title" content="ReadySet Documentation" />
+      <meta name="og:title" content="ReadySet Documentation" />g
     </>
   ),
   search: true,
