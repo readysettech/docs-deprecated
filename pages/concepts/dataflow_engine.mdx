@@ -1,6 +1,89 @@
-# ReadySet Dataflow Engine
+# ReadySet Internals
 
-The heart of ReadySet is the dataflow engine. Given a prepared statement, the dataflow engine compiles 
+The heart of ReadySet is a query engine. This query engine, however, is very different from those of 
+traditional relational databases in that it is based on **partially-stateful, streaming data flow**. 
+
+What's that? Let's break it down. First, we'll take a look at the basics of **streaming dataflow**, then 
+we'll consider how to make streaming dataflow **stateful**, and then we'll make the state **partial**. 
+
+## Streaming Dataflow 
+The basic premise of [streaming dataflow](https://en.wikipedia.org/wiki/Stream_processing) is that a series 
+of operations is applied to each element of a stream (a given a sequence of data). 
+
+#### Stream
+
+The stream that ReadySet deals with is a the sequence of data changes made to your underlying database due to writes. 
+ReadySet receives this stream as input by registering itself as a [read replica of your primary database](https://dev.mysql.com/doc/internals/en/replication.html). 
+The data change stream primarily consists of **inserts of new records** to the base tables and **updates of 
+existing records** in the base tables.  
+
+#### Operations 
+
+ReadySet applies SQL operations over this data change stream to compute the results of the SQL queries you give it. 
+Specifically, given a SQL query, ReadySet creates a query plan (i.e. the ordered sequence of transformations over the data in 
+the base tables that needs to be applied to compute the correct query result) and instantiates a long-lived **data flow graph** that 
+actually executes the operations in the query plan over the incoming data stream. 
+
+#### Example 
+
+For example, let's say we have a table like this one– we'll call it the `Votes` table:
+| VoteID | Story |
+| --- | ----------- |
+| 1 | "Intro to Streaming Dataflow" |
+| 2 | "ReadySet 101" |
+| 3 | "Caching in the Wild" |
+| 4 | "ReadySet 101" |
+
+We want to compute the following SQL query, using the information in the `Votes` table: 
+
+``` SELECT Story, COUNT(*) FROM Votes GROUP BY Story;```
+
+To perform this computation via streaming dataflow, ReadySet breaks the query down into its constituent operations, 
+in the order they must be applied to ensure a correct result. ReadySet then creates a graph that represents this plan: 
+
+`Votes` table ==> `GROUP BY Story` ==> `PROJECT(Story, COUNT(*) AS VoteCount)` 
+
+Each operation in this chain is its own logical node in the graph. The `==>` indicates edges between the nodes
+through which data streams. In this case, the rows in the `Votes` table are first grouped by the `Story` column (`GROUP BY Story`), 
+and then the number of elements in each group is counted (`COUNT(*) AS VoteCount`), and then finally the vote counts for each 
+`Story` is returned.  
+
+Once this graph is created, to compute the final result, we'll stream all of the records in the `Votes` table 
+through this graph. Each node will execute its associated function over incoming data, and send the result of the
+operation downstream to its children nodes. By the time this process completes, we'll have the final query result. 
+
+==> `Votes` table 
+| VoteID | Story |
+| --- | ----------- |
+| 1 | "Intro to Streaming Dataflow" |
+| 2 | "ReadySet 101" |
+| 3 | "Caching in the Wild" |
+| 4 | "ReadySet 101" |
+
+==> `GROUP BY Story` 
+
+| VoteID | Story |
+| --- | ----------- |
+| 1 | "Intro to Streaming Dataflow" |
+| 2 | "ReadySet 101" |
+| 3 | "ReadySet 101" |
+| 4 | "Caching in the Wild" |
+
+==> `PROJECT(Story, COUNT(*) AS VoteCount)`
+
+| Story | VoteCount |
+| --- | ----------- |
+| "Intro to Streaming Dataflow" | 1 |
+| "ReadySet 101" | 2 |
+| "Caching in the Wild" | 1 |
+
+## Stateful Streaming Dataflow 
+
+
+
+## Partially-Stateful Streaming Dataflow 
+
+Given a prepared statement, the dataflow engine compiles 
 that query into a dataflow graph that is responsible for executing that query. The roots of the graph are 
 nodes that represent the application base tables (“base table nodes”). 
 
@@ -66,3 +149,7 @@ Next, we’ll take a look at what happens when the data changes. Let’s say tha
 the fact that Justin voted for the story with ID 2. This update would first be applied to the Votes base table at the root 
 of the graph, and then be propagated through the graph, updating all children nodes along that way. Figure 7 below shows the 
 modified state at each node as the result of this write.
+
+The leaf nodes of the query graph (referred to as Readers in the figures) cache the final query results. When users issue queries, 
+the queries are routed directly to these reader nodes. Under the hood, these nodes are represented by special data structures that 
+are optimized for low latency access and to support many users accessing it once.
