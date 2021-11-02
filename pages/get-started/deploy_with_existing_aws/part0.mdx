@@ -12,6 +12,11 @@ To check your backup retention period, navigate to the RDS Console for the datab
 Backup tab and then see if Automated Backups are enabled. If they aren’t enabled, click the Modify button on 
 the database page to set the Backup Retention Period to at least 1 day. 
 
+> **Note:** During the ReadySet server DB snapshotting process, all tables will undergo a full table lock, so new writes will 
+> be blocked until the snapshot completes. If your DB needs to be writeable during this time, we recommend creating a new RDS 
+> snapshot of the desired instance, or use last night's snapshot (if you have automated backups enabled) to create a new DB 
+> instance for the test.
+
 ## 2. Configure your VPC for high availability and access. 
 Confirm that your VPC has exactly 3 private subnets in different availability zones. This ensures that ReadySet is able 
 to handle intermittent AWS instance failures. This can be found by filtering the Subnets list in the VPC console by the VPC 
