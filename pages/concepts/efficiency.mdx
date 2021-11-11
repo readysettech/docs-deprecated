@@ -16,12 +16,11 @@ JOIN (SELECT story_id, COUNT(*) AS vcount
             FROM votes GROUP BY story_id)  
 AS VoteCount 
 ON VoteCount.story_id = stories.id WHERE stories.id = ?; 
-
 ``` 
 
-Without partial materialization, ReadySet would have to compute the results for this query for ever possible 
+Without partial materialization, ReadySet would have to compute the results for this query for every possible 
 input parameter (i.e. for every possible story). This would be pretty unfortunate, because caching the info 
-for all stories is not necessary to improve the performance of most applications. In the case of HackerNews, 
+for every story is not necessary to improve the performance of most applications. In the case of HackerNews, 
 only the first few pages worth of stories are commonly read. Most of the benefit from caching would therefore
 come from storing this popular content, rather than caching every story ever posted. 
 
@@ -36,7 +35,7 @@ most queries will be ones that ReadySet has never seen before (i.e. cache misses
 results from scratch. 
 
 ReadySet computes missing values via **upqueries**: upon receiving a query for missing state, the reader recursively 
-traverses up the dataflow graph requesting its paren nodes for the state required to be able to rederive the missing result set. 
+traverses up the dataflow graph to request its parent nodes for the state required to be able to rederive the missing result set. 
 In the worst case, the upquery has to go all the way up to the base table nodes to retrieve this information. 
 Once it finds the missing state, this state is propagated down the graph. 
 
