@@ -9,7 +9,7 @@ predictable access patterns.
 Read-heavy workloads are characterized by a high read-to-write ratio. In other words, of the requests
 being sent to your database, the vast majority of them are reads rather than writes. 
 
-ReadySet caches query results by computing the result of a query and storing it in memory so that is accessible when 
+ReadySet caches query results by computing the result of a query and storing it in memory so that it is accessible when 
 the same query is issued again. These pre-computed queries accelerate read performance. In order to see performance improvements, your 
 application should therefore perform a non-trivial number of reads.
 
