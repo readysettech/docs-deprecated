@@ -1,6 +1,6 @@
 # Memory Efficiency
 In the first section, we discussed the **stateful, streaming dataflow** model and how to use it to 
-maintain cached state in real time. In this model, both reader and intermediate nodes of the graph store result sets. 
+maintain cached state in real time. In this model, both reader and internal nodes of the graph store result sets. 
 Without care, this could lead to an impractical memory footprint. 
 
 ReadySet solves this problem via **partial materialization**. You can think of partial materialization as a 
