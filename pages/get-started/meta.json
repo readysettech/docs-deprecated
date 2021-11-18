@@ -1,5 +1,4 @@
 {
-    "index": "Usage Guidelines", 
-    "deploy_with_existing_aws": "Deploy with CloudFormation"
+    "index": "Usage Guidelines",
+    "cloudformation": "Deploy with AWS CloudFormation"
 }
-  

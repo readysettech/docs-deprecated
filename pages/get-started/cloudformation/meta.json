@@ -1,0 +1,5 @@
+{
+    "deploy_with_existing_aws": "Deploy in an existing VPC",
+    "deploy_with_new_aws": "Deploy in a new VPC"
+}
+  
