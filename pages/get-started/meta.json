@@ -1,4 +1,5 @@
 {
-    "index": "Usage Guidelines",
-    "cloudformation": "Deploy with AWS CloudFormation"
+    "index": "Guidelines",
+    "deploy": "Deploy a cluster", 
+    "cache": "Start caching queries"
 }
