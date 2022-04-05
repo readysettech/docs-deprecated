@@ -1,4 +1,4 @@
-# ReadySet FAQs
+# ReadySet Overview
 
 ReadySet is a lightweight caching solution that turns even the most complex SQL reads into **lightning fast lookups** with **no extra code**. 
 
@@ -65,7 +65,7 @@ ON
     VoteCount.post = posts.id WHERE posts.id = ?; 
 ```
 
-In traditional database settings, as queries get more complex, performance can seriously suffer. To work around this, developers denormalize data or implement out-of-band caching solutions that require extra application logic to keep in sync with the database. 
+In traditional database settings, as queries get more complex, performance can seriously suffer. This is especially true in applications with large amounts of data. To work around this, developers denormalize data or implement out-of-band caching solutions that require extra application logic to keep in sync with the database.
 With ReadySet, read performance is not impacted by the size of the base tables or query complexity.
 
 
@@ -74,16 +74,13 @@ With ReadySet, read performance is not impacted by the size of the base tables o
 
 ### Memory Overhead
 
-There's no free lunch– ReadySet trades off the cost of maintaining the dataflow graph in memory for excellent read performance. However, there are a few key ways we can mitigate this cost, such as
-through ** partial materialization**. You can think of partial materialization as a demand-driven cache-filling mechanism. With it, only a subset of the query results are stored in memory 
-based on common input parameters to the query. For example, if a query is parameterized on user IDs, then ReadySet would only cache the results of 
-that query for the active subset of users, since they are the ones issuing requests. Once ReadySet surpasses a developer-specified memory limit, 
-cache entries are evicted from memory based on a specified eviction strategy (e.g. LRU). 
+There's no free lunch– ReadySet trades off the cost of maintaining the dataflow graph in memory for excellent read performance. However, there are a few key ways we can mitigate this cost.
 
-ReadySet also makes it easy to cache only the subset of your queries that have the highest impact on read performance. You can use the ReadySet 
-dashboard to profile your existing workload and make caching decisions based on query frequency and the current latencies. 
-If some of your queries don't need additional read performance boosts, you can continue proxying them to the customer database. As a result, they 
-won’t take up any memory real estate in your ReadySet cluster.
+The first is through  **partial materialization**. You can think of partial materialization as a demand-driven cache-filling mechanism. With it, only a subset of the query results are stored in memory
+based on common input parameters to the query. For a more detailed explanation, see the docs on [memory efficiency.](concepts/efficiency.mdx)
+
+Additionally, ReadySet also makes it easy to cache only the subset of your queries that have the highest impact on read performance. You can use the ReadySet
+dashboard to profile your existing workload and make caching decisions based on query frequency and the current latencies. If some of your queries don't need additional read performance boosts, you can continue proxying them to the customer database. As a result, they won’t take up any memory real estate in your ReadySet cluster.
 
 
 ### No Strong Consistency 
