@@ -1,4 +1,4 @@
 {
-  "dataflow": "Concepts", 
-  "efficiency": "Memory Efficiency"
+  "overview": "FAQs", 
+  "concepts": "ReadySet Internals"
 }
