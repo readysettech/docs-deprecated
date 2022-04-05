@@ -1,5 +1,4 @@
 {
-    "index": "Guidelines",
-    "deploy": "Deploy a cluster", 
-    "cache": "Start caching queries"
+    "deploy": "Deploy ReadySet", 
+    "integrate": "Use ReadySet"
 }
