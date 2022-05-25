@@ -23,6 +23,9 @@ export default {
       <meta name="description" content="ReadySet Documentation" />
       <meta name="og:description" content="ReadySet Documentation" />
       <meta name="og:title" content="ReadySet Documentation" />g
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-QHKR2RLDNK"></script>
+      <script src="gtag.js"></script>
     </>
   ),
   search: true,
