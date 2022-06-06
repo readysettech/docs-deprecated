@@ -1,0 +1,46 @@
+# Troubleshooting Guide
+
+### How do I connect to ReadySet? 
+ReadySet is wire compatible with the MySQL and Postgres protocols. Connect to your ReadySet instance as you would connect to MySQL or Postgres. When running the ReadySet installer, the last step provides a database connection string that you can copy into your application.
+
+```Javascript
+ mysql://<user>:<password>@<host-name>:<port>/<database>
+ ```
+
+### What happens when I replace my upstream connection with a connection to ReadySet?
+
+By default, ReadySet proxies all queries to your upstream database, so there will be no impact to your application. You must cache queries explicitly by issuing a CREATE CACHE statement to ReadySet. For more information about how to cache queries, see our query caching syntax documentation.
+
+### Is ReadySet right for my application?
+
+ReadySet, like other caches, works best for applications with read-heavy workloads with non-uniform access patterns. This is because the benefit of a cache is a function of the number of repeated queries in your application that go to your caching solution instead of your underlying database. As such, storing data for popular queries is more beneficial than caching data for rare queries which can be handled by your database.
+
+### How do I access the ReadySet dashboard? 
+
+To access the ReadySet dashboard, visit `http://localhost:4000` in your web browser. If you’re running ReadySet on a remote machine, you can visit port 4000 on that machine, or set up [port forwarding](/using/dashboard#port-forwarding).
+
+
+### Is ReadySet receiving queries?
+To see the list of queries that ReadySet is receiving, you can visit the dashboard’s homepage. This page has  “Proxied Queries” and “Cached Queries” tables. If there is data in either table on this page, that means ReadySet is successfully receiving queries. 
+
+### Is ReadySet caching queries? 
+
+To see a list of cached queries via the ReadySet dashboard, go to the “Workload Overview” page. The “Cached Queries” table  will show you a list of queries that are being cached in ReadySet and the performance of each query. For more information on the dashboard, you can read the full dashboard documentation here.
+
+To see a list of cached queries via the MySQL or Postgres clients, run the `show caches;` command to see all cached queries.
+
+### Why are my cached queries slow?
+
+There are a few main reasons that cached query performance can be slow. The first reason is that the cache being used is not set up correctly. The first time a query is run and cached in ReadySet, the dataflow graph is not yet created or the result is precomputed from scratch. From the next time of query execution and onwards, the data will be cached and latencies should improve. 
+
+A similar reason for slow query performance is if the cache is not warmed up fully. This is very specific to the input parameters of the prepared statement for a query. Over time, ReadySet will cache more data for a particular query and this results in a higher ratio of cache hits which further improves read performance.
+
+Finally, another cause for slow queries is if your application’s workload is not fundamentally cacheable. This is the case if there is little to no repetition of queries in your workload, if your application is performing many writes and infrequent reads, or the reads you’re performing are consistently unique and don’t cache well.
+
+
+### How do I stop caching a query?
+To stop caching a query in ReadySet, you first need either the query name or query text. To identify either of these, you can connect to the ReadySet adapter and run `show caches;`. 
+
+Once you have the query name or text, you can either run `drop cache <name>;` or `drop cache <text>;` to resume proxying this query to your upstream database.
+
+For more information, you can read the full caching syntax documentation [here](/using/caching).

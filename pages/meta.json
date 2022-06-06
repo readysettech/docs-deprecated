@@ -1,5 +1,8 @@
 {
-  "index": "Introduction",
-  "concepts": "How it Works",
-  "get-started": "Quick Start"
+  "index": "Overview",
+  "quickstart": "Getting Started",
+  "concepts": "Understanding ReadySet",
+  "connecting": "Connecting to ReadySet",
+  "using": "Using ReadySet",
+  "troubleshooting": "Troubleshooting/FAQs"
 }
