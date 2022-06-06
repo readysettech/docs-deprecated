@@ -21,29 +21,28 @@ There are three views in the ReadySet Dashboard. Below is a deeper look at the i
 This page shows a list of proxied and cached queries and their performance in two separate tables. 
 - Query ID - The ReadySet assigned identifier for proxied queries. Used to cache queries
 - Query Text - the parameterized text for a query
+- Count - The number of times a particular query has been executed
 - P50 latency (ms) - the performance in milliseconds of the 50th percentile of this query
 - P90 latency (ms) - the performance in milliseconds of the 90th percentile of this query
 - P99 latency (ms) - the performance in milliseconds of the 99th percentile of this query
 - Total Duration (ms) - the sum of the execution time for all executions of this query
+- ReadySet supported - An indication of whether ReadySet can successfully cache a query
 
 ### Specific Query
 This page shows more detailed information about specific queries to help dig deeper into
 
 - Query Text - Interpretation of the query text
-- Query Running in ReadySet - Indicates whether the query is being handled by ReadySet or the upstream DB
-- Query Latency - This measures the query end-to-end latency from the time the request is received by ReadySet
-- Total Query Cache Miss Rate - The rate of missing from the query cache
-- Queries Per Second - The number of queries per second executed against ReadySet split by the ReadySet and MySQL backends
-- Cache Hit Rate - The cache hit rate observed at the first layer of ReadySet caches. In the absence of queries this graph shows a cache hit rate of 0%.
-- Cache Eviction Time - Cache eviction runs asynchronously in ReadySet, but can impact the performance of queries that miss at the first layer of caches. This tracks the percent of the last 30 seconds that we spent performing evictions in the cache, reported as the maximum across all caches.
+- Query Running in ReadySet - Indicates whether the query is being handled by ReadySet or the upstream database
+- Query Latency - This measures the query end-to-end latency from the time the request is received by ReadySet, split across three graphs for 50p, 90p, and 99p latencies.
+- Total Query Count - The total number of queries executed against ReadySet split by the ReadySet and upstream backends
 
 ### Status Page
 This page shows the current status of the ReadySet adapter and key system metrics. 
 
 - Readyset Started - Shows when ReadySet processes started
-- Server External Requests - The number of HTTP requests received by the ReadySet server
-- Adapter External Requests - The number of HTTP requests received by the ReadySet adapter
-- Queries Per Second - Reports the rate of queries that ReadySet is receiving
+- Server Request Rate - The rate of HTTP requests received by the ReadySet server
+- Client Request Rate - The rate of HTTP requests received by the ReadySet adapter
+- Client Connections - The number of active connections to the ReadySet
 - Snapshot in Progress - Indicates whether ReadySet is currently snapshotting
 - Migration in Progress - Indicates whether ReadySet is currently running migrations
 
