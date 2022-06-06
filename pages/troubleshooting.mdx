@@ -3,9 +3,17 @@
 ### How do I connect to ReadySet? 
 ReadySet is wire compatible with the MySQL and Postgres protocols. Connect to your ReadySet instance as you would connect to MySQL or Postgres. When running the ReadySet installer, the last step provides a database connection string that you can copy into your application.
 
+#### MySQL
 ```Javascript
- mysql://<user>:<password>@<host-name>:<port>/<database>
+ mysql://<username>:<password>@<host-name>:<port>/<database>
  ```
+
+#### Postgres
+ ```Javascript
+ postgresql://<username>:<password>@<host-name>:<port>/<database>
+ ```
+
+ For full connection instructions, see the documentation [here](/connecting).
 
 ### What happens when I replace my upstream connection with a connection to ReadySet?
 
