@@ -1,48 +1,46 @@
 # Getting Started Guide
 
 
-### 1) Start ReadySet
-
-Download and run the ReadySet orchestrator.
-Run the following command to download the ReadySet orchestrator.
+## Start
+The ReadySet installer is a command line tool that uses Docker Compose to spin up a ReadySet deployment on your local machine. 
+Run the following command to download the ReadySet installer. 
 
 ```Javascript
     bash -c "$(curl -sSL https://launch.readyset.io)"
 ```
 
+Follow the prompts issued by the installer to configure your ReadySet deployment.
+Select a database type (currently, ReadySet supports MySQL and Postgres), set a deployment name and password, and assign ReadySet a port to listen on. 
+From there, the installer will download the ReadySet Docker images and spin up a new ReadySet instance locally.
 
-Follow the prompts issued by the orchestrator to configure your ReadySet deployment.
-Select a database type (currently, ReadySet supports MySQL and Postgres), set a deployment name and password, and assign ReadySet a port to listen on. From there, the orchestrator will download the ReadySet docker images and spin up a new ReadySet instance locally.
+## Connect 
 
-The installer will create and save a docker-compose file, and display where the file has been saved. You will now be asked if you would like to deploy with docker-compose now. If you choose `yes` (recommended) then you will see Docker Compose begin deploying three assets:
+To connect to ReadySet via the default MySQL or Postgres command line client, run the command that the installer outputs.
 
-1. Consul
-2. MySQL or Postgres database
-3. ReadySet Adapter
-
-
-### 2) Connect to ReadySet
-
-#### via SQL client
-To connect to ReadySet via the default MySQL or Postgres command line client, run the command that the orchestrator outputs.
-
-in the **MySQL** case:
+ **In the MySQL case:** 
 
 ```Javascript
 mysql -h127.0.0.1 -uroot -p <password> -P <port> --database=<deployment name>
 ```
 
-in the **Postgres** case:
+**In the Postgres case:**
 ```Javascript
 psql postgresql://postgres:<password>@127.0.0.1:<port>/<deployment name>
 ```
-#### via your application 
 
-To connect ReadySet to your application, replace your database connection string with the connection string provided by the orchestrator.
+To connect ReadySet to your application, replace your database connection string with the connection string provided by the installer.
+See our connection guides [here](/connecting). 
 
-### 3) Cache Queries in ReadySet
+## Profile 
+By default, all queries sent to ReadySet are proxied to the backing database. You can see the current list of proxied queries and 
+their performance profiles via the ReadySet dashboard which is accessible on `localhost:4000`. 
+Check out the ReadySet [dashboard docs](/using/dashboard) for 
+more information about how to interpret the dashboard panels. 
 
-Proxy queries through ReadySet & profile their performance.
-By default, all queries sent to ReadySet are proxied to the underlying database. You can see the current list of proxied queries and their performance profiles via the ReadySet dashboard (on `http://localhost:4000`). 
 
-A full explanation of the ReadySet caching syntax is available [here](/using/caching).
+## Cache 
+To cache a query in ReadySet, you’ll need either the query ID (which can be found in the dashboard, or by running `SHOW CACHES`) or the full query text (SELECT statement). 
+ 
+From there, you can run `CREATE CACHE FROM <query ID>` or `CREATE CACHE FROM <select statement>`. 
+
+ReadySet caches both prepared statements (i.e. parameterized queries) and one-off queries.
