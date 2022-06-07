@@ -6,11 +6,10 @@ After creating a new ReadySet instance via the installer, you can access the das
  `http://localhost:4000`.
 
 ### Port Forwarding
-If your ReadySet instance is running on a remote machine, you can use port forwarding to connect to the dashboard. Open up a terminal and run
+If your ReadySet instance is running on a remote machine, you can use port forwarding to connect to the dashboard. 
+Open up a terminal and run:
 
-```Javascript
-ssh -N -L 4000:localhost:4000 user@remote-ip-addr-of-machine
-```
+```ssh -N -L 4000:localhost:4000 <user>@<remote-ip-addr>```
 
 Then, navigate to `http://localhost:4000` on your local browser.
 
@@ -19,7 +18,6 @@ Then, navigate to `http://localhost:4000` on your local browser.
 ### Query Overview Page
 This page shows a list of proxied and cached queries and high-level performance information for both. 
 
-<<<<<<< HEAD
 - **Query ID:** the ReadySet assigned identifier for proxied queries. Used to cache queries
 - **Query Text:** the parameterized text for a query
 - **Count:** number of times a particular query has been sent to ReadySet (both proxied and cached)
@@ -44,54 +42,3 @@ This page displays the current status of ReadySet and key system health metrics.
 - **Client Connections:** number of active connections to ReadySet
 - **Snapshot in Progress:** whether ReadySet is currently snapshotting the backing database's base tables
 - **Migration in Progress:** whether ReadySet is currently in the process of adding/removing a query cache
-=======
-This page shows a list of proxied and cached queries and their performance in two separate tables. 
-- Query ID - The ReadySet assigned identifier for proxied queries. Used to cache queries
-- Query Text - the parameterized text for a query
-- Count - The number of times a particular query has been executed
-- P50 latency (ms) - the performance in milliseconds of the 50th percentile of this query
-- P90 latency (ms) - the performance in milliseconds of the 90th percentile of this query
-- P99 latency (ms) - the performance in milliseconds of the 99th percentile of this query
-- Total Duration (ms) - the sum of the execution time for all executions of this query
-- ReadySet supported - An indication of whether ReadySet can successfully cache a query
-
-### Specific Query
-This page shows more detailed information about specific queries to help dig deeper into
-
-- Query Text - Interpretation of the query text
-- Query Running in ReadySet - Indicates whether the query is being handled by ReadySet or the upstream database
-- Query Latency - This measures the query end-to-end latency from the time the request is received by ReadySet, split across three graphs for 50p, 90p, and 99p latencies.
-- Total Query Count - The total number of queries executed against ReadySet split by the ReadySet and upstream backends
-
-### Status Page
-This page shows the current status of the ReadySet adapter and key system metrics. 
-
-- Readyset Started - Shows when ReadySet processes started
-- Server Request Rate - The rate of HTTP requests received by the ReadySet server
-- Client Request Rate - The rate of HTTP requests received by the ReadySet adapter
-- Client Connections - The number of active connections to the ReadySet
-- Snapshot in Progress - Indicates whether ReadySet is currently snapshotting
-- Migration in Progress - Indicates whether ReadySet is currently running migrations
-
-
-## Common Questions
-
-### Is ReadySet is running correctly?​
-Open the dashboard and navigate to the “Status” dashboard page. On this page, click through every row. On this page, you can check:
-- When the ReadySet server and adapter started up
-- If the ReadySet adapter is receiving requests
-- The number of active connections ReadySet has to your upstream database
-
-### Is a query hitting ReadySet or my upstream database?​
-
-Navigate to the “Query Overview” page and search for this query in either table. If a query is in the “Proxied Queries” table, then it is going to your upstream database. If a query is listed in the “Cached Queries” table, then it is being cached in ReadySet. You can find a list of proxied/cached queries by connecting to ReadySet via a MariaDB client and running commands.
-
-### How do I choose which queries to cache?
-First, navigate to the “Query Overview” page to see a table of all queries being run in your application. From the table, you can identify the queries you’d like to shift to ReadySet. Ensure that queries are marked as cacheable in ReadySet. Once you have one, open a connection to the ReadySet adapter via a MariaDB client and cache it with the Create Cache command.
-
-The full documentation for caching syntax is available [here](/using/caching).
-
-### How do I investigate performance for a particular query​?
-To dive deeper into performance for a particular query, click on the query text link on the “Query Overview” page. This will take you to the “Specific Query” page, with that query selected. From there, you can see the latency for the selected query, ReadySet cache hit rate, and other statistics to help identify a regression or if anything has recently changed to impact performance. A decline in cache hit rate is a surefire cause of worsened query performance.
-
->>>>>>> 52bbff5bb8b8c482d5a0c3da4905e507588ef9a8
