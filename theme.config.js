@@ -1,6 +1,7 @@
 export default {
   github: 'https://github.com/readysettech',
   titleSuffix: ' – ReadySet',
+  docsRepositoryBase : 'https://github.com/readysettech/readyset-public-docs/',
   logo: (
     <>
 
