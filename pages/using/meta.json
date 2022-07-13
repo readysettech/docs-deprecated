@@ -1,5 +1,6 @@
 {
     "caching": "SQL Extensions",
+    "queries": "Query Support",
     "dashboard": "Dashboard", 
     "troubleshooting": "Troubleshooting Guide"
   }
