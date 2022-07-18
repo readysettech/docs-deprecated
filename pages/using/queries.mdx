@@ -226,8 +226,6 @@ ReadySet supports the following data types:
     - ReadySet will parse, but ignores, the optional padding field 
 - `SMALLINT UNSIGNED` 
     - ReadySet will parse, but ignores, the optional padding field 
-- `ARRAY`
-    - Arrays can contain any of the other supported types
 - `BLOB`
 - `LONGBLOG` 
 - `MEDIUMBLOB` 
@@ -261,6 +259,10 @@ ReadySet supports the following data types:
 - `SERIAL` 
 - `BIGSERIAL`
 
+#### Array support
+Arrays of any of the above types are supported, including multi-dimensional arrays.
+
+#### Limited support types
 ReadySet additionally has limited support for the following data types: 
 - `JSON` 
 - `JSONB` 
