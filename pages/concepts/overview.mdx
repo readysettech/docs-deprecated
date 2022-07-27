@@ -81,8 +81,7 @@ won’t take up any memory real estate in your ReadySet cluster.
 
 
 ### No Strong Consistency 
-ReadySet supports two consistency modes: **read-your-writes** and **eventual consistency**. In the former, the results returned will always reflect changes due to your own writes. 
-In the latter, there will be a small delay between when the write is issued and the cached result is updated in ReadySet to reflect that write.
+ReadySet supports **eventual consistency**. There will be a small delay between when the write is issued and the cached result is updated in ReadySet to reflect that write.
 
 
 ![alt_text](/rs_write_diagram.png)
