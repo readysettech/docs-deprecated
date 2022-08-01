@@ -19,13 +19,13 @@ ReadySet supports the following clauses in SQL SELECT queries:
 - `GROUP BY`, with a list of **column references**
     - ReadySet does not support expressions or field positions in the `GROUP BY` clause 
 - `ORDER BY`, with a list of [expression](#expressions) and an optional ASC or DESC specifier
-- `LIMIT`, with a single **literal** row count
+- `LIMIT`
+- `OFFSET` 
 
 There are specific top-level clauses and other query conditions that ReadySet does not yet support.
 
 Notably, ReadySet does not support any of the following (this is not an exhaustive list): 
 - `HAVING`
-- `OFFSET` 
 - `UNION`, `INTERSECT`, or `EXCEPT` as operators to combine multiple `SELECT` statements 
 - `WINDOW`
 - `ORDER BY` with `NULLS FIRST` or `NULLS LAST`
@@ -194,15 +194,14 @@ ReadySet uses the **parameters** in a prepared statement, specified either posit
 - Parameters can only appear in the `WHERE` clause of the outermost `SELECT` statement in a query (e.g. not in any subqueries).
     - Parameters are only supported in the `WHERE` clause of a query if, when expressed in conjunctive normal form, all conjunctive subexpressions of the expression in the `WHERE` clause either contain no parameters, or can be expressed as a single equality comparison between a column and a parameter, **or** are an `IN` expression where the right-hand side consists of a list of **only** parameters (ReadySet does not support mixing parameters and other types of expressions on the right-hand side of an `IN` expression).
     - ReadySet contains experimental support for conditions that consist of an **inequality** comparison between a parameter and a column (`>`, `>=`, `<` and `<=`)
-- Parameters can also appear as the value of the `LIMIT` or `OFFSET` clause of a query, but only if ReadySet is able to statically determine that that query will always return either 0 or 1 row (specifically, this can happen if the `WHERE` clause of the query consists only of a filter on the primary key of a table, or on a column with a `UNIQUE` index).
+- Parameters can also appear as the value of the `LIMIT` or `OFFSET` clause of a query.
 
 ### Limitations of `IN`
 
 When the IN clause is used with parameters, queries may not contain the following elements: 
-- Any aggregate function (`COUNT`, `SUM`,  `MAX`, `MIN`, `AVG`, or `GROUP_CONCAT`) 
-- `ORDER BY` or `LIMIT` 
+- Some aggregate functions (`AVG`, or `GROUP_CONCAT`) 
 
-These limitations does not apply when the right-hand side of the `IN` clause does not contain any query parameters.  
+These limitations do not apply when the right-hand side of the `IN` clause does not contain any query parameters.  
 
 ## Schema
 
