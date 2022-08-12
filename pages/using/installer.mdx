@@ -1,0 +1,22 @@
+# Installer Guide
+
+The ReadySet installer is the fastest way to spin up a working ReadySet instance and connect an existing or new upstream database to it. 
+
+As part of the installation process, we ask you for a few configuration options, which are explained below.
+
+### Installer options
+- **Deployment name** - UUID for the ReadySet deployment. If a new backing database is created, this is the name of the created database table
+- **Deployment password** - password to connect to ReadySet. If a new backing database is created,  this password is used for the root user also.
+- **Deployment port** - the port to connect to ReadySet. Defaults to 3307 for ReadySet/MySQL and 5433 for ReadySet/Postgres.
+- **Backing database address** - address that ReadySet will attempt to connect to
+- **Backing database username** - username that ReadySet will connect to the database with
+- **Backing database password** - password that ReadySet will connect to the database with
+- **Backing database name** - database name that ReadySet will connect to
+
+- **Migration mode (explicit/implicit)** - Explicit migrations mean ReadySet only caches queries you set via the CLI interface. Implicit migration means ReadySet attempts to cache every query that it receives. 
+- **Experimental query support (enabled/disabled)** - Enables query support for the top-k operator, mixed comparisons, and paginate operations.
+
+*Note: the backing database options are only shown if you choose to use an existing database.*
+
+### Tearing down a deployment
+The installer can only be used to manage one local ReadySet cluster at a time. If the installer detects an existing deployment, it will allow a user to start the existing deployment, upgrade to the latest version of ReadySet, or delete it and stop the Docker containers and create a new ReadySet cluster.
