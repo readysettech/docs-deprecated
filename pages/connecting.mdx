@@ -20,7 +20,7 @@ connection = psycopg2.connect(os.environ['DATABASE_URL'])
 
 In this case, `DATABASE_URL` is an environment variable with the following format
 
-```Javascript
+```sh
 postgresql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
 ```
 
@@ -36,7 +36,7 @@ engine.connect()
 
 where `DATABASE_URL` is an environment variable with the following format.
 
-```Javascript
+```sh
 mysql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
 ```
 
@@ -84,7 +84,7 @@ DATABASES = {
 
 To connect to ReadySet, first create a Sequelize object and pass it the correct parameters. According to the official documentation, there are several ways to do this.
 
-```javascript
+```js
 const Sequelize = require("sequelize");
 
 const connectionString = "{dialect}://{username}:{password}@{host}:{port}/{database}"
@@ -93,7 +93,7 @@ const sequelize = new Sequelize(connectionString)
 
 or 
 
-```javascript
+```js
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize('database', 'username', 'password', {
@@ -116,14 +116,14 @@ To get started using TypeORM and ReadySet, follow the steps below.
 
 2) Install dependencies, including the correct database driver. A full list of supported drivers is listed [here](https://typeorm.io/#installation).
 
-```javascript
+```js
 npm install reflect-metadata --save
 npm install (database-driver)
 ```
 
 3) Configure your datasource in TypeORM’s `data-source.ts` file. 
 
-```javascript
+```js
 export const AppDataSource = new DataSource({
     type: "{databasetype}",
     host: "{host}",

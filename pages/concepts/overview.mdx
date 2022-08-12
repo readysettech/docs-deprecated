@@ -14,7 +14,7 @@ Imagine a basic online forum application ith `posts`, `users`, and `upvotes`. A 
 
 You can imagine a query like the one below, which returns all of the posts authored by a particular user: 
 
-``` SELECT 
+```sql 
     SELECT
       posts.title, posts.id, users.username 
     FROM 
@@ -40,13 +40,13 @@ One of the biggest advantages of this model is that latencies are not affected b
 
 Here's a point query for an article:
 
-``` SELECT 
+```sql 
 SELECT * FROM posts WHERE id = ?;
 ```
 
 And here's a query for the total upvote count of an article:
 
-```SELECT 
+```sql
 SELECT
     id, author_id, title, vcount 
 FROM 
