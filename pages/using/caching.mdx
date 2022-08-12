@@ -6,7 +6,7 @@ any of the following commands.
 
 ## Showing Proxied Queries
 
-```Javascript
+```js
 SHOW PROXIED QUERIES
 ```
 
@@ -22,13 +22,13 @@ being cached in ReadySet. The table has three columns:
 ### Create a Cached Query
 After identifying a query to cache in ReadySet, you can connect to ReadySet and cache it with this command, where Query ID is the unique identifier provided by ReadySet. Name is an optional field, if no name is provided, we automatically generate an identifier.
 
-```Javascript
+```js
 CREATE CACHE <name> FROM <query ID>
 ```
 
 ### List All Cached Queries
 
-```Javascript
+```js
 SHOW CACHES
 ```
 
@@ -41,7 +41,7 @@ This command returns a virtual table containing all queries cached in the ReadyS
 
 After caching a query, if you’d like to remove it from ReadySet, the command is below. After removing a query from ReadySet, any instances of this query will be proxied to your upstream database. 
 
-```Javascript
-DROP CACHE <ID>
+```js
+DROP CACHE <id>
 ```
 

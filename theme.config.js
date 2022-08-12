@@ -32,6 +32,6 @@ export default {
   search: true,
   prevLinks: true,
   nextLinks: true,
-  
-  unstable_faviconGlyph: '👋',
+  floatTOC: true, 
+  unstable_faviconGlyph: '✨'
 }

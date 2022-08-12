@@ -5,8 +5,8 @@
 The ReadySet orchestrator is a command line tool that uses Docker Compose to spin up a ReadySet deployment on your local machine. 
 Run the following command to download the ReadySet orchestrator. 
 
-```Javascript
-    bash -c "$(curl -sSL https://launch.readyset.io)"
+```sh
+bash -c "$(curl -sSL https://launch.readyset.io)"
 ```
 
 Follow the prompts issued by the orchestrator to configure your ReadySet deployment.
@@ -19,12 +19,12 @@ To connect to ReadySet via the default MySQL or Postgres command line client, ru
 
  **In the MySQL case:** 
 
-```Javascript
+```sh
 mysql -h127.0.0.1 -uroot -p <password> -P <port> --database=<deployment name>
 ```
 
 **In the Postgres case:**
-```Javascript
+```sh
 psql postgresql://postgres:<password>@127.0.0.1:<port>/<deployment name>
 ```
 
