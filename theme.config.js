@@ -29,6 +29,7 @@ export default {
       <script src="gtag.js"></script>
     </>
   ),
+  footerText: `MIT ${new Date().getFullYear()} © ReadySet.`,
   darkMode: false,
   search: true,
   prevLinks: true,
