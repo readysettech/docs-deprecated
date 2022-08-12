@@ -29,6 +29,7 @@ export default {
       <script src="gtag.js"></script>
     </>
   ),
+  darkMode: false,
   search: true,
   prevLinks: true,
   nextLinks: true,
