@@ -1,7 +1,8 @@
 {
     "caching": "SQL Extensions",
     "queries": "Query Support",
-    "dashboard": "Dashboard", 
+    "dashboard": "Dashboard",
+    "installer": "Installer Options",
     "troubleshooting": "Troubleshooting Guide"
   }
   
