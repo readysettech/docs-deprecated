@@ -12,6 +12,12 @@ _Warning: this project is not production ready, API might change without notice.
 
 The code of Nextra is under the [`core`](https://github.com/shuding/nextra/tree/core) branch.
 
+To run this docs site locally, run 
+
+```
+yarn next
+```
+
 ## Themes
 
 - [nextra-theme-docs](https://github.com/vercel/swr-site) ([demo](https://swr.vercel.app))
