@@ -7,6 +7,11 @@ This telemetry data is anonymous by default. Users can opt into providing a pers
 Telemetry is reported using the [Segment](segment.com) customer data platform.
 
 
+## Disabling telemetry
+
+Telemetry can be disabled by running the ReadySet installer with the `--disable-telemetry` option, or by setting the `RS_DISABLE_TELEMETRY` environment variable.
+
+
 ## Providing your own Segment source
 
 By default, ReadySet reports telemetry to an [HTTP Tracking API Source](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/) operated by ReadySet, Inc. A different source can be specified by setting the `RS_SEGMENT_WRITE_KEY` environment variable to the write key corresponding to the source you wish to use.
