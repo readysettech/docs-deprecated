@@ -19,8 +19,6 @@ By default, ReadySet reports telemetry to an [HTTP Tracking API Source](https://
 
 ## What telemetry data is collected?
 
-Our telemetry reporting system is under active development, so the below details are subject to change.
-
 Telemetry messages adhere to the [Segment Track API spec](https://segment.com/docs/connections/spec/track/). Each telemetry message contains a per-session anonymous UUID, an event name, a timestamp, and 0 or more properties. If the `RS_API_KEY` environment variable is set, its value will be used as the user ID.
 
 The following OpenAPI schema describes all possible telemetry payloads reported by ReadySet:
