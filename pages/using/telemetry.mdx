@@ -9,7 +9,7 @@ Telemetry is reported using the [Segment](segment.com) customer data platform.
 
 ## Disabling telemetry
 
-Telemetry can be disabled by running the ReadySet installer with the `--disable-telemetry` option, or by setting the `RS_DISABLE_TELEMETRY` environment variable.
+Telemetry can be disabled by running the ReadySet installer with the `--disable-telemetry` option, or by setting `RS_DISABLE_TELEMETRY=1` in the environment.
 
 
 ## Providing your own Segment source
@@ -53,6 +53,10 @@ components:
         timestamp:
           type: string
           format: date-time
+      required:
+        - anonymousId
+        - event
+        - timestamp
 
     Properties:
       type: object
