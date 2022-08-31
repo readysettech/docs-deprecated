@@ -12,7 +12,7 @@ increasing the risk of failures and outages.
 ReadySet is a distributed SQL cache that automatically keeps query results fresh based on changes to your primary database.
 
 ### Automatic Cache Maintenance
-Under the hood, ReadySet precomputes and caches the results of prepared statements (i.e. parameterized SQL queries). ReadySet 
+Under the hood, ReadySet precomputes and caches the results of prepared statements (i.e., parameterized SQL queries). ReadySet 
 connects to your primary database and receives a replication stream of data updates. Using these updates, ReadySet **incrementally 
 updates** its own cache state to reflect the data changes. 
 

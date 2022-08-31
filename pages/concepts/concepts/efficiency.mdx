@@ -6,7 +6,7 @@ Without care, this could lead to an impractical memory footprint.
 
 ReadySet solves this problem via **partial materialization**. You can think of partial materialization as a 
 demand-driven cache filling mechanism that enables ReadySet to only store the subset of the overall result set that is 
-useful (i.e. the subset of the results that are commonly read). 
+useful (i.e., the subset of the results that are commonly read). 
 
 What does this look like in practice? Let's come back to the query in the prior section: 
 
@@ -21,7 +21,7 @@ ON VoteCount.story_id = stories.id WHERE stories.id = ?;
 ``` 
 
 Without partial materialization, ReadySet would have to compute the results for this query for every possible 
-input parameter (i.e. for every possible story). This would be pretty unfortunate, because caching the info 
+input parameter (i.e., for every possible story). This would be pretty unfortunate, because caching the info 
 for every story is not necessary to improve the performance of most applications. In the case of HackerNews, 
 only the first few pages worth of stories are commonly read. Most of the benefit from caching would therefore
 come from storing this popular content, rather than caching every story ever posted. 
@@ -33,7 +33,7 @@ increment the cached vote count for story `42` by `1` to reflect this data chang
 
 
 When ReadySet is initially deployed, the cache starts off cold and the dataflow graph is entirely empty. During the initial cache warming phase, 
-most queries will be ones that ReadySet has never seen before (i.e. cache misses) so ReadySet will have to compute their 
+most queries will be ones that ReadySet has never seen before (i.e., cache misses) so ReadySet will have to compute their 
 results from scratch. 
 
 ReadySet computes missing values via **upqueries**: upon receiving a query for missing state, the reader recursively 
