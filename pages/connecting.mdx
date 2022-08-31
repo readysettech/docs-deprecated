@@ -1,15 +1,15 @@
 # Connecting to ReadySet
 
 Once you have a ReadySet instance up and running, the next step is to connect your application. The easiest way to get up and
-running is to swap out your database connection string to point to ReadySet instead. The specifics of how to do this vary by 
-database client library, ORM, and programming language. Below are a few examples.  
+running is to swap out your database connection string to point to ReadySet instead. The specifics of how to do this vary by
+database client library, ORM, and programming language. Below are a few examples.
 
 
 ## Python
 
 ### Pyscopg2 (Postgres)
 
-To connect with Psycopyg2, pass a database URL to the psycopg2.connect function.
+To connect with Psycopyg2, pass a database URL to the psycopg2.connect function:
 
 ```python
 import psycopg2
@@ -18,7 +18,7 @@ import os
 connection = psycopg2.connect(os.environ['DATABASE_URL'])
 ```
 
-In this case, `DATABASE_URL` is an environment variable with the following format
+In this case, `DATABASE_URL` is an environment variable with the following format:
 
 ```sh
 postgresql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
@@ -34,7 +34,7 @@ engine = create_engine(os.environ['DATABASE_URL'])
 engine.connect()
 ```
 
-where `DATABASE_URL` is an environment variable with the following format.
+where `DATABASE_URL` is an environment variable with the following format:
 
 ```sh
 mysql://{username}:{password}@{host}:{port}/{database}?sslmode=verify-full&sslrootcert={root-cert}
@@ -91,7 +91,7 @@ const connectionString = "{dialect}://{username}:{password}@{host}:{port}/{datab
 const sequelize = new Sequelize(connectionString)
 ```
 
-or 
+or
 
 ```js
 const Sequelize = require("sequelize");
@@ -102,13 +102,13 @@ const sequelize = new Sequelize('database', 'username', 'password', {
 });
 ```
 
-There are several ways to correctly pass database connection parameters to Sequelize. To read more about them, see the official documentation [here](https://sequelize.org/). 
+There are several ways to correctly pass database connection parameters to Sequelize. To read more about them, see the official documentation [here](https://sequelize.org/).
 
 
 ### TypeORM (MySQL or Postgres)
 To get started using TypeORM and ReadySet, follow the steps below.
 
-1) Install TypeORM with 
+1) Install TypeORM:
 
 ```javascript
     npm install typeorm --save
@@ -121,7 +121,7 @@ npm install reflect-metadata --save
 npm install (database-driver)
 ```
 
-3) Configure your datasource in TypeORM’s `data-source.ts` file. 
+3) Configure your datasource in TypeORM’s `data-source.ts` file: 
 
 ```js
 export const AppDataSource = new DataSource({
@@ -139,4 +139,4 @@ export const AppDataSource = new DataSource({
 })
 ```
 
-For more information, read the official TypeORM documentation [here](https://typeorm.io/). 
+For more information, read the official TypeORM documentation [here](https://typeorm.io/).

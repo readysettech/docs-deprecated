@@ -9,7 +9,7 @@ These instructions walk you through how to manually deploy ReadySet into an exis
 ### 1. Configure your RDS database to allow ReadySet to follow updates to the primary database. 
 First, check that the database’s current parameter group has binlog_format set to `ROW`. In the RDS console for the database, click the Configuration tab and then the Parameter group. In the parameters screen, filter by `binlog_format` and verify it is `ROW`. If it isn’t, edit the parameter group.
 
-Then, check that the backup retention period for the database is not `0`. If your backup retention period is `0`, set it to any integer (e.g. `1`).
+Then, check that the backup retention period for the database is not `0`. If your backup retention period is `0`, set it to any integer (e.g., `1`).
 
 To check your backup retention period, navigate to the RDS Console for the database, click the Maintenance & Backup tab and then see if Automated Backups are enabled. If they aren’t enabled, click the Modify button on the database page to set the Backup Retention Period to at least 1 day. 
 

@@ -28,7 +28,7 @@ ON VoteCount.story_id = stories.id WHERE stories.id = ?;
 Traditional databases would compute the results of this query from scratch every time it was issued. ReadySet takes a 
 different approach and instead precomputes and incrementally maintains the results of this query for commonly read keys.
 To accomplish this, ReadySet creates a streaming dataflow graph, as described in the previous section. At a high level, the 
-data flow graph would look as follows:
+dataflow graph would look as follows:
 
 ![Vote Count](/prepared-to-high-level.png)
 
@@ -43,7 +43,7 @@ The figure below shows the modified state at each node as the result of this wri
 
 ![Write Prop](/WriteProp.gif)
 
-When performing a read (i.e. executing the prepared statement), we're essentially just doing a key-value lookup for the parameter 
+When performing a read (i.e., executing the prepared statement), we're essentially just doing a key-value lookup for the parameter 
 value on the relevant column of the reader node. 
 
 ![prepread](/executeread.png)

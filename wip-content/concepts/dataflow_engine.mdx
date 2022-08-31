@@ -1,7 +1,7 @@
 # ReadySet Internals
 
 The heart of ReadySet is a query engine. This query engine, however, is very different from those of 
-traditional relational databases in that it is based on **partially-stateful, streaming data flow**. 
+traditional relational databases in that it is based on **partially-stateful, streaming dataflow**. 
 
 What's that? Let's break it down. First, we'll take a look at the basics of **streaming dataflow**, then 
 we'll consider how to make streaming dataflow **stateful**, and then we'll make the state **partial**. 
@@ -20,8 +20,8 @@ existing records** in the base tables.
 #### Operations 
 
 ReadySet applies SQL operations over this data change stream to compute the results of the SQL queries you give it. 
-Specifically, given a SQL query, ReadySet creates a query plan (i.e. the ordered sequence of transformations over the data in 
-the base tables that needs to be applied to compute the correct query result) and instantiates a long-lived **data flow graph** that 
+Specifically, given a SQL query, ReadySet creates a query plan (i.e., the ordered sequence of transformations over the data in 
+the base tables that needs to be applied to compute the correct query result) and instantiates a long-lived **dataflow graph** that 
 actually executes the operations in the query plan over the incoming data stream. 
 
 #### Example 
@@ -96,9 +96,9 @@ through other children nodes until they finally hit the leaf nodes of the graph.
 
 ## Graph Composition 
 There are two other node types in the graph: internal nodes and reader nodes. Internal nodes are associated with 
-SQL operators (i.e. functions from relational algebra like joins, aggregates, projections, and filters). They each 
+SQL operators (i.e., functions from relational algebra like joins, aggregates, projections, and filters). They each 
 compute their associated function on incoming deltas, and maintain internal state representing the results of their 
-function. Whenever their internal state changes (e.g. whenever they receive new deltas that cause their function 
+function. Whenever their internal state changes (e.g., whenever they receive new deltas that cause their function 
 output to change), these nodes emit new deltas that represent these changes, and send them down outgoing edges to 
 any children nodes.
 
@@ -143,7 +143,7 @@ Traditional databases would compute the results of this query from scratch every
 different approach and instead precomputes and incrementally maintains the results of this query for commonly read keys.
 
 To accomplish this, ReadySet creates a streaming dataflow graph, as described in the previous section. Under the hood, the 
-data flow graph would look as follows:
+dataflow graph would look as follows:
 
 Next, we’ll take a look at what happens when the data changes. Let’s say that we add a record to the Votes table to reflect 
 the fact that Justin voted for the story with ID 2. This update would first be applied to the Votes base table at the root 
