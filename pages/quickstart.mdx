@@ -1,46 +1,181 @@
-# Getting Started Guide
+# Quick Start
 
+There are three steps to start caching with ReadySet:
 
-## Start
-The ReadySet orchestrator is a command line tool that uses Docker Compose to spin up a ReadySet deployment on your local machine. 
-Run the following command to download the ReadySet orchestrator. 
+##### Deploy the ReadySet Server and connect it to a database.
+ReadySet listens to your database's replication stream to automatically update cached data as it changes. 
+
+##### Connect to the ReadySet Adapter.
+The ReadySet Adapter sits in between your application and your database, sending SQL queries that are not being cached to the upstream database and serving responses for cached SQL queries directly.
+
+In this example, we'll connect to the adapter via the command line database shell. In an application, you connect to the adapter just by changing your database connection string.
+
+##### Choose which queries to cache.
+By default, ReadySet shows statistics about your current queries, but does not cache them.  This means ReadySet can be placed in front of your existing database without overhead. To cache a query, you send a parameterized SQL statement to ReadySet. Any queries your application sends that match the parameterized query will be cached.
+
+## The ReadySet Orchestrator
+
+For this Getting Started guide, we'll use the ReadySet Orchestrator.  The Orchestrator uses Docker Compose to deploy a complete ReadySet cluster, consisting of:
+
+* The ReadySet Adapter, which handles connections from SQL clients and ORMs, forwarding uncached queries upstream and running cached queries against the ReadySet Server.
+* The ReadySet Server, which makes a copy of your underlying database, listens to the database's replication stream for updates, and keeps queries cached in an in-memory dataflow graph.
+* Grafana, available at [localhost:4000](localhost:4000), which displays all queries your application is currently sending to the Adapter, their latency, and whether or not ReadySet supports caching them.
+* Consul, Prometheus and Vector for internal cluster state and metrics.
+* Optionally, an upstream Postgres or MySQL database to cache from.  You can also configure the installer to connect to an existing database.
+
+## Deploy ReadySet
+
+First, ensure you have [Docker](https://docs.docker.com/get-docker/) installed and running on your platform.
+
+Run the following command in your terminal to download the ReadySet orchestrator. 
 
 ```sh
 bash -c "$(curl -sSL https://launch.readyset.io)"
 ```
 
-Follow the prompts issued by the orchestrator to configure your ReadySet deployment.
-Select a database type (currently, ReadySet supports MySQL and Postgres), set a deployment name and password, and assign ReadySet a port to listen on. 
-From there, the orchestrator will download the ReadySet Docker images and spin up a new ReadySet instance locally.
+Follow the prompts issued by the orchestrator to configure your ReadySet deployment, including:
+* Connecting to an external database by providing a connection string or deploying a new database. 
+* Selecting a database type (currently, ReadySet supports MySQL and Postgres)
+* Setting a deployment name and password, and assigning ReadySet a port to listen on.
+* Configuring SSL settings, experimental queries, and other advanced settings.
 
-## Connect 
+From there, the orchestrator will download the necessary images and spin up a new ReadySet cluster locally.
 
-To connect to ReadySet via the default MySQL or Postgres command line client, run the command that the orchestrator outputs.
+## Connect to the ReadySet Adapter
 
- **In the MySQL case:** 
+Once deployed, you connect to the ReadySet Adapter to issue queries and configure the cache.
 
+We'll start by connecting via a database command line client before connecting an application.  Make sure you have either the [Postgres](https://www.postgresql.org/download/) or [MySQL](https://dev.mysql.com/downloads/shell/) shell installed, depending on which database you are using.
+
+The orchestrator outputs the correct connection string.
+
+**MySQL:** 
 ```sh
 mysql -h127.0.0.1 -uroot -p <password> -P <port> --database=<deployment name>
 ```
 
-**In the Postgres case:**
+**Postgres:**
 ```sh
 psql postgresql://postgres:<password>@127.0.0.1:<port>/<deployment name>
 ```
 
-To connect ReadySet to your application, replace your database connection string with the connection string provided by the orchestrator.
-See our connection guides [here](/connecting). 
+Run this command in your shell - if the shell connects and displays a ReadySet version, you've done it!
 
-## Profile 
-By default, all queries sent to ReadySet are proxied to the backing database. You can see the current list of proxied queries and 
-their performance profiles via the ReadySet dashboard which is accessible on `localhost:4000`. 
-Check out the ReadySet [dashboard docs](/using/dashboard) for 
-more information about how to interpret the dashboard panels. 
+## Load sample data
+
+If you've connected to an already existing database that contains data, you can skip this step.
+
+If your database was deployed by the Orchestrator or does not contain any data, we can add some to test with.
+
+For Postgres, download this sample data [file](/sample-data-readyset-postgres.sql). Using the connection string output by the orchestrator, run:
+
+```sh
+psql postgresql://root:<password>@127.0.0.1:<port>/<deployment name> < sample-data-readyset-postgres.sql
+```
+
+For MySQL, download this sample data [file](/sample-data-readyset-mysql.sql).  Using the connection string output by the orchestrator, run:
+
+```sh
+mysql -h127.0.0.1 -uroot -p <password> -P <port> --database=<deployment name> < sample-data-readyset-mysql.sql
+```
+
+## Cache a query
+
+In your web browser, navigate to [localhost:4000](localhost:4000). This Grafana [dashboard](/using/dashboard) shows all queries being sent to the ReadySet adapter - right now, there won't be any!
+
+This section assumes you have loaded the sample data above.
+
+Let's issue a query.  First, if you haven't already, connect to ReadySet using the shell command above.  Then, run:
+
+```sql
+SELECT * from readyset_sample;
+```
+
+Back in your browser, you should see this query appear on the ["Workload Overview" page](http://localhost:4000/d/workload/workload-overview) under "Proxied Queries".
+
+This means the query is being sent to your upstream database and is not being cached by ReadySet.  Let's cache it!
+
+To start caching a query, we'll use the `CREATE CACHE` [SQL extension](/caching).
+
+From your database shell, run:
+
+```sql
+CREATE CACHE FROM SELECT * FROM `readyset_sample`
+```
+
+Alternatively, you could run the following command, using the query ID listed on the "Workload Overview" page.
+
+```sql
+CREATE CACHE FROM <query ID>
+```
+
+Now, let's run the same query again.
+
+```sql
+SELECT * from readyset_sample;
+```
+
+You should see your newly cached query on the ["Workload Overview" page](http://localhost:4000/d/workload/workload-overview) under "Cached Queries".  You can click on the query to see more detailed statistics - note that ReadySet is signficantly faster than the upstream database!
+
+## Understanding parameterized queries
+
+While ReadySet caches queries, it will only respond in cases of an exact match to the issued query.  For example, the following query __would not__ be cached by the above cache:
+
+```sql
+SELECT * from readyset_sample where firstName = "Tobias";
+```
+
+The where clause makes this a different query. We could try caching just the above query:
+
+```sql
+CREATE CACHE FROM SELECT * from readyset_sample where firstName = "Tobias";
+```
+
+However, now if our application issued a query for firstName = "Mary", it would not be cached.
+
+```sql
+SELECT * from readyset_sample where firstName = "Mary";
+```
+
+Parameterized queries solve this problem by letting you insert parameters, represented by a __?__, into your queries.  ReadySet caches queries matching all values for the parameter.
+
+Drop the old cache, and add a cache for the parameterized form of the query:
+
+```sql
+CREATE CACHE FROM SELECT * from readyset_sample where firstName = ?;
+```
+
+Now, if you run a query for firstName = "Mary", you will see the first run take a normal amount of time, but subsequent queries complete quickly as the cache has now been populated.
 
 
-## Cache 
-To cache a query in ReadySet, you’ll need either the query ID (which can be found in the dashboard, or by running `SHOW CACHES`) or the full query text (SELECT statement). 
- 
-From there, you can run `CREATE CACHE FROM <query ID>` or `CREATE CACHE FROM <select statement>`. 
+## (Optional) Running multiple queries with pgbench - This section is still a WIP
 
-ReadySet caches both prepared statements (i.e. parameterized queries) and one-off queries.
+For more fun, we can use pgbench, Postgres' built-in benchmarking tool, to stress test and compare ReadySet and the underlying Postgres database.
+
+First, run pgbench in setup mode.
+
+```sh
+pgbench -i -I dtGvp -s 10 -h 127.0.0.1 -p <readyset port> -U root test
+```
+
+-i sets pgbench to initialize new tables. -I sets the steps pgbench will run, which includes generating the benchmark data on the server rather than the client. 
+
+In order for this benchmark to be relatively interesting for caching, we're intentionally setting the scale factor low here.
+
+Next, we'll run pgbench in transaction mode.  Since ReadySet does not cache anything that's wrapped in a transaction, these operations will all be forwarded to the upstream Postgres database.
+
+```sh
+pgbench -t 10000 -P 10 -h 127.0.0.1 -p 5433 -U root test
+```
+This has the added benefit of initializing our account balances to a pseudorandom distribution.
+
+
+## Next steps
+
+Connecting ReadySet to your application follows the same process - except instead, replace your application's database connection string with the ReadySet Adapter connection string.
+
+We support a wide variety of ORMs and application frameworks.  For specifics, see our connection guides [here](/connecting) TODO. 
+
+Not all queries are cacheable by ReadySet.  To see which queries we support, see [Query support](TODO).
+
+While the Orchestrator is great as a demo, we support various deployment methods for ReadySet.  See [deploying](/deploying) TODO for more on deploying ReadySet for production.
