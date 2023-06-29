@@ -1,6 +1,8 @@
 import './global.css';
 
 export default function Nextra({ Component, pageProps }) {
+  localStorage.theme = 'light'
+  
   return <Component {...pageProps} light/>
 }
 
