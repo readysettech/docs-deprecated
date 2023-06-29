@@ -1,7 +1,10 @@
 import './global.css';
+import React from 'react';
 
 export default function Nextra({ Component, pageProps }) {
-  
+  React.useEffect(()=> {
+    localStorage.theme = 'light';
+  })
   return <Component {...pageProps} light/>
 }
 
