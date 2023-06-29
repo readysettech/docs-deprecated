@@ -1,0 +1,129 @@
+# Configure Your Database
+
+ReadySet has been verified to work with:
+- AWS RDS
+- Azure Database
+- Google Cloud SQL
+
+We've linked to instructions for setting each variable on AWS RDS. 
+Many of the settings discussed below have equivalents on non-AWS database providers.
+
+If you have another MySQL or Postgres provider you'd like help configuring, [contact ReadySet](https://github.com/readysettech/readyset/issues). 
+
+## Postgres
+
+To ensure you have the correct permissions set, run the following commands as the user you will use ReadySet with.
+
+### 1. Ensure Postgres version 13.0 or higher is running.
+
+```sql
+testdb=> SELECT version();
+      version
+-----------------------
+ PostgreSQL 14.8
+(1 row)
+
+```
+
+### 2. Make sure replication is enabled.
+
+```sql
+testdb=> SHOW WAL_LEVEL;
+ wal_level
+-----------
+ logical
+(1 row)
+```
+
+`LOGICAL` is required to ensure sufficient data is present in the replication stream.
+
+### 3. Ensure superuser permissions are enabled
+
+ReadySet uses superuser access to be notified of changes to table DDL.
+
+```sql
+testdb=> SELECT * FROM pg_user where usename = CURRENT_USER;
+ usename  | usesysid | usecreatedb | usesuper | userepl | usebypassrls |  passwd  | valuntil | useconfig
+----------+----------+-------------+----------+---------+--------------+----------+----------+-----------
+ postgres |       10 | t           | t        | t       | t            | ******** |          |
+(1 row)
+```
+
+Ensure the `usesuper` variable is `true`.
+
+### AWS RDS-only configuration
+
+### 1. Enabling logical replication.
+
+RDS has a custom method for setting logical replication to be on.
+
+```sql
+testdb=> SELECT name,setting FROM pg_settings WHERE name = 'rds.logical_replication'
+          name           | setting
+-------------------------+---------
+ rds.logical_replication | on
+```
+
+If `rds.logical_replication` is not `on`, set it by following [this guide](https://docs.aiven.io/docs/products/postgresql/howto/logical-replication-aws-rds)
+
+### Unsupported features
+
+Some Postgres features, like row-level security, are not supported.  Disable these features on any tables replicated by ReadySet before proceeding.
+
+To ensure you have the correct permissions set, run the following commands as the user you will use ReadySet with.
+
+## MySQL 
+
+### 1. Ensure MySQL version 8.0 or higher is running.
+
+```sql
+mysql> SHOW VARIABLES LIKE 'version';
++---------------+--------+
+| Variable_name | Value  |
++---------------+--------+
+| version       | 8.0.33 |
++---------------+--------+
+1 row in set (0.17 sec)
+```
+
+### 2. Make sure replication is enabled.
+
+```sql
+mysql> SHOW BINARY LOGS;
++---------------+-----------+-----------+
+| Log_name      | File_size | Encrypted |
++---------------+-----------+-----------+
+| binlog.000001 |   3040038 | No        |
+| binlog.000002 |  34978315 | No        |
+| binlog.000003 |  34978333 | No        |
++---------------+-----------+-----------+
+3 rows in set (0.07 sec)
+```
+
+If any files are returned, binary logging is correctly enabled.
+
+### 3. Ensure superuser permissions are enabled
+
+ReadySet uses superuser access to be notified of changes to table DDL.
+
+```sql
+mysql> SHOW GRANTS FOR CURRENT_USER;
+```
+
+Ensure the results set contains the `SUPER` grant.
+
+AWS RDS-only configuration
+
+### 1. Make sure binlog retention is enabled.
+
+```sql
+mysql> call mysql.rds_show_configuration;
++------------------------+-------+------------------------------------------------------------------------------------------------------+
+| name                   | value | description                                                                                          |
++------------------------+-------+------------------------------------------------------------------------------------------------------+
+| binlog retention hours | 1  | binlog retention hours specifies the duration in hours before binary logs are automatically deleted. |
++------------------------+-------+------------------------------------------------------------------------------------------------------+
+1 row in set (0.06 sec)
+```
+
+If the `value` is set to `NULL`, you must [configure binlog retention](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-stored-proc-configuring.html#mysql_rds_set_configuration-usage-notes.binlog-retention-hours) to be at least long enough for snapshotting to complete.  A reasonable value here is one hour of retention for every 150 GB of database size.

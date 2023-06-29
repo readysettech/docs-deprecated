@@ -1,0 +1,27 @@
+# Streaming Dataflow
+
+The basic premise of [streaming dataflow](https://en.wikipedia.org/wiki/Stream_processing) is that a [series of operations](/streaming-dataflow#operations) is applied to each element of a [stream](/streaming-dataflow#stream) (a given sequence of data).
+
+### Stream
+
+The stream that ReadySet deals with is the sequence of **inserts of new records** to your database and **updates of existing records** in the database.
+
+Databases typically refer to the stream as either the binary log or replication stream.
+
+ReadySet receives this stream as input by registering itself as a [read replica of your primary database](https://dev.mysql.com/doc/internals/en/replication.html).
+
+### Operations
+
+Operations transform the stream in some way.
+
+ReadySet applies SQL operations over this data change stream to compute the results of the SQL queries you want to cache. When ReadySet receives a new SQL query, it first creates a query plan, which consists of the ordered sequence of transformations over the data in the base tables that needs to be applied to compute the correct query result. ReadySet then instantiates a long-lived **dataflow graph** that actually executes thesew operations in the query plan over the incoming data stream.
+
+The entry points of ReadySet's dataflow graph are referred to as **base table nodes**, which represent the underlying database tables. Incoming data changes enter the graph via the base tables, before flowing through the rest of the operators in the graph.
+
+Below the base table nodes are **internal nodes. Each internal node computes a specific SQL operator (e.g., joins, aggregates, projections, and filters) over the incoming stream of data changes. Each nodes tracks the results of these operations, keeping them up to date in real-time in memory.
+
+Whenever a new element in the stream is recieved by ReadySet, it is first updated in the base table node. The change then "flows" downstream, through the internal nodes of the graph. Each internal node updates its in-memory state before passing the change downstream through the graph.
+
+Leaf nodes in the graph have no downstream nodes. These nodes are called **reader nodes**, storing a the result set associated with a given query.
+
+![Graph](/Users/zolmes/readyset-public-docs/readyset-public-docs/public/high-level-graph.png)
