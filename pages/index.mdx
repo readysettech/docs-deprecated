@@ -3,46 +3,33 @@ title: ReadySet - the 21st century caching engine
 ---
 import { Callout } from 'nextra-theme-docs'
 import { Bleed } from 'nextra-theme-docs'
+import { Button } from '../components/Button'
+import Image from "next/image";
 
 {
 // wrapped with {} to mark it as javascript so mdx will not put it under a p tag
 }
-{<h1 className="text-center text-4xl tracking-tighter font-bold md:text-5xl mt-8 mx-auto text-gray-900 max-w-[620px]">Real-time SQL caching for Postgres and MySQL </h1>}
+{
+  <><h1 className="text-center text-4xl tracking-tighter font-bold md:text-5xl mt-8 mx-auto text-gray-900">Break speed records. Not the bank</h1>
 
+<p className="text-gray-700 text-xl  md:text-2xl mx-auto mt-6 w-full text-center"> ReadySet is a real-time SQL caching engine for Postgres and MySQL.</p>
+</>}
 
+<div className= "relative border rounded-md border-neutral-200 bg-neutral-50 p-4 mx-auto flex items-center justify-center mt-10 min-h-[300px] max-h-[300px]">
+<div className="absolute top-0 right-0 h-32 w-64 bg-gradient-radial from-blue-400/80 to-white/20  to-white/20 rounded-md blur-3xl" > </div>
+<div className="absolute bg-gradient-radial from-white/20 via-purple-100 to-white/50  to-white/50 inset-0 rounded-md blur-2xl" > </div>
+<div className="absolute left-0 bottom-0 h-64 w-40 bg-gradient-radial from-blue-300/50 to-white/20  to-white/20 rounded-md blur-3xl" > </div>
 
-ReadySet is a caching engine... 
-<Callout emoji="✅">
-  With ReadySet, ...
-</Callout>
+<div className="absolute shadow-floating border rounded-lg border-neutral-200 bg-white p-4 flex items-center justify-center">
+  <Image src="/JustBat.svg" width={64} height={64}/>
+  </div>
 
-<div className="mt-16 mb-20 text-center ">
-  [Get Started](/docs/getting-started) · [Examples](/examples/basic) · [Blog](/blog) · [GitHub Repository](https://github.com/vercel/swr)
 </div>
 
-## Getting started [#getting started]
+  <div className="flex gap-4 mx-auto items-center justify-center mt-10">
+  <span className="text-neutral-300"> ••••••• </span>
+  <Button href="/docs"> Get Started </Button>
+    <Button color="secondary" href="/docs" > Learn about ReadySet </Button>
+  <span className="text-neutral-300"> ••••••• </span>
 
-```bash
-curl .... 
-readyset start
-```
-
-get started ...
-
-## Features [#features]
-
-By deploying ReadySet and changing just your connection string, you can
-
-- lightning fast queries.
-- easier load on your database...
-
-And a lot [more](/docs/getting-started).
-
-## Community [#community]
-
-<p className="flex h-6 mt-4 gap-2">
-  <img alt="stars" src="https://badgen.net/github/stars/readysettech/readyset" />
-</p>
-
-Follow [@vercel](https://twitter.com/readysetio) on Twitter for future project updates.
-
+  </div>

@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (prefers-color-scheme: light) {
+
 :root {
     --shiki-color-text: #414141;
     --shiki-color-background: transparent;
@@ -15,6 +17,7 @@
     --shiki-token-punctuation: #212121;
     --shiki-token-link: #22863a;
   }
+}
    
   .dark {
     --shiki-color-text: #414141;
