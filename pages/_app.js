@@ -1,7 +1,11 @@
 import './global.css';
+import React from 'react';
 
 export default function Nextra({ Component, pageProps }) {
-  return <Component {...pageProps} light/>
+  React.useEffect(()=> {
+    localStorage.theme = 'light';
+  })
+  return <Component {...pageProps}/>
 }
 
 import Prism from 'prism-react-renderer/prism'

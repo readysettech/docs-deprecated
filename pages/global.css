@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+/* If the user prefers dark mode, 
+we of course apply color-scheme: dark, as usual */
+@media (prefers-color-scheme: dark) {
+    html {
+      color-scheme: light;
+    }
+  }
+  
+  /* If the user prefers light mode, 
+  we still enforce color-scheme: dark, despite the user preference */
+  @media (prefers-color-scheme: light) {
+    html {
+      color-scheme: light;
+    }
+  }
+  
+
+
 :root {
     --shiki-color-text: #414141;
     --shiki-color-background: transparent;
@@ -15,6 +33,7 @@
     --shiki-token-punctuation: #212121;
     --shiki-token-link: #22863a;
   }
+
    
   .dark {
     --shiki-color-text: #414141;
