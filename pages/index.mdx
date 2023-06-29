@@ -1,11 +1,48 @@
-import Image from 'next/image'
+---
+title: ReadySet - the 21st century caching engine
+---
+import { Callout } from 'nextra-theme-docs'
+import { Bleed } from 'nextra-theme-docs'
 
-# ReadySet
-ReadySet is a MySQL and Postgres wire-compatible SQL caching engine that helps you to cache a subset of the traffic being sent to
-your database without changing your app code or worrying about keeping cached state up to date.
+{
+// wrapped with {} to mark it as javascript so mdx will not put it under a p tag
+}
+{<h1 className="text-center text-4xl tracking-tighter font-bold md:text-5xl mt-8 mx-auto text-gray-900 max-w-[620px]">Real-time SQL caching for Postgres and MySQL </h1>}
 
-Under the hood, ReadySet precomputes the results of prepared statements (i.e., parameterized SQL queries) and incrementally updates 
-these results over time as the underlying data in your database changes. You can read more about how ReadySet works in the
-[Concepts](/concepts/overview) section.
 
-![Architecture](/readyset_arch.png)
+
+ReadySet is a caching engine... 
+<Callout emoji="✅">
+  With ReadySet, ...
+</Callout>
+
+<div className="mt-16 mb-20 text-center ">
+  [Get Started](/docs/getting-started) · [Examples](/examples/basic) · [Blog](/blog) · [GitHub Repository](https://github.com/vercel/swr)
+</div>
+
+## Getting started [#getting started]
+
+```bash
+curl .... 
+readyset start
+```
+
+get started ...
+
+## Features [#features]
+
+By deploying ReadySet and changing just your connection string, you can
+
+- lightning fast queries.
+- easier load on your database...
+
+And a lot [more](/docs/getting-started).
+
+## Community [#community]
+
+<p className="flex h-6 mt-4 gap-2">
+  <img alt="stars" src="https://badgen.net/github/stars/readysettech/readyset" />
+</p>
+
+Follow [@vercel](https://twitter.com/readysetio) on Twitter for future project updates.
+
