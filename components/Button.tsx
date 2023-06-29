@@ -26,7 +26,7 @@ export interface ButtonPropsWeControl {
 export type ButtonProps = BaseButtonProps<ButtonPropsWeControl>;
 
 export const Button = ({ children, size, color, ...props }: ButtonProps) => {
-    const style = color === "secondary" ? "border border-neutral-200 text-md font-medium rounded-md px-4 py-2 text-black bg-gradient-to-b from-white to-gray-100 hover:bg-gray-100 hover:bg-none" : "border border-neutral-900 text-white text-md font-medium rounded-md bg-gradient-to-b from-neutral-700 to-black hover:bg-black px-4 py-2 hover:bg-none";
+    const style = color === "secondary" ? "border border-neutral-200 dark:border-neutral-800 text-md font-medium rounded-md px-4 py-2 text-black dark:text-white bg-gradient-to-b from-white dark:from-neutral-900 to-gray-100 dark:to-neutral-800 hover:bg-gray-100 dark:hover:bg-neutral-800 hover:bg-none" : "border border-neutral-900 dark:border-neutral-200 text-white dark:text-black text-md font-medium rounded-md bg-gradient-to-b from-neutral-700 dark:from-neutral-50 to-black dark:to-neutral-100 hover:bg-black dark:hover:bg-neutral-200 px-4 py-2 hover:bg-none";
     if ("href" in props) {
         return (
             <Link {...props}href={props.href} passHref className={style}>
