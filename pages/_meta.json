@@ -1,4 +1,7 @@
 {
+  "index": {
+    "display": "hidden"
+  },
   "introduction": "Introduction",
   "quickstart": {
     "title": "Quick Start"
