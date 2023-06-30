@@ -1,9 +1,10 @@
 {
   "index": {
-    "title": "Home"
+    "display": "hidden"
   },
-  "intro": {
-    "title": "Introduction"
+  "intro": "Introduction",
+  "quickstart": {
+    "title": "Quick Start"
   },
   "quickstart": "Quickstart",
   "deploy": "Deploy",
