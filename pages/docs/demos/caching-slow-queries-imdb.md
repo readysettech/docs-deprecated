@@ -9,7 +9,7 @@
 
 ## 1. Download the IMDB dataset & load it into your database
 
-### **MySQL: **
+### MySQL:
 
 First, download the IMDB dataset for MySQL:
 
@@ -23,13 +23,13 @@ Then, connect to your ReadySet instance and import the dataset:
 mysql -h<ReadySet URL> -U<username> -P<port number> <database name> -p<password> < imdb-mysql.sql
 ```
 
-**Note: **If you used the Quickstart to set up ReadySet (recommended), you can use the following command to connect:
+**Note:** If you used the Quickstart to set up ReadySet (recommended), you can use the following command to connect:
 
 ```
 mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset <  imdb-mysql.sql
 ```
 
-### **Postgres: **
+### Postgres:
 
 First, download the IMDB dataset for Postgres:
 
@@ -85,7 +85,7 @@ WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 
 We can check the Grafana dashboard to see that the query was successfully cached, and compare latencies.
 
-**Note: **if you set up ReadySet via the [Quickstart](/get-started/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
+**Note:** if you set up ReadySet via the [Quickstart](/docs/get-started/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
 
 Here, we can see that the 99th percentile latencies for this query fell from over 80ms against Postgres to < 1ms against ReadySet. Huzzah!
 
