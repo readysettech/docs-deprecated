@@ -1,10 +1,5 @@
 {
-  "index": {
-    "title": "Home"
-  },
-  "intro": {
-    "title": "Introduction"
-  },
+  "introduction": "Introduction",
   "quickstart": {
     "title": "Quick Start"
   },
