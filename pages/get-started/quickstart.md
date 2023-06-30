@@ -72,7 +72,6 @@ Time: 2.073 ms
 
 Navigate to [localhost:4000](localhost:4000) to view query latency metrics for ReadySet and Postgres.
 
-![](files/undefined)
 
 ### 6. Try more queries!
 
@@ -164,7 +163,6 @@ WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 
 Navigate to [localhost:4000](localhost:4000) to view query latency metrics for ReadySet and MySQL.
 
-![](files/undefined)
 
 ### 6. Try more queries!
 

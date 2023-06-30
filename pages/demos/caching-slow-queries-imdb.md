@@ -87,8 +87,6 @@ We can check the Grafana dashboard to see that the query was successfully cached
 
 **Note: **if you set up ReadySet via the [Quickstart](/get-started/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
 
-![](files/undefined)
-
 Here, we can see that the 99th percentile latencies for this query fell from over 80ms against Postgres to < 1ms against ReadySet. Huzzah!
 
 > The first time you execute a cached query, it'll be a cache miss, which is slower than the average cache hit. To get a sense for cache hit latencies, issue the query a handful of times to see the cache hit latency reflected in the query latency percentiles in Grafana.
