@@ -1,6 +1,6 @@
 # Creating a Cache 
 
-Once you've [identified queries](/cache/profiling-queries) that can benefit from caching with ReadySet, use ReadySet's custom SQL commands to check if the queries are supported and then to cache supported queries in ReadySet.
+Once you've [identified queries](/docs/cache/profiling-queries) that can benefit from caching with ReadySet, use ReadySet's custom SQL commands to check if the queries are supported and then to cache supported queries in ReadySet.
 
 ## Checking query support
 
@@ -20,6 +20,6 @@ This command returns a virtual table with three columns:
   - If the value is `no`, ReadySet cannot cache the query.
 
 
-> To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](/supported-sql-syntax).
+> To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](/docs/supported-sql-syntax).
 
 > If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).

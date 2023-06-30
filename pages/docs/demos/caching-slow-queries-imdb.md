@@ -1,0 +1,96 @@
+# Caching slow queries (IMDB)
+
+# Prerequisites
+
+- A ReadySet instance connected to a MySQL or Postgres database with Grafana (we recommend that you use the [Quickstart](/get-started/quickstart) to set this up)
+- MySQL or Postgres client, depending on the primary database
+
+# Steps
+
+## 1. Download the IMDB dataset & load it into your database
+
+### **MySQL: **
+
+First, download the IMDB dataset for MySQL:
+
+```
+curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/imdb-mysql.sql"
+```
+
+Then, connect to your ReadySet instance and import the dataset:
+
+```
+mysql -h<ReadySet URL> -U<username> -P<port number> <database name> -p<password> < imdb-mysql.sql
+```
+
+**Note: **If you used the Quickstart to set up ReadySet (recommended), you can use the following command to connect:
+
+```
+mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset <  imdb-mysql.sql
+```
+
+### **Postgres: **
+
+First, download the IMDB dataset for Postgres:
+
+```
+curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/imdb-postgres.sql"
+```
+
+Then, connect to your ReadySet instance and import the dataset:
+
+```
+PGPASSWORD=<password> psql -h<ReadySet URL> -U<username> -p<port> <database name> < imdb-postgres.sql
+```
+
+**Note:** If you used the Quickstart to set up ReadySet (recommended), you can use the following command to connect and import the dataset:
+
+```
+PGPASSWORD=readyset psql -h127.0.0.1 -Upostgres -p5433 testdb < imdb-postgres.sql
+```
+
+## 2. Connect to ReadySet & make sure the tables have been imported
+
+It could take a few seconds for ReadySet to import the tables. You can check whether they've been successfully imported by connecting to ReadySet through your database client and running:
+
+```
+SHOW READYSET TABLES;
+```
+
+Once the table is imported, you will see that the status of that table is 'snapshotted'.
+
+## 3. Run a query against your primary database
+
+Once the tables have been imported into ReadySet, we can start running queries.
+
+Let's try this one, which counts how many titles released in 2000 had an average rating that was higher than 5:
+
+```
+SELECT count(*) FROM title_ratings
+JOIN title_basics ON title_ratings.tconst = title_basics.tconst
+WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
+```
+
+By default, this query is proxied to the primary database.
+
+## 4. Cache the query in ReadySet
+
+We can cache it in ReadySet by running the following:
+
+```
+CREATE CACHE FROM SELECT count(*) FROM title_ratings
+JOIN title_basics ON title_ratings.tconst = title_basics.tconst
+WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
+```
+
+We can check the Grafana dashboard to see that the query was successfully cached, and compare latencies.
+
+**Note: **if you set up ReadySet via the [Quickstart](/get-started/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
+
+![](files/undefined)
+
+Here, we can see that the 99th percentile latencies for this query fell from over 80ms against Postgres to < 1ms against ReadySet. Huzzah!
+
+> The first time you execute a cached query, it'll be a cache miss, which is slower than the average cache hit. To get a sense for cache hit latencies, issue the query a handful of times to see the cache hit latency reflected in the query latency percentiles in Grafana.
+
+

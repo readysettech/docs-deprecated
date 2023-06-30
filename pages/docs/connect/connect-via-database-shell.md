@@ -36,4 +36,4 @@ Once connected, you can see the status of tables in ReadySet by running:
 testdb=> SHOW READYSET STATUS;
 ```
 
-[You can also use the shell to view and cache queries](/cache/creating-a-cache)
+[You can also use the shell to view and cache queries](/docs/cache/creating-a-cache)
