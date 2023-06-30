@@ -1,15 +1,14 @@
 {
   "index": {
+    "title": "Home"
+  },
+  "intro": {
     "title": "Introduction"
   },
-  "get-started": "Get Started",
-  "deploy": "Deploy",
-  "connect": "Connect",
-  "cache": "Cache",
-  "sql-support": "SQL Support",
-  "demos": "Demos & Tutorials",
-  "rs-concepts": "Concepts",
   "concepts": "Concepts",
   "connecting": "Develop",
-  "using": "Reference"
+  "using": "Reference",
+  "docs": {
+    "title": "Docs"
+  }
 }
