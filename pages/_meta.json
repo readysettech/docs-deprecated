@@ -1,12 +1,9 @@
 {
-    "index": {
-      "title": "Introduction",
-      "type": "page",
-      "display": "hidden"
+  "index": {
+    "title": "Introduction"
     },
-    "docs": {
-      "title": "Docs",
-      "type": "page"
-    }
-  }
-  
+  "quickstart": "Quick Start",
+  "concepts": "Concepts",
+  "connecting": "Develop",
+  "using": "Reference"
+}
