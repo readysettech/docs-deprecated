@@ -32,7 +32,7 @@ services:
 
 Your connection string should look like
 
-> postgres://<username>:<password>@<host>:<port>/<db_name>
+> ```postgres://<username>:<password>@<host>:<port>/<db_name>```
 >
 >
 If your database is running locally, use `host.docker.internal` instead of `localhost` or `127.0.0.1` as your host.
@@ -53,7 +53,7 @@ For this process to succeed, you must have sufficient disk space to store a copy
 
 To check ReadySet's status, check the logs for the docker container.
 
-```undefined
+```
 docker logs readyset-readyset-1
 ```
 
@@ -61,7 +61,7 @@ While the snapshot is ongoing, you will see many log messages related to snapsho
 
 When you see:
 
-```undefined
+```
 INFO replicators::noria_adapter: Streaming replication started
 ```
 
@@ -93,7 +93,7 @@ services:
 
 Your connection string should look like
 
-> mysql://<username>:<password>@<host>:<port>/<db_name>
+> ```mysql://<username>:<password>@<host>:<port>/<db_name>```
 >
 >
 If your database is running locally, use `host.docker.internal` instead of `localhost` or `127.0.0.1` as your host.
@@ -112,7 +112,7 @@ After starting, ReadySet will begin taking a snapshot of your underlying databas
 
 To check ReadySet's status, check the logs for the docker container.
 
-```undefined
+```
 docker logs readyset-readyset-1
 ```
 
@@ -120,7 +120,7 @@ While the snapshot is ongoing, you will see many log messages related to snapsho
 
 When you see:
 
-```undefined
+```
 INFO replicators::noria_adapter: Streaming replication started
 ```
 
@@ -129,5 +129,3 @@ ReadySet is ready to cache data.
 ## Netxd Steps
 
 As a next step, you can [connect to ReadySet from a database shell ](/connect/connect-via-database-shell)or [connect from your application](/connect/connect-an-application-via-an-orm). Once connected, you can start [caching queries](/cache/creating-a-cache).
-
-
