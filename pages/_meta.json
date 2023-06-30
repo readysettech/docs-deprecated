@@ -5,6 +5,9 @@
   "intro": {
     "title": "Introduction"
   },
+  "quickstart": {
+    "title": "Quick Start"
+  },
   "concepts": "Concepts",
   "connecting": "Develop",
   "using": "Reference",
