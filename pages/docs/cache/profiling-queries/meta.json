@@ -1,5 +1,5 @@
 {
-    "view-query-metrics-with-3rd-party-providers-wip": "View query metrics with 3rd party providers",
-    "view-query-metrics-with-grafana-wip": "View query metrics with Grafana (WIP)",
-    "view-query-metrics-with-the-databases-slow-query-log": "View query metrics with the database's slow query log"
-  }
+  "view-query-metrics-with-grafana-wip": "View query metrics with Grafana (WIP)",
+  "view-query-metrics-with-the-databases-slow-query-log": "View query metrics with the database's slow query log",
+  "view-query-metrics-with-3rd-party-providers-wip": "View query metrics with 3rd party providers (WIP)"
+}
