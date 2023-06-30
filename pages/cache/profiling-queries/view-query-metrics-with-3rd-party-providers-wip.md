@@ -1,0 +1,1 @@
+If you already have performance monitoring in place, use that tooling to identify queries that can benefit from caching in ReadySet.

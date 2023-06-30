@@ -1,0 +1,131 @@
+# Deploy With Docker
+
+This guide walks you through how to run ReadySet using Docker, connecting to an existing primary database.
+
+> Before starting, make sure your [upstream database is properly configured.](undefined)
+
+## Postgres
+
+### 1. Download the ReadySet Docker compose file
+
+```sh
+curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.yml"
+```
+
+### 2. Provide your connection string
+
+Modify the downloaded compose file to include your database connection string:
+
+```yaml
+name: readyset
+services:
+  readyset:
+    ...
+    environment:
+      # UPSTREAM_DB_URL: <your db url>
+  ...
+  grafana:
+    ...
+    environment:
+      # UPSTREAM_DB_URL: <your db url>
+```
+
+Your connection string should look like
+
+> ```postgres://<username>:<password>@<host>:<port>/<db_name>```
+>
+>
+If your database is running locally, use `host.docker.internal` instead of `localhost` or `127.0.0.1` as your host.
+
+### 3. Start ReadySet!
+
+In the terminal, run:
+
+```sh
+docker compose up -d
+```
+
+### 4. Verify that ReadySet has snapshotted your database
+
+After connecting, ReadySet will begin taking a snapshot of your underlying database.
+
+For this process to succeed, you must have sufficient disk space to store a copy of your database on the machine where ReadySet is running.
+
+To check ReadySet's status, check the logs for the docker container.
+
+```
+docker logs readyset-readyset-1
+```
+
+While the snapshot is ongoing, you will see many log messages related to snapshotting progress.
+
+When you see:
+
+```
+INFO replicators::noria_adapter: Streaming replication started
+```
+
+At this point, ReadySet is ready to start caching queries.
+
+### 1. Download the ReadySet Docker compose file
+
+```sh
+curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.yml"
+```
+
+### 2. Provide your connection string
+
+Modify the downloaded compose file to include your database connection string:
+
+```yaml
+name: readyset
+services:
+  readyset:
+    ...
+    environment:
+      # UPSTREAM_DB_URL: <your db url>
+  ...
+  grafana:
+    ...
+    environment:
+      # UPSTREAM_DB_URL: <your db url>
+```
+
+Your connection string should look like
+
+> ```mysql://<username>:<password>@<host>:<port>/<db_name>```
+>
+>
+If your database is running locally, use `host.docker.internal` instead of `localhost` or `127.0.0.1` as your host.
+
+### 3. Start ReadySet!
+
+In the terminal, run:
+
+```sh
+docker compose up -d
+```
+
+### 4. Verify that ReadySet has snapshotted your database
+
+After starting, ReadySet will begin taking a snapshot of your underlying database.  You must have sufficient disk space to store a copy of your database on the machine where ReadySet is running.
+
+To check ReadySet's status, check the logs for the docker container.
+
+```
+docker logs readyset-readyset-1
+```
+
+While the snapshot is ongoing, you will see many log messages related to snapshotting progress.
+
+When you see:
+
+```
+INFO replicators::noria_adapter: Streaming replication started
+```
+
+ReadySet is ready to cache data.
+
+## Netxd Steps
+
+As a next step, you can [connect to ReadySet from a database shell ](/connect/connect-via-database-shell)or [connect from your application](/connect/connect-an-application-via-an-orm). Once connected, you can start [caching queries](/cache/creating-a-cache).

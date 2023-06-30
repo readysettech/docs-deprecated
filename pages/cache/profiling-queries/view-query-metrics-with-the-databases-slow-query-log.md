@@ -1,0 +1,39 @@
+# View query metrics with the database's slow query log
+After [connecting your app](/docs/connect/connect-an-application-via-an-orm) to ReadySet, profile your app performance and identify queries to cache in ReadySet. Generally, it's best to focus on frequent queries that are too slow and/or that are putting unwanted load on your upstream database.
+
+### Enabling metrics
+You can use the [pg_stat_statements extension](https://www.postgresql.org/docs/current/pgstatstatements.html) to retrieve detailed information about the queries running against your Postgres instance.
+
+Connect to your database via the shell. Run the following command to see if pg_stat_statements is installed.
+
+```
+SELECT calls, query FROM pg_stat_statements LIMIT 1;
+```
+
+If an error is returned, enable pg_stat_statments with the following command:
+
+```
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+```
+> In some environments, the pg_stat_statements extension may not be available. In that case, run ALTER SYSTEM SET shared_preload_libraries = 'pg_stat_statements'; and restart your Postgres instance before re-running the CREATE EXTENSION command.
+
+### Identifying queries to cache
+To find queries that put the highest load on the database, run:
+
+```
+SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by total_exec_time DESC;
+```
+
+To find queries with the highest latency, run:
+
+```
+SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by mean_exec_time DESC;
+```
+
+To find the most frequently issued queries, run: 
+
+```
+SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by calls DESC;
+```
+
+Once you've identified queries to cache, you can [cache them in ReadySet](/docs/cache/creating-a-cache). 
