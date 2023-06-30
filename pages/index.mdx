@@ -12,7 +12,7 @@ import Link from "next/link"
 }
 {
 }
-<div className="relative rounded-md border border-dashed border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 p-6 mx-auto flex justify-center mt-10 w-full h-[115vh] md:h-[calc(100%_-_148px)] md:max-h-[520px]">
+<div className="relative rounded-md border border-dashed border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-900 p-6 mx-auto flex justify-center mt-10 w-full h-screen md:h-[calc(100%_-_148px)] md:max-h-[560px]">
       <div className="absolute top-0 right-0 h-32 w-64 bg-gradient-radial from-blue-400/80 dark:from-blue-700/50 to-white/20 dark:to-neutral-800/20 to-white/20 dark:to-neutral-800/20 rounded-md blur-3xl" > </div>
       <div className="absolute bg-gradient-radial from-white/20 dark:from-neutral-800/20 via-purple-100 dark:via-purple-700/20 to-white/50 dark:from-neutral-800/20 to-white/50  dark:from-neutral-800/20 inset-0 rounded-md blur-2xl" > </div>
       <div className="absolute left-0 bottom-0 h-64 w-40 bg-gradient-radial from-blue-300/50 dark:from-blue-700/50 to-white/20 dark:to-neutral-800/20 to-white/20 dark:to-neutral-800/20 rounded-md blur-3xl" > </div>
@@ -23,10 +23,10 @@ import Link from "next/link"
         <h1 className="text-3xl tracking-tighter font-bold md:text-4xl mt-4 text-neutral-900 dark:text-neutral-50">ReadySet</h1>
 
         <p className="text-neutral-700 text-xl  md:text-2xl mt-2 w-full dark:text-neutral-400"> ReadySet is a real-time SQL caching engine for Postgres and MySQL.</p>
-        <div className="grid grid-row-2 md:grid-cols-2 md:grid-row-1 gap-4 items-center mt-10 ">
+        <div className="grid grid-row-2 md:grid-cols-1 md:grid-row-1 gap-4 items-center mt-10 ">
         <Link href={"/get-started/quickstart"} className="h-full">
           <div className="flex flex-col border border-neutral-300 rounded-md hover:border-neutral-400 transition overflow-hidden w-full h-full ">
-            <div className="p-6 flex bg-white/30 rounded-t-md justify-center h-full">
+            <div className="px-6 py-16 flex bg-white/30 rounded-t-md justify-center h-full">
 
               <div className="-rotate-12 shadow-floating border rounded-lg border-neutral-200 bg-white p-3 max-h-[52px] max-w-[52px] min-h-[52px] min-w-[52px] md:max-h-[70px] md:max-w-[70px] md:min-h-[70px] md:min-w-[70px] translate-x-1 flex w-fit items-center justify-center z-[5]">
                 <Image src="/Postgresql.svg" width={32} height={32} />
@@ -44,22 +44,6 @@ import Link from "next/link"
             <div className="border-t border-neutral-300 p-3 flex flex-col bg-neutral-50">
               <h2 className="text-md font-medium text-neutral-900 mb-1">ReadySet Quickstart </h2>
               <h2 className="text-md text-neutral-500">Get started with ReadySet in minutes.</h2>
-            </div>
-          </div>
-          </Link>
-          <Link href="/deploy/deploy-with-docker" className="h-full">
-          <div className="flex flex-col border border-neutral-300 rounded-md hover:border-neutral-400 transition overflow-hidden w-full h-full">
-            <div className="p-6 flex bg-white/30 rounded-t-md justify-center h-full">
-              <div className="shadow-floating border rounded-lg border-neutral-200 bg-white p-3 mr-4 max-h-[52px] max-w-[52px] min-h-[52px] min-w-[52px] md:max-h-[70px] md:max-w-[70px] md:min-h-[70px] md:min-w-[70px] flex w-fit items-center justify-center z-[5]">
-                <Image src="/helm.svg" width={32} height={32} />
-              </div>
-              <div className=" shadow-floating border rounded-lg border-neutral-200 bg-white p-1 flex max-h-[52px] max-w-[52px] min-h-[52px] min-w-[52px] md:max-h-[70px] md:max-w-[70px] md:min-h-[70px] md:min-w-[70px] w-fit items-center justify-center">
-                <Image src="/dockerLogo.svg" width={48} height={48} />
-              </div>
-            </div>
-            <div className="border-t border-neutral-300 bg-neutral-50 p-3 flex flex-col">
-              <h2 className="text-md font-medium text-neutral-900 mb-1">Deploy </h2>
-              <h2 className="text-md text-neutral-500">Deploy ReadySet through docker or Helm.</h2>
             </div>
           </div>
           </Link>
