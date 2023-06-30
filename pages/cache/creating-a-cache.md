@@ -20,6 +20,6 @@ This command returns a virtual table with three columns:
   - If the value is `no`, ReadySet cannot cache the query.
 
 
-> To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](/docs/supported-sql-syntax).
+> To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](/docs/sql-support/supported-sql-syntax).
 
 > If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).
