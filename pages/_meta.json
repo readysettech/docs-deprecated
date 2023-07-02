@@ -5,8 +5,13 @@
   "intro": {
     "title": "Introduction"
   },
+  "quickstart": "Quickstart",
+  "deploy": "Deploy",
+  "connect": "Connect",
+  "cache": "Cache",
+  "sql-support": "SQL Support",
+  "demos": "Demos & Tutorials",
   "concepts": "Concepts",
-  "connecting": "Develop",
   "using": "Reference",
   "docs": {
     "title": "Docs"

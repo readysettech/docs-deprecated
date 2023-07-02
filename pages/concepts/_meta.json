@@ -1,7 +1,4 @@
 {
   "overview": "Key Concepts", 
-  "dataflow": "Dataflow", 
-  "example": "Example Usecase", 
-  "efficiency": "Memory Efficiency",
-  "concepts": "Advanced Concepts"
+  "advanced-concepts": "Advanced Concepts"
 }
