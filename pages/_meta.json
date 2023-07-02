@@ -3,7 +3,7 @@
     "display": "hidden"
   },
   "intro": "Introduction",
-  "quickstart-new": "Quickstart",
+  "quickstart": "Quickstart",
   "concepts": "Concepts",
   "deploy": "Deploy",
   "connect": "Connect",
