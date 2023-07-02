@@ -4,14 +4,14 @@
   },
   "intro": "Introduction",
   "quickstart": "Quickstart",
+  "concepts": "Concepts",
   "deploy": "Deploy",
   "connect": "Connect",
   "cache": "Cache",
   "sql-support": "SQL Support",
   "demos": "Demos & Tutorials",
-  "concepts": "Concepts",
   "using": "Reference",
-  "docs": {
-    "title": "Docs"
+  "connecting": {
+    "display": "hidden"
   }
 }
