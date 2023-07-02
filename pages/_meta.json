@@ -3,7 +3,7 @@
     "display": "hidden"
   },
   "intro": "Introduction",
-  "quickstart": "Quickstart",
+  "quickstart-new": "Quickstart",
   "concepts": "Concepts",
   "deploy": "Deploy",
   "connect": "Connect",
@@ -12,6 +12,9 @@
   "demos": "Demos & Tutorials",
   "using": "Reference",
   "connecting": {
+    "display": "hidden"
+  },
+  "quickstart-old": {
     "display": "hidden"
   }
 }
