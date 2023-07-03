@@ -4,11 +4,11 @@ Before deciding to cache a query, it's worth investigating the performance impac
 
 There are several methods for doing so:
 
-### [Using the built-in Grafana dashboard](/docs/cache/profiling-queries/view-query-metrics-with-grafana-wip)
+### [Using the built-in Grafana dashboard](/cache/profiling-queries/view-query-metrics-with-grafana-wip)
 
-### [Use the database's slow query log](/docs/cache/profiling-queries/view-query-metrics-with-the-databases-slow-query-log)
+### [Use the database's slow query log](/cache/profiling-queries/view-query-metrics-with-the-databases-slow-query-log)
 
-### [Using a third party performance monitoring tool](/docs/cache/profiling-queries/view-query-metrics-with-3rd-party-providers-wip)
+### [Using a third party performance monitoring tool](/cache/profiling-queries/view-query-metrics-with-3rd-party-providers-wip)
 
 ### Enabling metrics
 

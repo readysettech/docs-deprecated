@@ -55,7 +55,7 @@ A unique identifier for the ReadySet deployment.
 
 **`--disable-telemetry`**
 
-Don't sent anonymous [telemetry data](https://docs.readyset.io/reference/telemetry/) to ReadySet.
+Don't sent anonymous [telemetry data](/using/telemetry/) to ReadySet.
 
 **Env variable:** `DISABLE_TELEMETRY`
 
@@ -69,7 +69,7 @@ Disable verification of SSL certificates supplied by the upstream database on co
 
 **`--forbid-full-materialization`**
 
-ReadySet must sometimes store the entire result set for a query in memory, for example, when there is no `WHERE` filter or when the `WHERE` filter is not [parameterized](https://docs.readyset.io/reference/sql-support/#parameters) (by the user or by ReadySet). This is referred to as "full materialization".
+ReadySet must sometimes store the entire result set for a query in memory, for example, when there is no `WHERE` filter or when the `WHERE` filter is not [parameterized](/sql-support/supported-sql-syntax#parameters) (by the user or by ReadySet). This is referred to as "full materialization".
 
 The `--forbid-full-materialization` option prevents ReadySet from caching queries that would be fully materialized.
 

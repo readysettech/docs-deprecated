@@ -188,4 +188,4 @@ DROP CACHE <cache id>
 
 # Next steps
 
-[Deploy ReadySet against your own database](/docs/deploy/configure-your-database)
+[Deploy ReadySet against your own database](/deploy/configure-your-database)

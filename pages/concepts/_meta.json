@@ -1,4 +1,7 @@
 {
   "overview": "Key Concepts", 
-  "advanced-concepts": "Advanced Concepts"
+  "advanced-concepts": "Advanced Concepts",
+  "dataflow": {
+    "display": "hidden"
+}
 }

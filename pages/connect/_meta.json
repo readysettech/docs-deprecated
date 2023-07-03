@@ -1,4 +1,5 @@
 {
-    "connect-an-application-via-an-orm": "Connect an application via an ORM", 
-    "connect-via-database-shell": "Connect via a database shell"
+  "connect-via-database-shell": "Connect via a database shell",
+  "connect-an-application-via-an-orm": "Connect an application via an ORM"
+   
   }
