@@ -2,7 +2,7 @@
 
 This guide walks you through how to run ReadySet using Docker, connecting to an existing primary database.
 
-> Before starting, make sure your [upstream database is properly configured.](/docs/deploy/configure-your-database)
+> Before starting, make sure your [upstream database is properly configured.](/deploy/configure-your-database)
 
 ## Postgres
 
@@ -128,4 +128,4 @@ ReadySet is ready to cache data.
 
 ## Next Steps
 
-As a next step, you can [connect to ReadySet from a database shell ](/docs/connect/connect-via-database-shell)or [connect from your application](/docs/connect/connect-an-application-via-an-orm). Once connected, you can start [caching queries](/docs/cache/creating-a-cache).
+As a next step, you can [connect to ReadySet from a database shell ](/connect/connect-via-database-shell)or [connect from your application](/connect/connect-an-application-via-an-orm). Once connected, you can start [caching queries](/cache/creating-a-cache).

@@ -1,5 +1,5 @@
 # View query metrics with the database's slow query log
-After [connecting your app](/docs/connect/connect-an-application-via-an-orm) to ReadySet, profile your app performance and identify queries to cache in ReadySet. Generally, it's best to focus on frequent queries that are too slow and/or that are putting unwanted load on your upstream database.
+After [connecting your app](/connect/connect-an-application-via-an-orm) to ReadySet, profile your app performance and identify queries to cache in ReadySet. Generally, it's best to focus on frequent queries that are too slow and/or that are putting unwanted load on your upstream database.
 
 ### Enabling metrics
 You can use the [pg_stat_statements extension](https://www.postgresql.org/docs/current/pgstatstatements.html) to retrieve detailed information about the queries running against your Postgres instance.
