@@ -109,7 +109,7 @@ Possible values, from most to least severe:
 
 The IP address/hostname and port of the Prometheus endpoint for [ReadySet metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
 
-This option is ignored unless [`--prometheus-metrics`](https://docs.readyset.io/reference/cli/readyset/#-prometheus-metrics) is passed. Also, when running a distributed ReadySet deployment, this option determines the Prometheus endpoint for the ReadySet Adapter only. The [`--external-address`](https://docs.readyset.io/reference/cli/readyset-server/#-external-address) option for the `readyset-server` command determines the Prometheus endpoint for the ReadySet Server.
+This option is ignored unless [`--prometheus-metrics`](/using/cli/readyset/#--prometheus-metrics) is passed. Also, when running a distributed ReadySet deployment, this option determines the Prometheus endpoint for the ReadySet Adapter only. The [`--external-address`](/using/cli/readyset-server/#--external-address) option for the `readyset-server` command determines the Prometheus endpoint for the ReadySet Server.
 
 **Default:** `0.0.0.0:6034`
 
@@ -117,15 +117,15 @@ This option is ignored unless [`--prometheus-metrics`](https://docs.readyset.io/
 
 **`--password`**
 
-The password for authenticating connections to ReadySet. This can differ from the password in the database connections string in [`--upstream-db-url`](https://docs.readyset.io/reference/cli/readyset/#-upstream-db-url).
+The password for authenticating connections to ReadySet. This can differ from the password in the database connections string in [`--upstream-db-url`](/using/cli/readyset/#--upstream-db-url).
 
-**Default:** The password for the upstream database in [`--upstream-db-url`](https://docs.readyset.io/reference/cli/readyset/#-upstream-db-url).
+**Default:** The password for the upstream database in [`--upstream-db-url`](/using/cli/readyset/#--upstream-db-url).
 
 **Env variable:** `ALLOWED_PASSWORD`
 
 **`--prometheus-metrics`**
 
-Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics`. The metrics address is defined by [`--metrics-address`](https://docs.readyset.io/reference/cli/readyset/#-metrics-address).
+Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics`. The metrics address is defined by [`--metrics-address`](/using/cli/readyset/#--metrics-address).
 
 **Env variable:** `PROMETHEUS_METRICS`
 
@@ -133,13 +133,13 @@ Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics
 
 Include query-specific execution details in Prometheus metrics.
 
-To use this option, you must pass [`--prometheus-metrics](https://docs.readyset.io/reference/cli/readyset/#-prometheus-metrics) as well.
+To use this option, you must pass [`--prometheus-metrics](/using/cli/readyset/#--prometheus-metrics) as well.
 
 **Env variable:** `QUERY_LOG`
 
 **`--replication-tables`**
 
-By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](https://docs.readyset.io/reference/cli/readyset/#-upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use this option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
+By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](/using/cli/readyset/#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use this option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
 This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.
 
@@ -155,7 +155,7 @@ Path to the PEM or DER root certificate that the upstream database connection wi
 
 **`--standalone`**
 
-Run the ReadySet Server and Adapter as a single process. When this option is not passed, the `readyset` command starts just ReadySet Adapter. In this case, the ReadySet Server must be started first via the [`readyset-server`](https://docs.readyset.io/reference/cli/readyset-server/) command.
+Run the ReadySet Server and Adapter as a single process. When this option is not passed, the `readyset` command starts just ReadySet Adapter. In this case, the ReadySet Server must be started first via the [`readyset-server`](/using/cli/readyset-server/) command.
 
 **Env variable:** `STANDALONE`
 
@@ -165,14 +165,14 @@ The URL for connecting ReadySet to to the upstream database. This connection URL
 
 **Env variable:** `UPSTREAM_DB_URL`
 
-> By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](https://docs.readyset.io/reference/cli/readyset/#-upstream-db-url).
+> By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](/using/cli/readyset/#--upstream-db-url).
 
-> If the queries you want to cache in ReadySet access only a subset of tables in the database, use the [`--replication-tables`](https://docs.readyset.io/reference/cli/readyset/#-replication-tables) option to reduce disk space usage and snapshotting time.
+> If the queries you want to cache in ReadySet access only a subset of tables in the database, use the [`--replication-tables`](/using/cli/readyset/#--replication-tables) option to reduce disk space usage and snapshotting time.
 
 **`--username`**, **`-u`**
 
-The username for authenticating connections to ReadySet. This can differ from the username in the database connections string in [`--upstream-db-url`](https://docs.readyset.io/reference/cli/readyset/#-upstream-db-url).
+The username for authenticating connections to ReadySet. This can differ from the username in the database connections string in [`--upstream-db-url`](/using/cli/readyset/#--upstream-db-url).
 
-**Default:** The username for the upstream database in [`--upstream-db-url`](https://docs.readyset.io/reference/cli/readyset/#-upstream-db-url).
+**Default:** The username for the upstream database in [`--upstream-db-url`](/using/cli/readyset/#--upstream-db-url).
 
 **Env variable:** `ALLOWED_USERNAME`

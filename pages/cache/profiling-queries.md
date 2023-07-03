@@ -30,15 +30,15 @@ In some environments, the pg_stat_statements extension may not be available. In 
 
 To enable ReadySet metrics, start ReadySet with the following options:
 
-- [`--prometheus-metrics`](https://docs.readyset.io/reference/cli/readyset/#-prometheus-metrics)
-- [`--metrics-address`](https://docs.readyset.io/reference/cli/readyset/#-metrics-address)
+- [`--prometheus-metrics`](/using/cli/readyset/#--prometheus-metrics)
+- [`--metrics-address`](/using/cli/readyset/#--metrics-address)
 
 To include query-specific execution metrics, also pass:
 
-- [`--query-log`](https://docs.readyset.io/reference/cli/readyset/#-query-log)
-- [`--query-log-ad-hoc`](https://docs.readyset.io/reference/cli/readyset/#-query-log-ad-hoc)
+- [`--query-log`](/using/cli/readyset/#--query-log)
+- [`--query-log-ad-hoc`](/using/cli/readyset/#--query-log-ad-hoc)
 
-You can access ReadySet metrics at `<metrics address>/metrics`, where the metrics address is defined by the [`--metrics-address`](https://docs.readyset.io/reference/cli/readyset/#-metrics-address) option (default: `0.0.0.0:6034/metrics`).
+You can access ReadySet metrics at `<metrics address>/metrics`, where the metrics address is defined by the [`--metrics-address`](/using/cli/readyset/#--metrics-address) option (default: `0.0.0.0:6034/metrics`).
 
 ## Analyzing per-query metrics
 

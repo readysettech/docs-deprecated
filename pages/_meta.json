@@ -16,5 +16,8 @@
   },
   "quickstart-old": {
     "display": "hidden"
+  },
+  "releases": {
+    "title": "Releases"
   }
 }
