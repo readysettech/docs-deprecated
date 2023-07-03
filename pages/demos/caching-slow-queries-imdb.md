@@ -2,7 +2,7 @@
 
 # Prerequisites
 
-- A ReadySet instance connected to a MySQL or Postgres database with Grafana (we recommend that you use the [Quickstart](/get-started/quickstart) to set this up)
+- A ReadySet instance connected to a MySQL or Postgres database with Grafana (we recommend that you use the [Quickstart](/quickstart) to set this up)
 - MySQL or Postgres client, depending on the primary database
 
 # Steps
@@ -85,7 +85,7 @@ WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 
 We can check the Grafana dashboard to see that the query was successfully cached, and compare latencies.
 
-**Note:** if you set up ReadySet via the [Quickstart](/docs/get-started/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
+**Note:** if you set up ReadySet via the [Quickstart](/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
 
 Here, we can see that the 99th percentile latencies for this query fell from over 80ms against Postgres to < 1ms against ReadySet. Huzzah!
 
