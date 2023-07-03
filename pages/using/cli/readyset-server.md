@@ -107,8 +107,8 @@ The durability of the tables that ReadySet replicates from the upstream database
 
 **Possible values:**
 
-- `"persistent"`: Store replicated tables on disk (at the location specified by [`--db-dir`](#-db-dir)). Do not delete the data when the ReadySet Server is stopped. Suitable for production deployments.
-- `"ephemeral"`: Store replicated tables on disk (at the location specified by [`--db-dir`](#-db-dir)). Delete the data when the ReadySet Server is stopped. Suitable for testing only.
+- `"persistent"`: Store replicated tables on disk (at the location specified by [`--db-dir`](#--db-dir)). Do not delete the data when the ReadySet Server is stopped. Suitable for production deployments.
+- `"ephemeral"`: Store replicated tables on disk (at the location specified by [`--db-dir`](#--db-dir)). Delete the data when the ReadySet Server is stopped. Suitable for testing only.
 - `"memory"`: Store replicated tables entirely in memory. Suitable for testing only.
 
 **Default:** `"persistent"`
@@ -119,7 +119,7 @@ The durability of the tables that ReadySet replicates from the upstream database
 <div class="option-details" markdown="1">
 When possible, ReadySet stores only certain results sets for a query in memory. For example, if a query is [parameterized](../sql-support.md#parameters) on user IDs, ReadySet would only cache the results of that query for the active subset of users, since they are the ones issuing requests. This is referred to as "partial materialization".
 
-The `--eviction-policy` option determines the strategy for evicting cache entries from partial materializations once the overall memory limit (see [`--memory`](#-memory-m)) has been surpassed.
+The `--eviction-policy` option determines the strategy for evicting cache entries from partial materializations once the overall memory limit (see [`--memory`](#--memory-m)) has been surpassed.
 
 **Possible values:** `"random"`, `"lru"`, `"generational"`
 
@@ -155,7 +155,7 @@ The `--forbid-full-materialization` option prevents ReadySet from caching querie
 
 !!! tip
 
-    Consider passing this option when ReadySet Adapters use the `"inrequestpath"` or `"async"` [query caching mode](readyset.md#-query-caching). In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#-eviction-policy) applies only to partially materialized queries).
+    Consider passing this option when ReadySet Adapters use the `"inrequestpath"` or `"async"` [query caching mode](readyset.md#--query-caching). In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#--eviction-policy) applies only to partially materialized queries).
 </div>
 
 #### `--help`, `-h`
@@ -207,7 +207,7 @@ The amount of memory, in bytes, available to the ReadySet Server.
 
 This memory limit accounts for all memory use, including partial materializations (i.e., queries for which ReadySet stores only part of the result set), full materializations (i.e., queries for which ReadySet stores the entire result set), and other parts of the ReadySet process (e.g., RocksDB).
 
-Once memory usage surpasses this limit, ReadySet starts evicting cache entries from partial materializations based on the [`--eviction-policy`](#-eviction-policy).
+Once memory usage surpasses this limit, ReadySet starts evicting cache entries from partial materializations based on the [`--eviction-policy`](#--eviction-policy).
 
 **Default:** `0` (unlimited)
 
@@ -221,7 +221,7 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 #### `--memory-check-every`
 
 <div class="option-details" markdown="1">
-The frequency, in seconds, at which to check memory usage by ReadySet. Once usage surpasses the limit set in [`--memory`](#-memory-m), ReadySet starts evicting cache entries for partial materializations based on the [`--eviction-policy`](#-eviction-policy).
+The frequency, in seconds, at which to check memory usage by ReadySet. Once usage surpasses the limit set in [`--memory`](#--memory-m), ReadySet starts evicting cache entries for partial materializations based on the [`--eviction-policy`](#--eviction-policy).
 
 **Default:** `1`
 
@@ -245,7 +245,7 @@ Number of background threads used by RocksDB, the storage engine for ReadySet's 
 #### `--prometheus-metrics`
 
 <div class="option-details" markdown="1">
-Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics`. The metrics address is defined by [`--external-address`](#-external-address) and [`--external-port`](#-external-port).
+Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics`. The metrics address is defined by [`--external-address`](#--external-address) and [`--external-port`](#--external-port).
 
 **Env variable:** `PROMETHEUS_METRICS`
 </div>
@@ -281,7 +281,7 @@ The number of connections to the upstream database for snapshotting and replicat
 #### `--replication-tables`
 
 <div class="option-details" markdown="1">
-By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#-upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use this option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
+By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use this option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
 This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.  
 
@@ -319,7 +319,7 @@ When using open telemetry, the IP address/hostname and port of the telemetry ser
 <div class="option-details" markdown="1">
 The percent of traces to send to the open telemetry server.
 
-To use this option, you must set [`--tracing-host`](#-tracing-host).
+To use this option, you must set [`--tracing-host`](#--tracing-host).
 
 **Possible values:** Between `0.0` and `100.0`
 
@@ -337,7 +337,7 @@ The URL for connecting ReadySet to to the upstream database. This connection URL
 
 !!! tip
 
-    By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#-upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use the [`--replication-tables`](#-replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
+    By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use the [`--replication-tables`](#--replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 </div>
 
 #### `--version`, `V`
