@@ -3,13 +3,18 @@
     "display": "hidden"
   },
   "intro": "Introduction",
-  "quickstart": {
-    "title": "Quick Start"
-  },
+  "quickstart": "Quickstart",
   "concepts": "Concepts",
-  "connecting": "Develop",
+  "deploy": "Deploy",
+  "connect": "Connect",
+  "cache": "Cache",
+  "sql-support": "SQL Support",
+  "demos": "Demos & Tutorials",
   "using": "Reference",
-  "docs": {
-    "title": "Docs"
+  "connecting": {
+    "display": "hidden"
+  },
+  "quickstart-old": {
+    "display": "hidden"
   }
 }

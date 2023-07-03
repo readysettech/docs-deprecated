@@ -1,4 +1,4 @@
-# Aapter vs. Server
+# Adapter vs. Server
 
 ReadySet ships with two components: the **adapter**, which terminates connections and proxies queries to the upstream database, and the **server**, which holds the dataflow graph in-memory and base tables on disk.
 
