@@ -3,23 +3,23 @@
 This page documents ReadySet's SQL support. There are 3 main areas of support:
 | Area | Details |
 | ---- | ---- |
-| [Table replication](https://docs.readyset.io/reference/sql-support/#table-replication) | ReadySet takes an initial snapshot of tables from the upstream MySQL or Postgres database and then uses the database's replication stream to keep the snapshot up-to-date as the tables change. To successfully snapshot and replicate a table, ReadySet must support the data types of the columns, the character set in which the data is encoded, and changes to the table via writes and schema changes.|
-| [Query caching](https://docs.readyset.io/reference/sql-support/#query-caching) | Once ReadySet is replicating tables, ReadySet can cache the results of SQL queries run against those tables. To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query.|
-| [SQL extensions](https://docs.readyset.io/reference/sql-support/#sql-extensions)| ReadySet supports custom SQL commands for viewing queries that ReadySet has proxied to the upstream database, caching supported queries, viewing caches, and removing caches.|
+| [Table replication](/sql-support/supported-sql-syntax/#table-replication) | ReadySet takes an initial snapshot of tables from the upstream MySQL or Postgres database and then uses the database's replication stream to keep the snapshot up-to-date as the tables change. To successfully snapshot and replicate a table, ReadySet must support the data types of the columns, the character set in which the data is encoded, and changes to the table via writes and schema changes.|
+| [Query caching](/sql-support/supported-sql-syntax/#query-caching) | Once ReadySet is replicating tables, ReadySet can cache the results of SQL queries run against those tables. To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query.|
+| [SQL extensions](/sql-support/supported-sql-syntax/#sql-extensions)| ReadySet supports custom SQL commands for viewing queries that ReadySet has proxied to the upstream database, caching supported queries, viewing caches, and removing caches.|
 
 Tip
 
 ReadySet is continually expanding SQL support. If you need an unsupported feature, let us know on the [Discord chat](https://discord.gg/readyset), or [open an issue](https://github.com/readysettech/readyset/issues/new/choose) in our GitHub repository.
 
-## Table replication[¶](https://docs.readyset.io/reference/sql-support/#table-replication)
+## Table replication[¶](/sql-support/supported-sql-syntax/#table-replication)
 
-### Data types[¶](https://docs.readyset.io/reference/sql-support/#data-types)
+### Data types[¶](/sql-support/supported-sql-syntax/#data-types)
 
 ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.mysql.com/doc/refman/8.0/en/data-types.html) and [Postgres](https://www.postgresql.org/docs/current/datatype.html) data types.
 
 ### Postgres 
 
-**Numeric types**[**¶**](https://docs.readyset.io/reference/sql-support/#numeric-types_1)
+**Numeric types**[**¶**](/sql-support/supported-sql-syntax/#numeric-types_1)
 
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
@@ -28,7 +28,7 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
 |[`FLOAT DOUBLE PRECISION REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html)| Yes| |
 |[`SERIAL SMALLSERIAL BIGSERIAL`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL)| Yes| | 
 
-**Monetary types**[**¶**](https://docs.readyset.io/reference/sql-support/#numeric-types_1)
+**Monetary types**[**¶**](/sql-support/supported-sql-syntax/#numeric-types_1)
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
 |[`MONEY`](https://www.postgresql.org/docs/current/datatype-money.html)| No | |
@@ -45,15 +45,15 @@ ReadySet can snapshot and replicate tables containing many [MySQL](https://dev.m
 | ---- | ---- | ---- |
 | [`BYTEA`](https://www.postgresql.org/docs/current/datatype-binary.html)| Yes | |
 
-### Character sets[¶](https://docs.readyset.io/reference/sql-support/#character-sets)
+### Character sets[¶](/sql-support/supported-sql-syntax/#character-sets)
 
 ReadySet supports the UTF-8 character set for strings and compares strings case-sensitively and sorts strings lexicographically. ReadySet does not support other character sets, alternative collations, or comparison methods for strings. However, you can use the `CITEXT` data type in Postgres to emulate a case-insensitive collation, and you can use the `BYTEA` data type in Postgres and the `BINARY` data type in MySQL to store arbitrary binary data.
 
-### Writes[¶](https://docs.readyset.io/reference/sql-support/#writes)
+### Writes[¶](/sql-support/supported-sql-syntax/#writes)
 
 All `INSERT`, `UPDATE`, and `DELETE` statements sent to ReadySet are proxied to the upstream database. ReadySet receives new/changed data via the database's replication stream and updates its snapshot and cache automatically.
 
-### Schema changes[¶](https://docs.readyset.io/reference/sql-support/#schema-changes)
+### Schema changes[¶](/sql-support/supported-sql-syntax/#schema-changes)
 
 When ReadySet receives the following schema change commands via the replication stream, ReadySet updates its snapshot of the affected tables and removes the caches of related queries.
 
@@ -82,34 +82,34 @@ When ReadySet receives the following schema change commands via the replication 
 |`ALTER TABLE`|`CHANGE COLUMN`| |
 |`ALTER TABLE`|`MODIFY COLUMN`|ReadySet does not support `FIRST` or `AFTER`.|
 
-### Namespaces[¶](https://docs.readyset.io/reference/sql-support/#namespaces)
+### Namespaces[¶](/sql-support/supported-sql-syntax/#namespaces)
 
 ReadySet supports [Postgres schemas](https://www.postgresql.org/docs/current/ddl-schemas.html) (namespaces for tables).
 
-## Query caching[¶](https://docs.readyset.io/reference/sql-support/#query-caching)
+## Query caching[¶](/sql-support/supported-sql-syntax/#query-caching)
 
 Tip
 
-After running a query through ReadySet, you can use the [`SHOW PROXIED QUERIES`](https://docs.readyset.io/reference/guides/cache-queries/#check-query-support) command to check if ReadySet supports the query. ReadySet always proxies unsupported queries to the upstream database.
+After running a query through ReadySet, you can use the [`SHOW PROXIED QUERIES`](/usingguides/cache-queries/#check-query-support) command to check if ReadySet supports the query. ReadySet always proxies unsupported queries to the upstream database.
 
-### Clauses[¶](https://docs.readyset.io/reference/sql-support/#clauses)
+### Clauses[¶](/sql-support/supported-sql-syntax/#clauses)
 
 ReadySet supports the following clauses in SQL `SELECT` queries:
 
-- `SELECT` with a list of select expressions, all of which must be supported expressions (see “[Expressions](https://docs.readyset.io/reference/sql-support/#expressions)”)
+- `SELECT` with a list of select expressions, all of which must be supported expressions (see “[Expressions](/sql-support/supported-sql-syntax/#expressions)”)
   - ReadySet does not support scalar subqueries in the `SELECT` clause.
 
 - `DISTINCT`, modifying the select clause
 - `FROM`, with a list of tables (which may be implicitly joined)
-- `JOIN` (see ["Joins"](https://docs.readyset.io/reference/sql-support/#joins))
+- `JOIN` (see ["Joins"](/sql-support/supported-sql-syntax/#joins))
 - `WHERE`
 - `GROUP BY`, with a list of column or numeric field references
-  - ReadySet does not support [expression](https://docs.readyset.io/reference/sql-support/#expressions) in the `GROUP BY` clause.
+  - ReadySet does not support [expression](/sql-support/supported-sql-syntax/#expressions) in the `GROUP BY` clause.
 
 - `HAVING`
-  - ReadySet does not support [parameters](https://docs.readyset.io/reference/sql-support/#parameters) in the `HAVING` clause.
+  - ReadySet does not support [parameters](/sql-support/supported-sql-syntax/#parameters) in the `HAVING` clause.
 
-- `ORDER BY`, with a list of [expressions](https://docs.readyset.io/reference/sql-support/#expressions) and an optional `ASC` or `DESC` specifier
+- `ORDER BY`, with a list of [expressions](/sql-support/supported-sql-syntax/#expressions) and an optional `ASC` or `DESC` specifier
 - `LIMIT`
 - `OFFSET`
 - `WITH` (common table expressions)
@@ -122,7 +122,7 @@ There are specific top-level clauses and other query conditions that ReadySet do
 - `WINDOW`
 - `ORDER BY` with `NULLS FIRST` or `NULLS LAST`
 
-### Joins[¶](https://docs.readyset.io/reference/sql-support/#joins)
+### Joins[¶](/sql-support/supported-sql-syntax/#joins)
 
 ReadySet supports the following `JOIN` types:
 
@@ -174,7 +174,7 @@ But the following query is not:
 SELECT * FROM t1, t2 WHERE t1.x = t1.y;
 ```
 
-### Expressions[¶](https://docs.readyset.io/reference/sql-support/#expressions)
+### Expressions[¶](/sql-support/supported-sql-syntax/#expressions)
 
 ReadySet supports the following components of the SQL expression language:
 
@@ -225,11 +225,11 @@ ReadySet supports the following components of the SQL expression language:
     - `<@`
     - `#>`
     - `#>>`
-    - `#-`
+    - `#--`
 
 
 - `IN` and `NOT IN` with a list of expressions
-  - see "Limitations of `IN`" under [“Parameters”](https://docs.readyset.io/reference/sql-support/#parameters)
+  - see "Limitations of `IN`" under [“Parameters”](/sql-support/supported-sql-syntax/#parameters)
 
 - `CAST`
 - `CASE`
@@ -263,7 +263,7 @@ ReadySet supports the following components of the SQL expression language:
   - `SUBSTR()` and `SUBSTRING()`
   - `TIMEDIFF()`
 
-- Aggregate functions (see [Aggregations](https://docs.readyset.io/reference/sql-support/#aggregations))
+- Aggregate functions (see [Aggregations](/sql-support/supported-sql-syntax/#aggregations))
 
 ReadySet does not support the following components of the SQL expression language (this is not an exhaustive list):
 
@@ -283,7 +283,7 @@ ReadySet does not support the following components of the SQL expression languag
 - `IN` or `NOT IN` with a subquery
 - `ANY` or `SOME` subquery expressions
 
-### Aggregations[¶](https://docs.readyset.io/reference/sql-support/#aggregations)
+### Aggregations[¶](/sql-support/supported-sql-syntax/#aggregations)
 
 ReadySet supports the following aggregate functions:
 
@@ -314,7 +314,7 @@ While in ReadySet:
 MySQL [test]> select count(*) from empty_table;+----------+| count(*) |+----------+|        0 |+----------+1 row in setMySQL [test]> select count(*) from (select count(*) from empty_table) as subquery;+----------+| count(*) |+----------+|        0 |+----------+1 row in set
 ```
 
-### Parameters[¶](https://docs.readyset.io/reference/sql-support/#parameters)
+### Parameters[¶](/sql-support/supported-sql-syntax/#parameters)
 
 ReadySet uses the **parameters** in a prepared statement, specified either positionally (using `?`) or numbered (using `$1`, `$2`, etc.), as the **key** that enables storing only certain result sets for each query. ReadySet will automatically turn literal values in certain positions in queries into parameters, but only supports certain positions for **user-specified parameters** in queries:
 
@@ -328,15 +328,15 @@ Limitations of `IN`
 
 When the `IN` clause is used with parameters, queries may not contain the `AVG` or `GROUP_CONCAT` aggregate functions. However, this limitations does not apply when the right-hand side of the `IN` clause does not contain any query parameters.
 
-## SQL extensions[¶](https://docs.readyset.io/reference/sql-support/#sql-extensions)
+## SQL extensions[¶](/sql-support/supported-sql-syntax/#sql-extensions)
 
 ReadySet supports the following custom SQL commands:
 | Command | Description|
 | ---- | ---- |
-|[`SHOW READYSET STATUS`](https://docs.readyset.io/guides/cache/check-snapshotting/#check-overall-status)|Check ReadySet's overall snapshotting status.|
-|[`SHOW READYSET TABLES`](https://docs.readyset.io/guides/cache/check-snapshotting/#check-per-table-status)|Check the snapshotting status of each table in the database that ReadySet is connected to.|
-|[`SHOW PROXIED QUERIES`](https://docs.readyset.io/guides/cache/cache-queries/#check-query-support)|View the queries that ReadySet has proxied to the upstream database and check if they can be cached in ReadySet.|
-|[`CREATE CACHE`](https://docs.readyset.io/guides/cache/cache-queries/#cache-queries_1)|Cache a query in ReadySet.|
-|[`SHOW CACHES`](https://docs.readyset.io/guides/cache/cache-queries/#view-cached-queries)|Show all queries that have been cached in ReadySet.|
-|[`DROP CACHE`](https://docs.readyset.io/guides/cache/cache-queries/#remove-cached-queries)|Remove a cache from ReadySet.|
-|[`SHOW READYSET VERSION`](https://docs.readyset.io/reference/cli/readyset/#print-version-information)|Prints ReadySet version information.|
+|[`SHOW READYSET STATUS`](/cache/check-snapshotting/#check-overall-status)|Check ReadySet's overall snapshotting status.|
+|[`SHOW READYSET TABLES`](/cache/check-snapshotting/#check-per-table-status)|Check the snapshotting status of each table in the database that ReadySet is connected to.|
+|[`SHOW PROXIED QUERIES`](/cache/creating-a-cache)|View the queries that ReadySet has proxied to the upstream database and check if they can be cached in ReadySet.|
+|[`CREATE CACHE`](/cache/creating-a-cache/#cache-queries)|Cache a query in ReadySet.|
+|[`SHOW CACHES`](/cache/creating-a-cache/#view-cached-queries)|Show all queries that have been cached in ReadySet.|
+|[`DROP CACHE`](/cache/creating-a-cache/#remove-cached-queries)|Remove a cache from ReadySet.|
+|[`SHOW READYSET VERSION`](/using/cli/readyset/#print-version-information)|Prints ReadySet version information.|
