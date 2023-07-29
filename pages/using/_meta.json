@@ -1,9 +1,20 @@
 {
-    "caching": "SQL Extensions",
-    "queries": "Query Support",
-    "dashboard": "Dashboard",
-    "installer": "Installer Options",
-    "troubleshooting": "Troubleshooting Guide",
-    "telemetry": "Telemetry"
+    "caching": {
+      "display": "hidden"
+    },
+    "queries": {
+      "display": "hidden"
+    },
+    "dashboard": {
+      "display": "hidden"
+    },
+    "installer": {
+      "display": "hidden"
+    },
+    "troubleshooting": {
+      "display": "hidden"
+    },
+    "telemetry": "Telemetry",
+    "cli": "CLI"
   }
   

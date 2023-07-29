@@ -2,15 +2,21 @@
   "index": {
     "display": "hidden"
   },
-  "intro": "Introduction",
+
   "quickstart": "Quickstart",
-  "concepts": "Concepts",
   "deploy": "Deploy",
   "connect": "Connect",
   "cache": "Cache",
-  "sql-support": "SQL Support",
+  "features": "Features",
   "demos": "Demos & Tutorials",
+  "concepts": "Concepts",
   "using": "Reference",
+  "sql-support": {
+    "display": "hidden"
+  },
+  "intro": {
+    "display": "hidden"
+  },
   "connecting": {
     "display": "hidden"
   },

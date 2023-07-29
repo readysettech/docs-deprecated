@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components'
+
 # Check Snapshotting
 
 When you first connect ReadySet to your database, ReadySet stores a snapshot of your database tables on disk and then keeps this snapshot up-to-date by listening to your database's replication stream. **Queries can be cached in ReadySet only once all tables have finished the initial snapshotting process.**
@@ -52,13 +54,11 @@ This command returns a virtual table with 2 columns:
 
 ## Track detailed progress
 
-!!! note
-
-    This method is not currently available on ReadySet Cloud, as ReadySet Cloud users do not have access to logs.
+<Callout type="warning">This method is not currently available on ReadySet Cloud, as ReadySet Cloud users do not have access to logs.</Callout>
 
 To track the progress and estimated time remaining for each table, `grep` the ReadySet logs for `Snapshotting table` (Postgres) or `taking database snapshot` (MySQL):
 
-=== "Postgres"
+### Postgres
 
     ``` sh
     grep 'Snapshotting table' readyset.log
@@ -74,7 +74,7 @@ To track the progress and estimated time remaining for each table, `grep` the Re
     ...
     ```
 
-=== "MySQL"
+### MySQL
 
     ``` sh
     grep 'taking database snapshot' readyset.log
@@ -95,6 +95,4 @@ To track the progress and estimated time remaining for each table, `grep` the Re
     2022-10-18T17:18:01.966256Z  INFO taking database snapshot: replicators::noria_adapter: Snapshot finished
     ```
 
-!!! tip
-
-    The frequency of these progress messages is controlled by the [`--snapshot-report-interval-secs`](../../reference/cli/readyset.md#-snapshot-report-interval-secs) CLI option.
+<Callout type="info">The frequency of these progress messages is controlled by the [`--snapshot-report-interval-secs`](../../reference/cli/readyset.md#-snapshot-report-interval-secs) CLI option.</Callout>

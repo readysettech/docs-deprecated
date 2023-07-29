@@ -1,4 +1,5 @@
 {
   "profiling-queries": "Profiling Queries", 
-  "creating-a-cache": "Creating a Cache" 
+  "check-snapshotting": "Prepare to Cache",
+  "creating-a-cache": "Cache Queries" 
   }

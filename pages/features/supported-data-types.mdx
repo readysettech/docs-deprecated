@@ -1,0 +1,154 @@
+import { Tabs, Tab } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Supported Data Types
+
+ReadySet takes an initial snapshot of tables from the upstream MySQL or Postgres database and then uses the database's replication stream to keep the snapshot up-to-date as the tables change.
+
+To successfully snapshot and replicate a table, ReadySet must support the data types of the columns, the character set in which the data is encoded, and changes to the table via writes and schema changes.
+
+<Tabs items={['Postgres', 'MySQL']}>
+<Tab>
+**Numeric types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+|[`INT SMALLINT BIGINT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-INT)| ✔️| ReadySet ignores the optional length field.|
+|[`DECIMAL NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL)| ✔️| ReadySet does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point.|
+|[`FLOAT DOUBLE PRECISION REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html)| ✔️| |
+|[`SERIAL SMALLSERIAL BIGSERIAL`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL)| ✔️| | 
+
+**Monetary types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+|[`MONEY`](https://www.postgresql.org/docs/current/datatype-money.html)| ✖️ | |
+
+**Character types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+|[`CHAR VARCHAR TEXT`](https://www.postgresql.org/docs/current/datatype-character.html)| ✔️ | |
+|[`"CHAR"`](https://www.postgresql.org/docs/current/datatype-character.html#DATATYPE-CHARACTER-SPECIAL-TABLE)| ✔️ | |
+|[`CITEXT`](https://www.postgresql.org/docs/15/citext.html) | ✔️ | | 
+
+**Binary types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`BYTEA`](https://www.postgresql.org/docs/current/datatype-binary.html)| ✔️ | |
+
+**Date and time types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`DATE TIME TIMETZ TIMESTAMP TIMESTAMPTZ`](https://www.postgresql.org/docs/current/datatype-datetime.html)| ✔️ | |
+| [`INTERVAL`](https://www.postgresql.org/docs/current/datatype-datetime.html)| ✖️ | |
+
+**Boolean typess**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`BOOLEAN`](https://www.postgresql.org/docs/current/datatype-boolean.html)| ✔️ | |
+
+**Enumerated types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`ENUM`](https://www.postgresql.org/docs/current/datatype-enum.html)| ✔️ | |
+
+**Geometric types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`POINT LINE LSEG BOX PATH POLYGON CIRCLE`](https://www.postgresql.org/docs/current/datatype-geometric.html)| ✖️ | |
+
+**Network address typess**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`INET`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-INET)| ✔️ |ReadySet represents this type internally as normalized string.|
+| [`CIDR`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-CIDR)| ✖️ | |
+| [`MACADDR	`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR)| ✔️ |ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting.|
+| [`MACADDR8`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR8)| ✖️| |
+	
+**Bit string types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`BITBIT VARYING`](https://www.postgresql.org/docs/current/datatype-bit.html)| ✔️ |ReadySet ignores the optional length field.|
+
+**Text search types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`tsvector`](https://www.postgresql.org/docs/current/datatype-textsearch.html#DATATYPE-TSVECTOR)| ✖️ | |
+| [`tsquery`](https://www.postgresql.org/docs/current/datatype-textsearch.html#DATATYPE-TSQUERY)| ✖️ | |
+
+**UUID types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`UUID`](https://www.postgresql.org/docs/current/datatype-uuid.html)| ✔️ |ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting.|
+
+**XML types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`XML`](https://www.postgresql.org/docs/current/datatype-xml.html)| ✖️ | |
+
+**JSON types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`JSON JSONB`](https://www.postgresql.org/docs/current/datatype-json.html)| ✔️ |ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting.|
+		
+**Array types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`ARRAY	`](https://www.postgresql.org/docs/current/arrays.html)| ✔️ | |
+
+**Composite data types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`CREATE TYPE <name> AS`](https://www.postgresql.org/docs/current/rowtypes.html)| ✖️ | |
+
+**Range types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`INT4RANGE INT8RANGE NUMRANGE TSRANGE TSTZRANGE DATERANGE`](https://www.postgresql.org/docs/current/rangetypes.html)| ✖️ | |
+	
+**Domain types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`CREATE TABLE <table> (col <domain>)`](https://www.postgresql.org/docs/current/domains.html)| ✖️ | |
+	
+**Object identifier types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`OID REGCLASS REGCOLLATION REGCONFIG REGDICTIONARY REGNAMESPACE REGOPER REGOPERATOR REGPROC REGPROCEDURE REGROLE REGTYPE	`](https://www.postgresql.org/docs/current/datatype-oid.html)| ✖️ | |
+</Tab>
+
+<Tab>
+**Numeric types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+|[`INT INT UNSIGNED TINYINT TINYINT UNSIGNED SMALLINT SMALLINT UNSIGNED MEDIUMINT MEDIUMINT UNSIGNED BIGINT BIGINT UNSIGNED SERIAL`](https://dev.mysql.com/doc/refman/8.0/en/integer-types.html)| ✔️| ReadySet ignores the optional length field.|
+|[`DECIMAL NUMERIC`](https://dev.mysql.com/doc/refman/8.0/en/fixed-point-types.html)| ✔️| ReadySet does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point.|
+|[`FLOAT DOUBLE REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html)| ✔️| |
+|[`BIT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL)| ✔️|ReadySet ignores the optional length field.| 
+
+**Date and time types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`DATE DATETIME TIMESTAMP TIMESTAMPTZ`](https://dev.mysql.com/doc/refman/8.0/en/datetime.html)| ✔️ | |
+| [`TIME`](https://dev.mysql.com/doc/refman/8.0/en/time.html)| ✔️ | |
+| [`YEAR`](https://dev.mysql.com/doc/refman/8.0/en/year.html)| ✖️ | |
+
+**String types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`CHAR VARCHAR`](https://dev.mysql.com/doc/refman/8.0/en/char.html)| ✔️ |ReadySet ignores the optional length field. |
+| [`BINARY VARBINARY`](https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html)| ✔️ |ReadySet ignores the optional length field. |
+| [`BLOB TINYBLOG MEDIUMBLOB LONGBLOB`](https://dev.mysql.com/doc/refman/8.0/en/blob.html)| ✔️ | |
+| [`TEXT TINYTEXT MEDIUMTEXT LONGTEXT`](https://dev.mysql.com/doc/refman/8.0/en/blob.html)| ✔️ | |
+| [`ENUM`](https://dev.mysql.com/doc/refman/8.0/en/enum.html)| ✔️ | |
+| [`SET`](https://dev.mysql.com/doc/refman/8.0/en/set.html)| ✖️ | |
+
+**JSON types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`JSON`](https://dev.mysql.com/doc/refman/8.0/en/json.html)| ✔️ |ReadySet represents this type internally as a normalized string. This can cause different behavior than in MySQL with respect to expressions or sorting.|
+
+**Spatial types**
+| Type | Supported | Notes |
+| ---- | ---- | ---- |
+| [`GEOMETRY POINT LINESTRING POLYGON MULTIPOINT MULTILINESTRING MULTIPOLYGON GEOMETRYCOLLECTION`](https://dev.mysql.com/doc/refman/8.0/en/spatial-type-overview.html)| ✖️ | |
+</Tab>
+</Tabs>

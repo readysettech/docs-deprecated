@@ -1,8 +1,10 @@
+import { Tabs, Tab } from 'nextra/components'
+import { Cards, Card } from 'nextra/components'
+
 # Connect via Database Shell
-
-## Postgres
-
-### 1. Connect to ReadySet using psql, the Postgres client
+<Tabs items={['Postgres','MySQL']}>
+<Tab>
+**1. Connect to ReadySet using psql, the Postgres client**
 
 ReadySet is wire-compatible with Postgres, so you can use `psql` to connect to it in the same way you would an ordinary database.
 
@@ -17,10 +19,9 @@ Once connected, you can see the status of tables in ReadySet by running:
 ```sql
 testdb=> SHOW READYSET STATUS;
 ```
-
-## MySQL
-
-### 1. Connect to ReadySet using the MySQL client
+</Tab>
+<Tab>
+**1. Connect to ReadySet using the MySQL client**
 
 ReadySet is wire-compatible with MySQL, so you can use the `mysql` client to connect to it in the same way you would an ordinary database.
 
@@ -35,5 +36,9 @@ Once connected, you can see the status of tables in ReadySet by running:
 ```sql
 testdb=> SHOW READYSET STATUS;
 ```
-
-[You can also use the shell to view and cache queries](/cache/creating-a-cache)
+</Tab>
+</Tabs>
+You can also use the shell to view and cache queries:
+<Cards>
+  <Card title="Creating a cache" href="/cache/creating-a-cache" />
+</Cards>
