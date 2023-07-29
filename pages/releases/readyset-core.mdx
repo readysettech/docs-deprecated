@@ -1,36 +1,33 @@
+import { Tabs, Tab } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
 # ReadySet Core Releases
 
 ReadySet releases a new version of ReadySet Core on a monthly basis. This page summarizes the changes in each version and links to binaries and docker images.
 
-!!! warning
-
-    Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.
+<Callout type="warning">Beta versions of ReadySet are backward-incompatible. To upgrade between beta versions, you must therefore clear all data files. Rolling upgrades will be supported with future ReadySet major releases.</Callout>
 
 ## beta-2023-06-29
 
 ### Downloads
-
-=== ":material-docker: Docker"
-
+<Tabs items={['Docker', 'Source']}>
+<Tab>
     - ReadySet Server (linux/amd64)
-        ``` sh
+        ```
         docker pull public.ecr.aws/readyset/readyset-server:beta-2023-06-29
         ```
 
     - ReadySet Adapter (linux/amd64)
-        ``` sh
+        ```
         docker pull public.ecr.aws/readyset/readyset:beta-2023-06-29
         ```
-
-=== ":material-source-repository: Source"
-
-    !!! note
-
-        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development).
-
-    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-06-29.zip)
-    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-06-29.tar.gz)
-
+</Tab>
+<Tab>
+<Callout type="info">This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development):</Callout>
+- [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-06-29.zip)
+- [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-06-29.tar.gz)
+</Tab>
+</Tabs>
 ### Changes
 
 #### What's New
@@ -60,28 +57,24 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 ## beta-2023-05-31
 
 ### Downloads
-
-=== ":material-docker: Docker"
-
+<Tabs items={['Docker', 'Source']}>
+<Tab>
     - ReadySet Server (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-server:beta-2023-05-31
         ```
 
     - ReadySet Adapter (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset:beta-2023-05-31
         ```
-
-=== ":material-source-repository: Source"
-
-    !!! note
-
-        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development).
-
-    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-05-31.zip)
-    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-05-31.tar.gz)
-
+</Tab>
+<Tab>
+<Callout type="info">This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development):</Callout>
+- [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-05-31.zip) 
+- [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-05-31.tar.gz)
+</Tab>
+</Tabs>
 ### Changes
 
 #### What's New
@@ -150,28 +143,24 @@ ReadySet releases a new version of ReadySet Core on a monthly basis. This page s
 ## beta-2023-02-15
 
 ### Downloads
-
-=== ":material-docker: Docker"
-
+<Tabs items={['Docker', 'Source']}>
+<Tab>
     - ReadySet Server (linux-x84_64)
-        ``` sh
+        ```
         docker pull public.ecr.aws/readyset/readyset-server:beta-2023-02-15
         ```
 
     - ReadySet Adapter (linux-x84_64)
-        ``` sh
+        ```
         docker pull public.ecr.aws/readyset/readyset:beta-2023-02-15
         ```
-
-=== ":material-source-repository: Source"
-
-    !!! note
-
-        This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development).
-
-    - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-15.zip)
-    - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-15.tar.gz)
-
+</Tab>
+<Tab>
+<Callout type="info">This release does not include pre-built binaries. However, you can build binaries from source. For guidance, see the ReadySet [README](https://github.com/readysettech/readyset#development):</Callout>
+- [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-15.zip) 
+- [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-02-15.tar.gz)
+</Tab>
+</Tabs>
 ### Changes
 
 - Multiple instances of ReadySet can now be run against a single Postgres instance. [ab92510](https://github.com/readysettech/readyset/commit/ab92510e365bb585339c04e50c2acea2f7a71276)
@@ -199,42 +188,37 @@ shard tags, and have been renamed to have the `domain_` prefix removed:
 ## beta-2023-01-18
 
 ### Downloads
+<Tabs items={['Linux', 'Mac', 'Docker', 'Source']}>
+<Tab>
+<Callout type="info"> ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.</Callout>
 
-=== ":material-linux: Linux"
-
-    !!! note
-
-        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
-
-    Binary (linux-x84_64) | Sha256Sum
-    ----------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server-beta-2023-01-18.x86_64.tar.gz) | d56e663e6fab9b83b12dbe03008623c7c4e3e19bb3ba14eb1c7d45d2b3c5b9d7
-    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.x86_64.tar.gz) | 696308d6720b16515aa9ab7587766c858d12910c00f4760f756d9630b44011f8
-
-=== ":material-apple: Mac"
-
-    Binary (darwin-arm64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server-beta-2023-01-18.arm64.tar.gz) | 0289a07e7dde2fcf94718680328b09300a0f92915be24dcbb00160692d0b40f1
-    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.arm64.tar.gz) | eb287021e25ce7e46386b8bb9629000f4328464796caed43d08cd7c33def83d0
-
-=== ":material-docker: Docker"
-
+| Binary (linux-x84_64) | Sha256Sum |
+| ---- | ---- |
+| [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server-beta-2023-01-18.x86_64.tar.gz) | d56e663e6fab9b83b12dbe03008623c7c4e3e19bb3ba14eb1c7d45d2b3c5b9d7 | 
+| [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.x86_64.tar.gz) | 696308d6720b16515aa9ab7587766c858d12910c00f4760f756d9630b44011f8 |
+</Tab>
+<Tab>
+| Binary (darwin-arm64) | Sha256Sum |
+| ------------------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-server-beta-2023-01-18.arm64.tar.gz) | 0289a07e7dde2fcf94718680328b09300a0f92915be24dcbb00160692d0b40f1 |
+| [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2023-01-18/readyset-beta-2023-01-18.arm64.tar.gz) | eb287021e25ce7e46386b8bb9629000f4328464796caed43d08cd7c33def83d0 |
+</Tab>
+<Tab>
     - ReadySet Server (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-server:beta-2023-01-18
         ```
 
     - ReadySet Adapter (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset:beta-2023-01-18
         ```
-
-=== ":material-source-repository: Source"
-
+</Tab>
+<Tab>
     - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-01-18.zip)
     - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2023-01-18.tar.gz)
-
+</Tab>
+</Tabs>
 ### Changes
 
 - The new custom `SHOW READYSET TABLES` SQL command returns a list of all tables ReadySet is aware of, along with their snapshotting status if they are being replicated by ReadySet, or "Not replicated" if ReadySet is not replicating them either because the table is unsupported or because the table was not specified as part of [`--replication-tables`](/using/cli/readyset.md#-replication-tables). [764f0ed](https://github.com/readysettech/readyset/commit/764f0edbf55c5c648229df2c25751c36b88cb831)
@@ -252,41 +236,36 @@ shard tags, and have been renamed to have the `domain_` prefix removed:
 ## beta-2022-12-15
 
 ### Downloads
-
-=== ":material-linux: Linux"
-
-    !!! note
-
-        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
-
-    Binary (linux-x84_64) | Sha256Sum
-    ----------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset-server.x86_64.tar.gz) | 376a3c31923af51abf5a7ec181181eecaa1308de51efd7f336ebce54222abae0
-    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset.x86_64.tar.gz) | 7468de0b2611bfdd6df79198709c06d389f1df32223735e851c5070ca77fa82d
-
-=== ":material-apple: Mac"
-
-    Binary (darwin-arm64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset-server.arm64.tar.gz) | a8a2eb79e7c22fe5c6ce140e29931f4a474b89ead8c5f201a7eb4d370ab98861
-    [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset.arm64.tar.gz) | 0e02417a0435232529cd1ec4b3a2bedb2164334e83c8f92ffb5d2d442e3ac12c
-
-=== ":material-docker: Docker"
-
+<Tabs items={['Linux', 'Mac', 'Docker', 'Source']}>
+<Tab>
+<Callout type="info">ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.</Callout>
+|Binary (linux-x84_64) | Sha256Sum |
+| ----------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset-server.x86_64.tar.gz) | 376a3c31923af51abf5a7ec181181eecaa1308de51efd7f336ebce54222abae0 |
+| [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset.x86_64.tar.gz) | 7468de0b2611bfdd6df79198709c06d389f1df32223735e851c5070ca77fa82d |
+</Tab>
+<Tab>
+| Binary (darwin-arm64) | Sha256Sum |
+| ------------------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset-server.arm64.tar.gz) | a8a2eb79e7c22fe5c6ce140e29931f4a474b89ead8c5f201a7eb4d370ab98861 |
+| [ReadySet Adapter](https://github.com/readysettech/readyset/releases/download/beta-2022-12-15/readyset.arm64.tar.gz) | 0e02417a0435232529cd1ec4b3a2bedb2164334e83c8f92ffb5d2d442e3ac12c |
+</Tab>
+<Tab>
     - ReadySet Server (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-server:beta-2022-12-15
         ```
 
     - ReadySet Adapter (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset:beta-2022-12-15
         ```
-
-=== ":material-source-repository: Source"
-
+</Tab>
+<Tab>
     - [`zip`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2022-12-15.zip)
     - [`tar.gz`](https://github.com/readysettech/readyset/archive/refs/tags/beta-2022-12-15.tar.gz)
+</Tab>
+</Tabs>
 
 ### Changes
 
@@ -315,42 +294,36 @@ shard tags, and have been renamed to have the `domain_` prefix removed:
 ## beta-2022-11-16
 
 ### Downloads
+<Tabs items={['Linux', 'Mac', 'Docker']}>
+<Tab>
+<Callout type="info">ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.</Callout>
 
-=== ":material-linux: Linux"
-
-    !!! note
-
-        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
-
-    Binary (linux-x84_64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-server-2022-11-16.x86_64.tar.gz) | 3347c7de63b7a487f493408191d1e9dfb1dd0f46d01653afb9bafe62f5008154
-    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-mysql-2022-11-16.x86_64.tar.gz) | 921ae4d9ad41b77addbdc7a9eb3439b547711ca1acdc4bc9a9df690e40fa643d
-    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-psql-beta-2022-11-16.darwin-arm64.tar.gz) | 13472459c23efa590cbe1251d79ff9af4f309bf2d3ee7c0762d0a6e150cf22ff
-
-=== ":material-apple: Mac"
-
-    Binary (darwin-arm64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/files/9974631/readyset-server-beta-2022-11-16.darwin-arm64.tar.gz) | ed33bff2375a574f65628813e2eadcc7d4ea0914436dfdd87db936afa3054d18
-    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-mysql-beta-2022-11-16.darwin-arm64.tar.gz) | cda080d4f231d89b2c95c99961b10ed119b696d13c453765dc394c95fe275a35
-    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-psql-beta-2022-11-16.darwin-arm64.tar.gz) | 7fc278eff4e08de62a9cee655a4b3d721f92653571b9de063e7dea90d6db6c2e
-
-=== ":material-docker: Docker"
-
+| Binary (linux-x84_64) | Sha256Sum | 
+| ------------------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-server-2022-11-16.x86_64.tar.gz) | 3347c7de63b7a487f493408191d1e9dfb1dd0f46d01653afb9bafe62f5008154 |
+| [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-mysql-2022-11-16.x86_64.tar.gz) | 921ae4d9ad41b77addbdc7a9eb3439b547711ca1acdc4bc9a9df690e40fa643d |
+| [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-psql-beta-2022-11-16.darwin-arm64.tar.gz) | 13472459c23efa590cbe1251d79ff9af4f309bf2d3ee7c0762d0a6e150cf22ff |
+</Tab>
+<Tab>
+| Binary (darwin-arm64) | Sha256Sum |
+| ------------------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/files/9974631/readyset-server-beta-2022-11-16.darwin-arm64.tar.gz) | ed33bff2375a574f65628813e2eadcc7d4ea0914436dfdd87db936afa3054d18 |
+| [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-mysql-beta-2022-11-16.darwin-arm64.tar.gz) | cda080d4f231d89b2c95c99961b10ed119b696d13c453765dc394c95fe275a35 |
+| [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/releases/download/beta-2022-11-16/readyset-psql-beta-2022-11-16.darwin-arm64.tar.gz) | 7fc278eff4e08de62a9cee655a4b3d721f92653571b9de063e7dea90d6db6c2e |
+</Tab>
+<Tab>
     - ReadySet Server (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-server:beta-2022-11-16
         ```
-    !!! bug
-
-        ReadySet Adapter images may be broken on certain Mac platforms in this release!
+<Callout type="error">ReadySet Adapter images may be broken on certain Mac platforms in this release!</Callout>
 
     - ReadySet Adapter (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-adapter:beta-2022-11-16
         ```
-
+</Tab>
+</Tabs>
 ### Changes
 
 - Added the ability to filter `SHOW PROXIED QUERIES` and `SHOW CACHES` by `query_id`, e.g, `SHOW PROXIED QUERIES WHERE query_id = 'q_7b44f013d9995ffe';`. [b150cfc](https://github.com/readysettech/readyset/commit/b150cfc74f57c5b639005671065044337d0ab9b6)
@@ -366,39 +339,36 @@ shard tags, and have been renamed to have the `domain_` prefix removed:
 ## beta-2022-11-09
 
 ### Downloads
+<Tabs items={['Linux', 'Mac', 'Docker']}>
+<Tab>
+<Callout type="info">ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.</Callout>
 
-=== ":material-linux: Linux"
-
-    !!! note
-
-        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
-
-    Binary (linux-x84_64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/files/9974540/readyset-server-beta-2022-11-09.linux-x86_64.tar.gz) | d52631fb7b8b0a912aa205f005ffd32b8494f38fb43ea96ccee08b41c216002d
-    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974536/readyset-mysql-beta-2022-11-09.linux-x86_64.tar.gz) | 966f4701beca80faf8d572fd261ff8431bbda374557680c2687e452c6cc228d6`
-    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974538/readyset-psql-beta-2022-11-09.linux-x86_64.tar.gz) | 6a1a5a47b3ee138c38d1d493fe5d442dabd001abb4858982dc2dfba3fbd6eaaf
-
-=== ":material-apple: Mac"
-
-    Binary (darwin-arm64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/files/9974631/readyset-server-beta-2022-11-09.darwin-arm64.tar.gz) | 76d7a65b9ef953af5ea337fa7ed731524c463d961835f7cb80444c6c9cc7a7d3
-    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974630/readyset-mysql-beta-2022-11-09.darwin-arm64.tar.gz) | 0c00931f87900e5570cdb83421ceddba64e55abe5316e0f29bd59848849f7884
-    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974629/readyset-psql-beta-2022-11-09.darwin-arm64.tar.gz) | 81faacc0e463f5dbe3b1a0fa5d139ea86e203f36e39d91814cfc1fc391c52d10
-
-=== ":material-docker: Docker"
+| Binary (linux-x84_64) | Sha256Sum |
+| ------------------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/files/9974540/readyset-server-beta-2022-11-09.linux-x86_64.tar.gz) | d52631fb7b8b0a912aa205f005ffd32b8494f38fb43ea96ccee08b41c216002d |
+| [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974536/readyset-mysql-beta-2022-11-09.linux-x86_64.tar.gz) | 966f4701beca80faf8d572fd261ff8431bbda374557680c2687e452c6cc228d6` |
+| [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974538/readyset-psql-beta-2022-11-09.linux-x86_64.tar.gz) | 6a1a5a47b3ee138c38d1d493fe5d442dabd001abb4858982dc2dfba3fbd6eaaf |
+</Tab>
+<Tab>
+| Binary (darwin-arm64) | Sha256Sum |
+| ------------------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/files/9974631/readyset-server-beta-2022-11-09.darwin-arm64.tar.gz) | 76d7a65b9ef953af5ea337fa7ed731524c463d961835f7cb80444c6c9cc7a7d3 |
+| [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974630/readyset-mysql-beta-2022-11-09.darwin-arm64.tar.gz) | 0c00931f87900e5570cdb83421ceddba64e55abe5316e0f29bd59848849f7884 |
+| [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974629/readyset-psql-beta-2022-11-09.darwin-arm64.tar.gz) | 81faacc0e463f5dbe3b1a0fa5d139ea86e203f36e39d91814cfc1fc391c52d10 |
+</Tab>
+<Tab>
 
     - ReadySet Server (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-server:beta-2022-11-09
         ```
 
     - ReadySet Adapter (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-adapter:beta-2022-11-09
         ```
-
+</Tab>
+</Tabs>
 ### Changes
 
 - Added replication and caching support for Postgres enumerated data types. [d8e428d](https://github.com/readysettech/readyset/commit/d8e428d5cf63fc704d2b9242066c2bccafffd76b), [e282ae9](https://github.com/readysettech/readyset/commit/e282ae99fe0f7e2491f56203b455b9f2e72ebd8e), [40d217f](https://github.com/readysettech/readyset/commit/40d217fdb8b55f004a8e3cbca9d2e30b379bd269), [ef95276](https://github.com/readysettech/readyset/commit/ef95276d4c3498ce77eed81e2d2d2185c0b21791), [5b401a5](https://github.com/readysettech/readyset/commit/5b401a5ecd805bba26421eaaf1a5f42ce5bd7dcd), [23e6a12](https://github.com/readysettech/readyset/commit/23e6a120ac3090cdd9cdf408824b24973ebc80d6), [312dfa0](https://github.com/readysettech/readyset/commit/312dfa04574cd7d471d5b35598c92df13d496168), [2fe679f](https://github.com/readysettech/readyset/commit/2fe679f20348a74e7e07ce2517073348ce365c11), [2295188](https://github.com/readysettech/readyset/commit/2295188268b744e630ef5f6adbf03c0fd3e3e68a)
@@ -413,39 +383,35 @@ shard tags, and have been renamed to have the `domain_` prefix removed:
 ## beta-2022-11-01
 
 ### Downloads
+<Tabs items={['Linux', 'Mac', 'Docker']}>
+<Tab>
+<Callout type="info">ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.</Callout>
 
-=== ":material-linux: Linux"
-
-    !!! note
-
-        ReadySet binaries for Linux require the OpenSSL 1.1.x package. OpenSSL 3.x+ is not currently supported.
-
-    Binary (linux-x84_64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/files/9910818/readyset-server-beta-2022-11-01.linux-x86_64.tar.gz) | ea2b82f1faedf5836f704b496277d44906ad85a259dae7631e4749a40f9ba6b6
-    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9910814/readyset-mysql-beta-2022-11-01.linux-x86_64.tar.gz) | 7aaeba77e70fa5c8f64b0d3ab1603365ae25b3f9bf4d9048a7b84cf63744b73a
-    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9910812/readyset-psql-beta-2022-11-01.linux-x86_64.tar.gz) | 7f474cb5c7fc9f799fd84be735660e0abf7595ff108afaabe8c502737c2ffc76
-
-=== ":material-apple: Mac"
-
-    Binary (darwin-arm64) | Sha256Sum
-    ------------------------------|----------
-    [ReadySet Server](https://github.com/readysettech/readyset/files/9974664/readyset-server-beta-2022-11-01.darwin-arm64.tar.gz) | 8a204cd07b85fbbc375ee7e2c9b87ce44b6df3a2dab8e78454d2047f7c02cfd0
-    [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974662/readyset-mysql-beta-2022-11-01.darwin-arm64.tar.gz) | 44ba62376b0a34fd099cd9c7b83fbb2714a868615d2792e63104b5a6862759b4
-    [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974663/readyset-psql-beta-2022-11-01.darwin-arm64.tar.gz) | cc220b6d1dfba79e9a0ad9946205000a072fd29fdcd09d6f510842fde827066f
-
-=== ":material-docker: Docker"
-
+|Binary (linux-x84_64) | Sha256Sum |
+| ------------------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/files/9910818/readyset-server-beta-2022-11-01.linux-x86_64.tar.gz) | ea2b82f1faedf5836f704b496277d44906ad85a259dae7631e4749a40f9ba6b6 |
+| [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9910814/readyset-mysql-beta-2022-11-01.linux-x86_64.tar.gz) | 7aaeba77e70fa5c8f64b0d3ab1603365ae25b3f9bf4d9048a7b84cf63744b73a |
+| [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9910812/readyset-psql-beta-2022-11-01.linux-x86_64.tar.gz) | 7f474cb5c7fc9f799fd84be735660e0abf7595ff108afaabe8c502737c2ffc76 |
+</Tab>
+<Tab>
+| Binary (darwin-arm64) | Sha256Sum |
+| ------------------------------|---------- |
+| [ReadySet Server](https://github.com/readysettech/readyset/files/9974664/readyset-server-beta-2022-11-01.darwin-arm64.tar.gz) | 8a204cd07b85fbbc375ee7e2c9b87ce44b6df3a2dab8e78454d2047f7c02cfd0 |
+| [ReadySet Adapter for MySQL](https://github.com/readysettech/readyset/files/9974662/readyset-mysql-beta-2022-11-01.darwin-arm64.tar.gz) | 44ba62376b0a34fd099cd9c7b83fbb2714a868615d2792e63104b5a6862759b4 |
+| [ReadySet Adapter for Postgres](https://github.com/readysettech/readyset/files/9974663/readyset-psql-beta-2022-11-01.darwin-arm64.tar.gz) | cc220b6d1dfba79e9a0ad9946205000a072fd29fdcd09d6f510842fde827066f |
+</Tab>
+<Tab>
     - ReadySet Server (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-server:beta-2022-11-01
         ```
 
     - ReadySet Adapter (linux-x84_64)
-        ``` sh
+        ``` 
         docker pull public.ecr.aws/readyset/readyset-adapter:beta-2022-11-01
         ```
-
+</Tab>
+</Tabs>
 ### Changes
 
 Since first announcing ReadySet Core in [July 2022](https://readyset.io/blog/readyset-core), ReadySet has made steady progress on increasing SQL support and improving deployment options, including the following highlights:

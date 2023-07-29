@@ -1,10 +1,11 @@
-# readyset-server
+import { Tabs, Tab } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# ReadySet Server
 
 The `readyset-server` command starts the ReadySet Server.
 
-!!! note
-
-    This command is used only when running the ReadySet Server and Adapter as separate processes on separate machines. To run the ReadySet Server and Adapter as a single process, use the [`readyset`](readyset.md) command with the `--standalone` option.
+<Callout type="info">This command is used only when running the ReadySet Server and Adapter as separate processes on separate machines. To run the ReadySet Server and Adapter as a single process, use the [`readyset`](readyset.md) command with the `--standalone` option.</Callout>
 
 ## Usage
 
@@ -95,9 +96,7 @@ Disable verification of SSL certificates supplied by the upstream database on co
 
 **Env variable:** `DISABLE_UPSTREAM_SSL_VERIFICATION`
 
-!!! warning
-
-    If invalid certificates are trusted, any certificate for any site will be trusted. Use this option with caution.
+<Callout tpye="warning">If invalid certificates are trusted, any certificate for any site will be trusted. Use this option with caution.</Callout>
 </div>
 
 #### `--durability`
@@ -153,9 +152,7 @@ The `--forbid-full-materialization` option prevents ReadySet from caching querie
 
 **Env variable:** `FORBID_FULL_MATERIALIZATION`
 
-!!! tip
-
-    Consider passing this option when ReadySet Adapters use the `"inrequestpath"` or `"async"` [query caching mode](readyset.md#--query-caching). In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#--eviction-policy) applies only to partially materialized queries).
+<Callout>Consider passing this option when ReadySet Adapters use the `"inrequestpath"` or `"async"` [query caching mode](readyset.md#--query-caching). In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#--eviction-policy) applies only to partially materialized queries).</Callout>
 </div>
 
 #### `--help`, `-h`
@@ -189,11 +186,8 @@ Possible values, from most to least severe:
 - `DEBUG`: Used for lower priority information.
 - `TRACE`: Used for very low priority, often extremely verbose information.
 
-    !!! note
-
-        The `TRACE` level is not available for [official releases of ReadySet](../../releases/readyset-core.md), or for binaries built with the `--release` flag.
-
-        Also, `--log-level` can be set to a comma-separated list of directives for debugging during development. For the directive syntax, see the [docs for the tracing library](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html).
+<Callout type="info">The `TRACE` level is not available for [official releases of ReadySet](../../releases/readyset-core.md), or for binaries built with the `--release` flag.
+Also, `--log-level` can be set to a comma-separated list of directives for debugging during development. For the directive syntax, see the [docs for the tracing library](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html).</ Callout>
 
 **Default:** `INFO`
 
@@ -213,9 +207,7 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 
 **Env variable:** `NORIA_MEMORY_BYTES`
 
-!!! tip
-
-    For production deployments, start by setting this to 60-80% of the machine's total memory. Then run the system under load, observe, and increase or decrease as needed.
+<Callout>For production deployments, start by setting this to 60-80% of the machine's total memory. Then run the system under load, observe, and increase or decrease as needed.</Callout>
 </div>
 
 #### `--memory-check-every`
@@ -366,9 +358,8 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
 1. Start an instance of Consul to serve as the external authority for node discovery, leader election, and consensus, and to manage internal state and metrics.
 
 1. Start the ReadySet Server:
-
-    === "Postgres"
-
+<Tabs items={['Postgres', 'MySQL']}>
+<Tab>
         ``` shell
         readyset-server \
         --deployment="<deployment name>" \
@@ -380,9 +371,8 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
         --authority-address=<consul address> \
         >> logs/readyset.log 2>&1 &
         ```
-
-    === "MySQL"
-
+</Tab>
+<Tab>
         ``` shell
         readyset-server \
         --deployment="<deployment name>" \
@@ -394,10 +384,11 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
         --authority-address=<consul address>
         >> logs/readyset.log 2>&1 &
         ```
-
+</Tab>
+</Tabs>
 1. Start one of more ReadySet Adapters:
-
-    === "Postgres"
+<Tabs items={['Postgres', 'MySQL']}>
+<Tab>
 
         ``` shell
         readyset \
@@ -409,8 +400,8 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
         --authority-address=<consul address>
         >> logs/readyset.log 2>&1 &
         ```
-
-    === "MySQL"
+</Tab>
+<Tab>
 
         ``` shell
         readyset-server \
@@ -422,7 +413,8 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
         --authority-address=<consul address>
         >> logs/readyset.log 2>&1 &
         ```
-
+</Tab>
+</Tabs>
 ### Print version information
 
 ``` shell

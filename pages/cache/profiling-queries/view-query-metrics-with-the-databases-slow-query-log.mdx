@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components'
+
 # View query metrics with the database's slow query log
 After [connecting your app](/connect/connect-an-application-via-an-orm) to ReadySet, profile your app performance and identify queries to cache in ReadySet. Generally, it's best to focus on frequent queries that are too slow and/or that are putting unwanted load on your upstream database.
 
@@ -15,7 +17,9 @@ If an error is returned, enable pg_stat_statments with the following command:
 ```
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 ```
-> In some environments, the pg_stat_statements extension may not be available. In that case, run ALTER SYSTEM SET shared_preload_libraries = 'pg_stat_statements'; and restart your Postgres instance before re-running the CREATE EXTENSION command.
+<Callout type="warning">
+In some environments, the pg_stat_statements extension may not be available. In that case, run `ALTER SYSTEM SET` shared_preload_libraries = 'pg_stat_statements'; and restart your Postgres instance before re-running the `CREATE EXTENSION` command.
+</Callout>
 
 ### Identifying queries to cache
 To find queries that put the highest load on the database, run:

@@ -1,3 +1,7 @@
+import { Tabs, Tab } from 'nextra/components'
+import { Callout } from 'nextra/components'
+import Image from 'next/image'
+
 # Caching slow queries (IMDB)
 
 # Prerequisites
@@ -8,9 +12,8 @@
 # Steps
 
 ## 1. Download the IMDB dataset & load it into your database
-
-### MySQL:
-
+<Tabs items={['MySQL','Postgres']}>
+<Tab>
 First, download the IMDB dataset for MySQL:
 
 ```
@@ -28,9 +31,8 @@ mysql -h<ReadySet URL> -U<username> -P<port number> <database name> -p<password>
 ```
 mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset <  imdb-mysql.sql
 ```
-
-### Postgres:
-
+</Tab>
+<Tab>
 First, download the IMDB dataset for Postgres:
 
 ```
@@ -48,7 +50,8 @@ PGPASSWORD=<password> psql -h<ReadySet URL> -U<username> -p<port> <database name
 ```
 PGPASSWORD=readyset psql -h127.0.0.1 -Upostgres -p5433 testdb < imdb-postgres.sql
 ```
-
+</Tab>
+</Tabs>
 ## 2. Connect to ReadySet & make sure the tables have been imported
 
 It could take a few seconds for ReadySet to import the tables. You can check whether they've been successfully imported by connecting to ReadySet through your database client and running:
@@ -87,8 +90,10 @@ We can check the Grafana dashboard to see that the query was successfully cached
 
 **Note:** if you set up ReadySet via the [Quickstart](/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
 
+![](/cachingslowqueries.webp)
+
 Here, we can see that the 99th percentile latencies for this query fell from over 80ms against Postgres to < 1ms against ReadySet. Huzzah!
 
-> The first time you execute a cached query, it'll be a cache miss, which is slower than the average cache hit. To get a sense for cache hit latencies, issue the query a handful of times to see the cache hit latency reflected in the query latency percentiles in Grafana.
+<Callout type="info">The first time you execute a cached query, it'll be a cache miss, which is slower than the average cache hit. To get a sense for cache hit latencies, issue the query a handful of times to see the cache hit latency reflected in the query latency percentiles in Grafana.</Callout>
 
 

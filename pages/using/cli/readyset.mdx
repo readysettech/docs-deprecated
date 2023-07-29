@@ -1,4 +1,7 @@
-# readyset
+import { Tabs, Tab } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# ReadySet
 
 The `readyset` command starts the ReadySet Server and Adapter as a single process on a single machine (with the `--standalone` option) or starts the ReadySet Adapter as a distinct process from the ReadySet Server ([`readyset-server`](readyset-server.md)).
 
@@ -107,10 +110,7 @@ Don't sent anonymous [telemetry data](../telemetry.md) to ReadySet.
 Disable verification of SSL certificates supplied by the upstream database on connections to replicate data and proxy queries (Postgres only, ignored for MySQL).
 
 **Env variable:** `DISABLE_UPSTREAM_SSL_VERIFICATION`
-
-!!! warning
-
-    If invalid certificates are trusted, any certificate for any site will be trusted. Use this option with caution.
+<Callout type="warning"> If invalid certificates are trusted, any certificate for any site will be trusted. Use this option with caution.</Callout>
 </div>
 
 #### `--durability`
@@ -158,9 +158,7 @@ The `--forbid-full-materialization` option prevents ReadySet from caching querie
 
 **Env variable:** `FORBID_FULL_MATERIALIZATION`
 
-!!! tip
-
-    Consider passing this option when [`--query-caching`](#--query-caching) is set to `"inrequestpath"` or `"async"`. In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#--eviction-policy) applies only to partially materialized queries).
+<Callout>Consider passing this option when [`--query-caching`](#--query-caching) is set to `"inrequestpath"` or `"async"`. In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#--eviction-policy) applies only to partially materialized queries).</Callout>
 </div>
 
 #### `--help`, `-h`
@@ -218,9 +216,7 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 
 **Env variable:** `NORIA_MEMORY_BYTES`
 
-!!! tip
-
-    For production deployments, start by setting this to 60-80% of the machine's total memory. Then run the system under load, observe, and increase or decrease as needed.
+<Callout>For production deployments, start by setting this to 60-80% of the machine's total memory. Then run the system under load, observe, and increase or decrease as needed.</Callout>
 </div>
 
 #### `--memory-check-every`
@@ -264,9 +260,7 @@ When ReadySet cannot return results for a cached query (i.e., a cache miss), pro
 
 **Env variable:** `NON_BLOCKING_READS`
 
-!!! note
-
-    This option improves performance for cache misses but at the cost of increasing the load on the upstream database.
+<Callout type="info">This option improves performance for cache misses but at the cost of increasing the load on the upstream database.</Callout>
 </div>
 
 #### `--password`
@@ -312,9 +306,7 @@ The query caching mode for ReadySet.
 
 **Env variable:** `QUERY_CACHING`
 
-!!! tip
-
-    For most deployments, `explicit` mode is recommended, as it gives you the most flexibility and control.
+<Callout>For most deployments, `explicit` mode is recommended, as it gives you the most flexibility and control.</Callout>
 </div>
 
 #### `--query-log`
@@ -354,9 +346,7 @@ The number of connections to the upstream database for snapshotting and replicat
 
 **Default:** `50`
 
-!!! warning
-
-    This can be set as high as the number of tables you want ReadySet to snapshot/replicate. However, more connections will increase both the load on your upstream database and memory usage by ReadySet.
+<Callout type="warning">This can be set as high as the number of tables you want ReadySet to snapshot/replicate. However, more connections will increase both the load on your upstream database and memory usage by ReadySet.</Callout>
 </div>
 
 #### `--replication-tables`
@@ -439,9 +429,7 @@ The URL for connecting ReadySet to to the upstream database. This connection URL
 
 **Env variable:** `UPSTREAM_DB_URL`
 
-!!! tip
-
-    By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use the [`--replication-tables`](#--replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.
+<Callout>By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use the [`--replication-tables`](#--replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.</Callout>
 </div>
 
 #### `--username`, `-u`
@@ -461,9 +449,7 @@ This option is ignored when [`--allow-unauthenticated-connections`](#--allow-una
 <div class="option-details" markdown="1">
 Print ReadySet version information. See the [example](#print-version-information) below.
 
-!!! tip
-
-    You can also use the custom `SHOW READYSET VERSION` SQL command to print ReadySet version information.
+<Callout>You can also use the custom `SHOW READYSET VERSION` SQL command to print ReadySet version information.</Callout>
 </div>
 
 #### `--views-polling-interval`
@@ -483,9 +469,8 @@ This option is not relevant when using [`--embedded-readers`](#--embedded-reader
 These examples focus on running a standard ReadySet deployment (i.e., ReadySet Server and Adapter running as a single process on a single machine). For running a distributed ReadySet deployment, see the [`readyset-server` examples](readyset-server.md#examples).
 
 ### Start ReadySet
-
-=== "Postgres"
-
+<Tabs items={['Postgres', 'MySQL']}>
+<Tab>
     ``` shell
     readyset \
     --standalone \
@@ -498,9 +483,8 @@ These examples focus on running a standard ReadySet deployment (i.e., ReadySet S
     --address=<readyset address> \
     >> logs/readyset.log 2>&1 &
     ```
-
-=== "MySQL"
-
+</Tab>
+<Tab>
     ``` shell
     readyset \
     --standalone \
@@ -513,13 +497,14 @@ These examples focus on running a standard ReadySet deployment (i.e., ReadySet S
     --address=<readyset address> \
     >> logs/readyset.log 2>&1 &
     ```
-
+</Tab>
+</Tabs>
 ### Output metrics to Prometheus
 
 To output ReadySet metrics to Prometheus, pass `--metrics-address` and `--prometheus-metrics`. To include query-specific execution details, pass `--query-log` and `--query-log-ad-hoc` as well.
 
-=== "Postgres"
-
+<Tabs items={['Postgres', 'MySQL']}>
+<Tab>
     ``` shell
     readyset \
     --standalone \
@@ -536,8 +521,8 @@ To output ReadySet metrics to Prometheus, pass `--metrics-address` and `--promet
     --query-log-ad-hoc \
     >> logs/readyset.log 2>&1 &
     ```
-
-=== "MySQL"
+</Tab>
+<Tab>
 
     ``` shell
     readyset \
@@ -555,7 +540,8 @@ To output ReadySet metrics to Prometheus, pass `--metrics-address` and `--promet
     --query-log-ad-hoc \
     >> logs/readyset.log 2>&1 &
     ```
-
+</Tab>
+</Tabs>
 ### Print version information
 
 To print ReadySet version information, pass the `--version` flag:
