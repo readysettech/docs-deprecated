@@ -1,12 +1,11 @@
 {
   "overview": "Key Concepts",
-  "dataflow": "Streaming Dataflow",
-  "efficiency": "Memory Effeciency",
-  "example": "Example",
-  "advanced-concepts": {
+  "dataflow": {
     "display": "hidden"
   },
-  "dataflow": {
+  "streaming-dataflow": "Streaming Dataflow",
+  "efficiency": "Memory Effeciency",
+  "advanced-concepts": {
     "display": "hidden"
   }
 }
