@@ -40,4 +40,4 @@ To find the most frequently issued queries, run:
 SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by calls DESC;
 ```
 
-Once you've identified queries to cache, you can [cache them in ReadySet](/docs/cache/creating-a-cache). 
+Once you've identified queries to cache, you can [cache them in ReadySet](/cache/creating-a-cache). 

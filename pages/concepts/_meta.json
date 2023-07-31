@@ -4,5 +4,6 @@
     "display": "hidden"
   },
   "streaming-dataflow": "Streaming Dataflow",
-  "efficiency": "Memory Effeciency"
+  "efficiency": "Memory Effeciency",
+  "example": "Example"
 }

@@ -1,10 +1,13 @@
+import { Tabs, Tab } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
 # Supported Queries
 
 The intricacies of whether particular queries are supported by ReadySet depend on multiple variables.
 
 **Importantly, you do not have to do work to figure out if your particular queries are supported by ReadySet.**
 
-The easiest way to determine which queries are supported is to refer to the [ReadySet dashboard](/using/dashboard), which will display information about whether individual queries are supported by ReadySet for you.
+The easiest way to determine which queries are supported is to refer to the ReadySet dashboard, which will display information about whether individual queries are supported by ReadySet for you.
 
 ## Query Structure
 
@@ -30,7 +33,7 @@ Notably, ReadySet does not support any of the following (this is not an exhausti
 - `WINDOW`
 - `ORDER BY` with `NULLS FIRST` or `NULLS LAST`
 
-Support for additional operators is always expanding! Reach out to us in [Slack](https://join.slack.com/t/readysetcommunity/shared_invite/zt-1c7bxdxo7-Y6KuoLfc1YWagLk3xHSrsw) if you need an unsupported feature and we'll look into it.
+<Callout>Support for additional operators is always expanding! Reach out to us on [Discord](https://discord.gg/readyset), or [open an issue](https://github.com/readysettech/readyset/issues/new/choose) in our GitHub repository if you need an unsupported feature and we'll look into it.</Callout>
 
 ## Joins
 ReadySet supports a limited form of the SQL `JOIN` clause:
