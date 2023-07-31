@@ -11,9 +11,6 @@
   "demos": "Demos & Tutorials",
   "concepts": "Concepts",
   "using": "Reference",
-  "sql-support": {
-    "display": "hidden"
-  },
   "intro": {
     "display": "hidden"
   },
