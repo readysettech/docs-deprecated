@@ -4,8 +4,5 @@
     "display": "hidden"
   },
   "streaming-dataflow": "Streaming Dataflow",
-  "efficiency": "Memory Effeciency",
-  "advanced-concepts": {
-    "display": "hidden"
-  }
+  "efficiency": "Memory Effeciency"
 }
