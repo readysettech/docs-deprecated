@@ -10,7 +10,7 @@
   "features": "Features",
   "demos": "Demos & Tutorials",
   "concepts": "Concepts",
-  "using": "Reference",
+  "reference": "Reference",
   "intro": {
     "display": "hidden"
   },
@@ -20,7 +20,9 @@
   "quickstart-old": {
     "display": "hidden"
   },
-  "releases": {
-    "title": "Releases"
+  "link": {
+    "title": "Latest Release",
+    "href": "https://github.com/readysettech/readyset/",
+    "newWindow": true
   }
 }

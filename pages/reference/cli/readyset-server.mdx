@@ -116,7 +116,7 @@ The durability of the tables that ReadySet replicates from the upstream database
 #### `--eviction-policy`
 
 <div class="option-details" markdown="1">
-When possible, ReadySet stores only certain results sets for a query in memory. For example, if a query is [parameterized](../sql-support.md#parameters) on user IDs, ReadySet would only cache the results of that query for the active subset of users, since they are the ones issuing requests. This is referred to as "partial materialization".
+When possible, ReadySet stores only certain results sets for a query in memory. For example, if a query is [parameterized](/features/supported-sql-syntax#parameters) on user IDs, ReadySet would only cache the results of that query for the active subset of users, since they are the ones issuing requests. This is referred to as "partial materialization".
 
 The `--eviction-policy` option determines the strategy for evicting cache entries from partial materializations once the overall memory limit (see [`--memory`](#--memory-m)) has been surpassed.
 
@@ -146,7 +146,7 @@ The port to advertise to ReadySet instances running in the same deployment. This
 #### `--forbid-full-materialization`
 
 <div class="option-details" markdown="1">
-ReadySet must sometimes store the entire result set for a query in memory, for example, when there is no `WHERE` filter or when the `WHERE` filter is not [parameterized](../sql-support.md#parameters) (by the user or by ReadySet). This is referred to as "full materialization".
+ReadySet must sometimes store the entire result set for a query in memory, for example, when there is no `WHERE` filter or when the `WHERE` filter is not [parameterized](/features/supported-sql-syntax#parameters) (by the user or by ReadySet). This is referred to as "full materialization".
 
 The `--forbid-full-materialization` option prevents ReadySet from caching queries that would be fully materialized.
 
@@ -186,7 +186,7 @@ Possible values, from most to least severe:
 - `DEBUG`: Used for lower priority information.
 - `TRACE`: Used for very low priority, often extremely verbose information.
 
-<Callout type="info">The `TRACE` level is not available for [official releases of ReadySet](../../releases/readyset-core.md), or for binaries built with the `--release` flag.
+<Callout type="info">The `TRACE` level is not available for [official releases of ReadySet](https://github.com/readysettech/readyset/), or for binaries built with the `--release` flag.
 Also, `--log-level` can be set to a comma-separated list of directives for debugging during development. For the directive syntax, see the [docs for the tracing library](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html).</ Callout>
 
 **Default:** `INFO`
@@ -265,9 +265,7 @@ The number of connections to the upstream database for snapshotting and replicat
 
 **Default:** `50`
 
-!!! warning
-
-    This can be set as high as the number of tables you want ReadySet to snapshot/replicate. However, more connections will increase both the load on your upstream database and memory usage by ReadySet.
+<Callout type="warning">This can be set as high as the number of tables you want ReadySet to snapshot/replicate. However, more connections will increase both the load on your upstream database and memory usage by ReadySet.</Callout>
 </div>
 
 #### `--replication-tables`
@@ -283,7 +281,7 @@ This option accepts a comma-separated list of `<schema>.<table>` (specific table
 #### `--snapshot-report-interval-secs`
 
 <div class="option-details" markdown="1">
-The time, in seconds, between logging the [snapshotting progress](../../guides/cache/check-snapshotting.md) and estimated time remaining for each table.
+The time, in seconds, between logging the [snapshotting progress](/cache/check-snapshotting) and estimated time remaining for each table.
 
 **Default:** `30`
 </div>

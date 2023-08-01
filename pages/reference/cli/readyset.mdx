@@ -140,7 +140,7 @@ To use this option, you must pass `--no-readers` and `--reader-replicas` when st
 #### `--eviction-policy`
 
 <div class="option-details" markdown="1">
-When possible, ReadySet stores only certain results sets for a query in memory. For example, if a query is [parameterized](../sql-support.md#parameters) on user IDs, ReadySet would only cache the results of that query for the active subset of users, since they are the ones issuing requests. This is referred to as "partial materialization".
+When possible, ReadySet stores only certain results sets for a query in memory. For example, if a query is [parameterized](/features/supported-sql-syntax#parameters) on user IDs, ReadySet would only cache the results of that query for the active subset of users, since they are the ones issuing requests. This is referred to as "partial materialization".
 
 The `--eviction-policy` option determines the strategy for evicting cache entries from partial materializations once the overall memory limit (see [`--memory`](#--memory-m)) has been surpassed.
 
@@ -152,7 +152,7 @@ The `--eviction-policy` option determines the strategy for evicting cache entrie
 #### `--forbid-full-materialization`
 
 <div class="option-details" markdown="1">
-ReadySet must sometimes store the entire result set for a query in memory, for example, when there is no `WHERE` filter or when the `WHERE` filter is not [parameterized](../sql-support.md#parameters) (by the user or by ReadySet). This is referred to as "full materialization".
+ReadySet must sometimes store the entire result set for a query in memory, for example, when there is no `WHERE` filter or when the `WHERE` filter is not [parameterized](/features/supported-sql-syntax#parameters) (by the user or by ReadySet). This is referred to as "full materialization".
 
 The `--forbid-full-materialization` option prevents ReadySet from caching queries that would be fully materialized.
 
@@ -192,11 +192,7 @@ Possible values, from most to least severe:
 - `DEBUG`: Used for lower priority information.
 - `TRACE`: Used for very low priority, often extremely verbose information.
 
-    !!! note
-
-        The `TRACE` level is not available for [official releases of ReadySet](../../releases/readyset-core.md), or for binaries built with the `--release` flag.
-
-        Also, `--log-level` can be set to a comma-separated list of directives for debugging during development. For the directive syntax, see the [docs for the tracing library](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html).
+<Callout type="info">The `TRACE` level is not available for [official releases of ReadySet](https://github.com/readysettech/readyset/), or for binaries built with the `--release` flag. Also, `--log-level` can be set to a comma-separated list of directives for debugging during development. For the directive syntax, see the [docs for the tracing library](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html).</Callout>
 
 **Default:** `INFO`
 
@@ -244,9 +240,9 @@ This option is ignored unless [`--prometheus-metrics`](#--prometheus-metrics) is
 #### `--migration-task-interval`
 
 <div class="option-details" markdown="1">
-When [`--query-caching`](#--query-caching) is set to `"explicit"`, the frequency, in milliseconds, at which to check whether queries that ReadySet has proxied to the upstream database are [supported by ReadySet](../sql-support/#query-caching).
+When [`--query-caching`](#--query-caching) is set to `"explicit"`, the frequency, in milliseconds, at which to check whether queries that ReadySet has proxied to the upstream database are [supported by ReadySet](/features/supported-sql-syntax#query-caching).
 
-After this check is run on a query, [`SHOW PROXIED QUERIES`](../../guides/cache-queries/#check-query-support) returns either `yes` or `no` for `readyset supported`. Before this check is run on a query, or when this check fails for a query (e.g., because it references tables that have not finished snapshotting), `SHOW PROXIED QUERIES` returns `pending` for `readyset supported`.
+After this check is run on a query, [`SHOW PROXIED QUERIES`](/cache/creating-a-cache#checking-query-support) returns either `yes` or `no` for `readyset supported`. Before this check is run on a query, or when this check fails for a query (e.g., because it references tables that have not finished snapshotting), `SHOW PROXIED QUERIES` returns `pending` for `readyset supported`.
 
 **Default:** `20000`
 
@@ -298,9 +294,9 @@ The query caching mode for ReadySet.
 
 **Possible values:**
 
-- `"explicit"`: ReadySet does not automatically cache queries. Instead, users use the [`CREATE CACHE`](../../guides/cache-queries/#cache-queries_1) command to cache queries.
-- "`inrequestpath`: ReadySet caches [supported queries](../reference/sql-support/#query-caching) automatically but blocks queries from returning results until the cache is ready.
-- "`async`": ReadySet caches [supported queries](../reference/sql-support/#query-caching) automatically but proxies queries to the upstream database until the cache is ready.
+- `"explicit"`: ReadySet does not automatically cache queries. Instead, users use the [`CREATE CACHE`](/cache/creating-a-cache) command to cache queries.
+- "`inrequestpath`: ReadySet caches [supported queries](/features/queries) automatically but blocks queries from returning results until the cache is ready.
+- "`async`": ReadySet caches [supported queries](/features/queries) automatically but proxies queries to the upstream database until the cache is ready.
 
 **Default:** `"async"`
 
@@ -322,7 +318,7 @@ To use this option, you must pass [`--prometheus-metrics](#--prometheus-metrics)
 #### `--query-log-ad-hoc`
 
 <div class="option-details" markdown="1">
-Include execution details for ad-hoc queries in Prometheus metrics. Ad-hoc queries are those that do not use [parameters](../sql-support.md#parameters).
+Include execution details for ad-hoc queries in Prometheus metrics. Ad-hoc queries are those that do not use [parameters](/features/supported-sql-syntax#parameters).
 
 To use this option, you must pass [`--query-log](#--query-log) as well.
 
@@ -362,7 +358,7 @@ This option accepts a comma-separated list of `<schema>.<table>` (specific table
 #### `--snapshot-report-interval-secs`
 
 <div class="option-details" markdown="1">
-The time, in seconds, between logging the [snapshotting progress](../../guides/cache/check-snapshotting.md) and estimated time remaining for each table.
+The time, in seconds, between logging the [snapshotting progress](/cache/check-snapshotting) and estimated time remaining for each table.
 
 **Default:** `30`
 </div>

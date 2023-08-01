@@ -1,0 +1,110 @@
+import { Callout } from 'nextra/components'
+import {Tab, Tabs} from 'nextra/components'
+import { Cards, Card } from 'nextra/components'
+
+# Profiling Queries
+
+Before deciding to cache a query, it's worth investigating the performance impact each query has on your application.
+
+One method for doing so:
+<Cards>
+  <Card title="Use the database's slow query log" href="/cache/profiling-queries/view-query-metrics-with-the-databases-slow-query-log" />
+</Cards>
+
+### Enabling metrics
+<Tabs items={['Using pg_stat_statements with Postgres', 'Using ReadySet metrics']}>
+<Tab>
+You can use the [pg_stat_statements extension](https://www.postgresql.org/docs/current/pgstatstatements.html) to retrieve detailed information about the queries running against your Postgres instance.
+
+Connect to your database via the shell. Run the following command to see if pg_stat_statements is installed.
+
+```
+SELECT calls, query FROM pg_stat_statements LIMIT 1;
+```
+
+If an error is returned, enable pg_stat_statments with the following command:
+
+```
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+```
+
+<Callout type="warning">In some environments, the pg_stat_statements extension may not be available. In that case, run `ALTER SYSTEM SET shared_preload_libraries = 'pg_stat_statements';` and restart your Postgres instance before re-running the `CREATE EXTENSION` command.</Callout>
+</Tab>
+<Tab>
+To enable ReadySet metrics, start ReadySet with the following options:
+
+- [`--prometheus-metrics`](/using/cli/readyset/#--prometheus-metrics)
+- [`--metrics-address`](/using/cli/readyset/#--metrics-address)
+
+To include query-specific execution metrics, also pass:
+
+- [`--query-log`](/using/cli/readyset/#--query-log)
+- [`--query-log-ad-hoc`](/using/cli/readyset/#--query-log-ad-hoc)
+
+You can access ReadySet metrics at `<metrics address>/metrics`, where the metrics address is defined by the [`--metrics-address`](/using/cli/readyset/#--metrics-address) option (default: `0.0.0.0:6034/metrics`).
+</Tab>
+</Tabs>
+## Analyzing per-query metrics
+<Tabs items={['Using pg_stat_statements with Postgres', 'Using ReadySet metrics']}>
+<Tab>
+ReadySet can cache many `SELECT` queries.
+
+To find `SELECT` queries with the highest latency, run:
+
+```sql
+SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by mean_exec_time DESC;
+```
+
+Similarly, ReadySet can be used to offload high-impact queries to improve throughput.
+
+To find the most frequently-run `SELECT` queries, run:
+
+```sql
+SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by calls DESC;
+```
+
+To find queries that cause the most total load on the database, run:
+
+```sql
+SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by total_exec_time DESC;
+```
+</Tab>
+<Tab>
+ReadySet metrics are formatted for easy integration with [Prometheus](https://prometheus.io/). However, the quickest way to examine per-query metrics is to use a simple metrics utility written in Python that queries the metrics endpoint and displays latencies for queries received by ReadySet.
+
+1. Download the metrics utility and its `requirements.txt`:
+
+```sql 
+curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/metrics/metrics.py"
+curl -O "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/metrics/requirements.txt"
+```
+
+2. Install dependencies for the utility:
+
+```
+pip3 install -r requirements.txt
+```
+
+3. Set the `HOST` environment variable to the IP address/hostname portion of `--metrics-address`:
+```sql 
+export HOST="<metrics-host>"
+```
+
+4. Run the script with
+```sql
+python3 metrics.py --host=${HOST}
+```
+
+5. Run the script with
+```sql
+python3 metrics.py --host=${HOST}
+```
+
+6. You can filter the output of this script to show only queries displayed in `SHOW PROXIED QUERIES` or `SHOW CACHES` by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
+
+```sql 
+PGPASSWORD=noria psql --host=127.0.0.1 --port=5433 --username=postgres --dbname=noria -c "SHOW CACHES" | python3 metrics.py --filter-queries
+```
+</Tab>
+</Tabs>
+
