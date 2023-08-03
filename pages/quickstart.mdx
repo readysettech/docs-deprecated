@@ -6,20 +6,24 @@ import { Cards, Card } from 'nextra/components'
 
 The quickstart sets up a ReadySet instance and a sample database on your local machine using Docker.
 
-<Callout>Before starting, make sure you have Docker Engine version >= 19.03.0​ and [Docker Compose V2](https://docs.docker.com/compose/install/) OR Docker Desktop >= 4.1.0 and the MySQL or Postgres client installed.</Callout>
+<Callout>Before starting, make sure you have Docker Engine version >= 19.03.0​ and Docker Compose V2 OR Docker Desktop >= 4.1.0 and the MySQL or Postgres client installed.</Callout>
 
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
 **1. Download and run the ReadySet Docker compose file**
 
-```sh
-curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.postgres.yml" && RS_PORT=5433 RS_GRAFANA_PORT=4000 docker compose up -d
+```sh copy 
+curl -L -o compose.yml                                  \
+  "https://readyset.io/quickstart/compose.postgres.yml" \
+  && docker compose pull                                \
+  && docker compose up -d
 ```
 
 **2. Import sample data**
 
-```sh
-curl -s "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/imdb-postgres.sql" | psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
+```sh copy
+curl -L -s "https://readyset.io/quickstart/imdb-postgres.sql" \
+  | psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
 ```
 <Callout type="warning">
 Data loading will be slow on Macs with Apple Silicon.
@@ -27,24 +31,33 @@ Data loading will be slow on Macs with Apple Silicon.
 
 **3. Connect and explore the dataset**
 
-Connect to ReadySet and enable query timing.
+Connect to ReadySet.
 
-```sh
+```sh copy
 psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
-testdb=>\timing
+```
+Enable query timing.
+
+```sh copy 
+\timing
 ```
 
 Run a sample query.
 
 Note that since we have not created a cache, this query is served by Postgres.
 
-```sql
-testdb=> SELECT count(*) FROM title_ratings
+Query:
+```sql copy
+SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
+```
+
+Results:
+```sql
  count
 -------
-  4764
+  2418
 (1 row)
 
 Time: 154.980 ms
@@ -54,21 +67,26 @@ Time: 154.980 ms
 
 Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet.
 
-```sql
-testdb=> CREATE CACHE FROM SELECT count(*) FROM title_ratings
+```sql copy
+CREATE CACHE FROM SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
 Validate that creating the cache succeeded by running the query again.  This time, it is served by ReadySet.
 
-```sql
-testdb=> SELECT count(*) FROM title_ratings
+Query:
+```sql copy 
+SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
- count(coalesce(`public`.`title_ratings`.`tconst`, 0))
--------------------------------------------------------
-                                                  4756
+```
+
+Results:
+```sql 
+ count(*)
+----------
+     2418
 (1 row)
 
 Time: 2.073 ms
@@ -78,62 +96,76 @@ Time: 2.073 ms
 
 Navigate to [localhost:4000](localhost:4000) to view query latency metrics for ReadySet and Postgres.
 ![](/cachingslowqueries.webp)
+
 **6. Try more queries!**
 
 Explore the dataset and test ReadySet's performance with additional queries.
 
 View currently cached queries:
 
-```sql
+```sql copy
 SHOW CACHES;
 ```
 
 View proxied queries:
-
-```sql
-SHOW PROXIED QUERIES
+```sqp copy
+SHOW PROXIED QUERIES;
 ```
 
 Remove a cache:
-
-```sql
-DROP CACHE <cache id>
+```sql copy
+DROP CACHE <cache id>;
 ```
 </Tab>
 <Tab>
 **1. Download and run the ReadySet Docker compose file**
 
-```sh
-curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.mysql.yml" && RS_PORT=3307 RS_GRAFANA_PORT=4000 docker compose up -d
+```sh copy
+curl -L -o compose.yml                                  \
+  "https://readyset.io/quickstart/compose.mysql.yml"    \
+  && docker compose pull                                \
+  && docker compose up -d
 ```
 
 **2. Import sample data**
 
-```sh
-curl -s "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/imdb-mysql.sql" | mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
+```sh copy
+curl -L -s "https://readyset.io/quickstart/imdb-mysql.sql" \
+  | mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
 ```
+
 <Callout type="warning">
 Data loading will be slow on Macs with Apple Silicon.
 </Callout> 
 
 **3. Connect and explore the dataset**
 
-Connect to ReadySet and enable query timing.
+Connect to ReadySet.
 
-```sql
+```sql copy
 mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
-mysql>set profiling=1;
+```
+
+Enable query timing.
+
+```sql copy
+set profiling=1;
 ```
 
 Run a sample query.
 
 Note that since we have not created a cache, this query is served by MySQL.
 
-```sql
-mysql> SELECT count(*) FROM title_ratings
+Query:
+```sql copy
+SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
- +----------+
+```
+
+Results:
+```sql
++----------+
 | count(*) |
 +----------+
 |     2418 |
@@ -145,29 +177,35 @@ WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 
 Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet.
 
-```sql
-mysql> CREATE CACHE FROM SELECT count(*) FROM title_ratings
+```sql copy
+CREATE CACHE FROM SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
 Validate that creating the cache succeeded by running the query again.  This time, it is served by ReadySet.
 
-```sql
-mysql> SELECT count(*) FROM title_ratings
+Query:
+```sql copy
+SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
-+-------------------------------------------------------+
-| count(coalesce(`testdb`.`title_ratings`.`tconst`, 0)) |
-+-------------------------------------------------------+
-|                                                  3073 |
-+-------------------------------------------------------+
+
+```
+
+Results:
+```sql 
++----------+
+| count(*) |
++----------+
+|     2418 |
++----------+
 1 row in set (0.03 sec)
 ```
 
 **5. Explore Grafana**
 
-Navigate to [localhost:4000](localhost:4000) to view query latency metrics for ReadySet and MySQL.
+Navigate to [localhost:4000](localhost:4000) to view query latency metrics for ReadySet and Postgres.
 ![](/cachingslowqueries.webp)
 
 **6. Try more queries!**
@@ -175,26 +213,18 @@ Navigate to [localhost:4000](localhost:4000) to view query latency metrics for R
 Explore the dataset and test ReadySet's performance with additional queries.
 
 View currently cached queries:
-
-```sql
+```sql copy
 SHOW CACHES;
 ```
 
 View proxied queries:
-
-```sql
-SHOW PROXIED QUERIES
+```sql copy
+SHOW PROXIED QUERIES;
 ```
 
 Remove a cache:
-
-```sql
-DROP CACHE <cache id>
+```sql copy
+DROP CACHE <cache id>;
 ```
 </Tab>
 </Tabs>
-# Next steps
-Deploy ReadySet against your own database
-<Cards>
-  <Card title="Deploy" href="/deploy/configure-your-database" />
-</Cards>

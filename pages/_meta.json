@@ -21,8 +21,8 @@
     "display": "hidden"
   },
   "link": {
-    "title": "Latest Release",
-    "href": "https://github.com/readysettech/readyset/",
+    "title": "Releases",
+    "href": "https://github.com/readysettech/readyset/releases",
     "newWindow": true
   }
 }
