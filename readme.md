@@ -1,22 +1,22 @@
-# [Nextra](https://nextra.vercel.app)
+# ReadySet Docs
 
-_Warning: this project is not production ready, API might change without notice._
+This repository contains the source files for the ReadySet documentation available at [docs.readyset.io](https://docs.readyset.io/).
 
-[![](https://vercel.com/button)](https://vercel.com/import/git?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra&c=1)
+## Suggest Improvements
 
-**Nextra** is a [Next.js](https://nextjs.org) and [MDX](https://mdxjs.com) powered, no-code site generator.
+Want a topic added to the docs? Need additional details or clarification? See an error or other problem? Please [open an issue](https://github.com/readysettech/docs/issues).
 
-![](/public/demo.png)
+## Write Docs
 
-## Development
+Want to contribute to the docs? See [CONTRIBUTING](CONTRIBUTING.md) for details about setting yourself up and getting started.
 
-The code of Nextra is under the [`core`](https://github.com/shuding/nextra/tree/core) branch.
+## Join the Community
 
-## Themes
+For questions or support, join us on the [ReadySet Community Discord](https://discord.gg/readyset), post questions on our [Github forum](https://github.com/readysettech/readyset/discussions), or schedule an [office hours chat](https://calendly.com/d/d5n-y44-mbg/office-hours-with-ready-set) with our team.
 
-- [nextra-theme-docs](https://github.com/vercel/swr-site) ([demo](https://swr.vercel.app))
-- [nextra-theme-blog](https://github.com/shuding/site) ([demo](https://shud.in))
+Everyone is welcome!
 
----
+## Resources
 
-Created by [@shuding](https://github.com/shuding) and [@pacocoursey](https://github.com/pacocoursey) at [Vercel](https://vercel.com). Released under the MIT license.
+- [Code of conduct](CODE_OF_CONDUCT.md)
+- [Contributing](CONTRIBUTING.md)
