@@ -143,16 +143,14 @@ The port to advertise to ReadySet instances running in the same deployment. This
 **Default**: `6033`
 </div>
 
-#### `--forbid-full-materialization`
+#### `--allow-full-materialization`
 
 <div class="option-details" markdown="1">
 ReadySet must sometimes store the entire result set for a query in memory, for example, when there is no `WHERE` filter or when the `WHERE` filter is not [parameterized](/features/supported-sql-syntax#parameters) (by the user or by ReadySet). This is referred to as "full materialization".
 
-The `--forbid-full-materialization` option prevents ReadySet from caching queries that would be fully materialized.
+By default, ReadySet does not allow caching queries that need full materialization. The `--allow-full-materialization` option allows ReadySet to cache queries that would be fully materialized, but should only be used if there is certainty that the full materialization will be able to fit in the available memory of the system.
 
-**Env variable:** `FORBID_FULL_MATERIALIZATION`
-
-<Callout>Consider passing this option when ReadySet Adapters use the `"inrequestpath"` or `"async"` [query caching mode](readyset.md#--query-caching). In both cases, queries are cached by ReadySet automatically, and if too many queries are fully materialized, you can exhaust memory, especially because cache entries of fully materialized queries will never get evicted (i.e., the [`--eviction-policy`](#--eviction-policy) applies only to partially materialized queries).</Callout>
+**Env variable:** `ALLOW_FULL_MATERIALIZATION`
 </div>
 
 #### `--help`, `-h`
