@@ -3,4 +3,24 @@ const withNextra = require('nextra')({
   themeConfig: './theme.config.tsx',
 })
 
-module.exports = withNextra()
+module.exports = withNextra({
+  async redirects() {
+    return [
+      {
+        source: '/guides/intro/quickstart',
+        destination: '/quickstart',
+        permanent: true,
+      },
+      {
+        source: '/guides/intro/intro',
+        destination: '/quickstart',
+        permanent: true,
+      },
+      {
+        source: '/releases/readyset-core',
+        destination: 'https://github.com/readysettech/readyset/releases',
+        permanent: true,
+      },
+    ]
+  },
+})
