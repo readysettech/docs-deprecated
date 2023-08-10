@@ -14,7 +14,9 @@
     "troubleshooting": {
       "display": "hidden"
     },
-    "telemetry": "Telemetry",
-    "cli": "CLI"
+    "features": "SQL Support", 
+    "cli": "CLI", 
+    "telemetry": "Telemetry"
+    
   }
   
