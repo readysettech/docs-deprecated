@@ -7,10 +7,9 @@
   "deploy": "Deploy",
   "connect": "Connect",
   "cache": "Cache",
-  "features": "Features",
+  "reference": "Reference",
   "demos": "Demos & Tutorials",
   "concepts": "Concepts",
-  "reference": "Reference",
   "intro": {
     "display": "hidden"
   },
