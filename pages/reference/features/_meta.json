@@ -1,5 +1,6 @@
 {
     "supported-data-types": "Supported Data Types",
     "queries": "Supported Queries",
-    "supported-sql-syntax": "Supported SQL Syntax"
+    "supported-sql-syntax": "Supported SQL Syntax",
+    "supported-system-variables": "Supported System Vairables"
 }
