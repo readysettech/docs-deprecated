@@ -91,13 +91,13 @@ const config: DocsThemeConfig = {
     </>
   ),
   project: {
-    link: 'https://github.com/readysettech',
+    link: 'https://github.com/readysettech/docs',
   },
   chat: {
     link: 'https://discord.com',
   },
   darkMode: false,
-  docsRepositoryBase: 'https://github.com/readysettech/readyset-public-docs/',
+  docsRepositoryBase: 'https://github.com/readysettech/docs/tree/main',
   footer: {
     text: 'ReadySet Documentation',
   },
