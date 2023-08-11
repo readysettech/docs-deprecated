@@ -94,7 +94,7 @@ const config: DocsThemeConfig = {
     link: 'https://github.com/readysettech',
   },
   chat: {
-    link: 'https://discord.com',
+    link: 'https://discord.gg/readyset',
   },
   darkMode: false,
   docsRepositoryBase: 'https://github.com/readysettech/readyset-public-docs/',
