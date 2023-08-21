@@ -424,6 +424,7 @@ The URL for connecting ReadySet to to the upstream database. This connection URL
 **Env variable:** `UPSTREAM_DB_URL`
 
 <Callout>By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use the [`--replication-tables`](#--replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.</Callout>
+<Callout>Special characters that may be interpreted as dividers of the connection string (e.g. `@`, `:`, `/`, `#`) must be [percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding), including in passwords. For example, `password#` should be `password%23`.</Callout>
 </div>
 
 #### `--username`, `-u`
