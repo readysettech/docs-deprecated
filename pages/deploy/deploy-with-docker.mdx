@@ -1,7 +1,7 @@
 import { Tabs, Tab } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
-# Deploy With Docker
+# Install With Docker
 
 This guide walks you through how to run ReadySet using Docker, connecting to an existing primary database.
 
@@ -12,7 +12,7 @@ This guide walks you through how to run ReadySet using Docker, connecting to an 
 **1. Download the ReadySet Docker compose file**
 
 ```sh
-curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.yml"
+curl -L -o compose.yml "https://readyset.io/quickstart/compose.yml"
 ```
 
 **2. Provide your connection string**
@@ -22,7 +22,7 @@ Modify the downloaded compose file to include your database connection string:
 ```yaml
 name: readyset
 services:
-  readyset:
+  cache:
     ...
     environment:
       # UPSTREAM_DB_URL: <your db url>
@@ -52,7 +52,7 @@ For this process to succeed, you must have sufficient disk space to store a copy
 To check ReadySet's status, check the logs for the docker container.
 
 ```
-docker logs readyset-readyset-1
+docker logs readyset-cache-1
 ```
 
 While the snapshot is ongoing, you will see many log messages related to snapshotting progress.
@@ -69,7 +69,7 @@ At this point, ReadySet is ready to start caching queries.
 **1. Download the ReadySet Docker compose file**
 
 ```sh
-curl -o compose.yml "https://raw.githubusercontent.com/readysettech/docs/main/docs/assets/compose.yml"
+curl -L -o compose.yml "https://readyset.io/quickstart/compose.yml"
 ```
 
 **2. Provide your connection string**
@@ -79,7 +79,7 @@ Modify the downloaded compose file to include your database connection string:
 ```yaml
 name: readyset
 services:
-  readyset:
+  cache:
     ...
     environment:
       # UPSTREAM_DB_URL: <your db url>
@@ -108,7 +108,7 @@ After starting, ReadySet will begin taking a snapshot of your underlying databas
 To check ReadySet's status, check the logs for the docker container.
 
 ```
-docker logs readyset-readyset-1
+docker logs readyset-cache-1
 ```
 
 While the snapshot is ongoing, you will see many log messages related to snapshotting progress.
