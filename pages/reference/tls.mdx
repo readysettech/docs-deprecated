@@ -1,0 +1,107 @@
+import { Tabs, Tab } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# TLS Support
+
+ReadySet supports TLS encryption between itself and your upstream database out
+of the box. To do this, ReadySet must have access to the root certificate used
+by your upstream database. Operating systems typically come with the root
+certificates for some common certificate authorities already installed. If your
+upstream database uses a different root certificate, then you must either
+install that certificate (such that all applications on your system can use it
+to verify certificates) or provide the root certificate file path directly to
+ReadySet via the `--ssl-root-cert` option.
+
+<Callout type="warning">
+The `--ssl-root-cert` option only supports a single certificate in the PEM or
+DER format. It does not support bundles containing multiple certificates.
+</Callout>
+
+<Callout type="warning">
+On macOS, providing the root certificate via the `--ssl-root-cert` option is
+not supported, the Apple Security framework (used by ReadySet to provide TLS
+support) does not allow the use of untrusted certificates even when explicitly
+provided.
+</Callout>
+
+Below are instructions for installing and trusting a new root certificate on supported platforms:
+
+<Tabs items={['Ubuntu', 'Amazon Linux 2', 'macOS']}>
+
+<Tab>
+ReadySet uses the system-provided OpenSSL package on Linux.
+
+The following instructions are derived from [the Ubuntu docs](https://ubuntu.com/server/docs/security-trust-store).
+
+To install a new certificate, first download the certificate, then run the following:
+```sh
+# Change the extension to .crt, and if necessary, convert from DER to PEM format
+# Place the output file in the appropriate system directory
+sudo openssl x509 -outform pem -in $INFILE -out /usr/local/share/ca-certificates/$OUTFILE.crt
+
+# Install the certificate
+sudo update-ca-certificates
+```
+</Tab>
+
+<Tab>
+ReadySet uses the system-provided OpenSSL package on Linux.
+
+The following instructions are derived from [the AWS docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/SSL-on-amazon-linux-2.html).
+
+To install a new certificate, download the certificate, place it in `/etc/pki/tls/certs`,
+and set the file ownership and permissions as follows:
+```sh
+sudo chown root:root $CERTIFICATE
+sudo chmod 600 $CERTIFICATE
+```
+</Tab>
+
+<Tab>
+ReadySet uses the Security framework on macOS.
+Certificates must be trusted by the system to be used.
+
+To install and trust a new certificate, do the following:
+
+1. Download the certificate you wish to install
+1. Open the Keychain Access application
+1. From the left-side menu, under System Keychains, select System
+1. Drag and drop the certificate into the keychain (or File > Import items...)
+1. Open the newly installed certificate (or File > Get Info)
+1. Set Trust > Secure Sockets Layer (SSL) to Always Trust and close the window (it prompts for authorization)
+</Tab>
+
+</Tabs>
+
+Below are download links for the root certificates for supported cloud database providers:
+
+<Tabs items={['Amazon RDS', 'Azure Database', 'Google Cloud SQL']}>
+
+<Tab>
+The [Amazon RDS global certificate bundle](https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem)
+includes root certificates for every AWS region.
+
+Alternatively, only download the [region-specific bundle(s)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.RegionCertificates)
+you need.
+</Tab>
+
+<Tab>
+The certificates used by Azure Database are probably already installed on your system.
+
+Both [Azure Database for PostgreSQL Single Server](https://learn.microsoft.com/en-us/azure/postgresql/single-server/concepts-ssl-connection-security)
+and [Azure Database for MySQL Single Server](https://learn.microsoft.com/en-us/azure/mysql/single-server/concepts-ssl-connection-security)
+require the [DigiCert Global Root G2](https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem)
+certificate.
+
+Both [Azure Database for PostgreSQL Flexible Server](https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-connect-tls-ssl)
+and [Azure Database for MySQL Flexible Server](https://learn.microsoft.com/en-us/azure/mysql/flexible-server/how-to-connect-tls-ssl)
+require the [DigiCert Global Root CA](https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem)
+certificate.
+</Tab>
+
+<Tab>
+Google Cloud SQL creates a new root certificate per server instance. Follow [these instructions](https://cloud.google.com/sql/docs/mysql/configure-ssl-instance#server-certs)
+to locate and download the certificate for your particular instance.
+</Tab>
+
+</Tabs>
