@@ -1,8 +1,5 @@
 {
   "overview": "Key Concepts",
-  "dataflow": {
-    "display": "hidden"
-  },
   "streaming-dataflow": "Streaming Dataflow",
   "efficiency": "Memory Effeciency",
   "example": "Example"

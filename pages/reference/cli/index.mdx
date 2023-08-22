@@ -3,16 +3,14 @@ import { Callout } from 'nextra/components'
 
 # ReadySet CLI
 
-A ReadySet deployment sits between your application and database and contains the following core components:
+ReadySet is made up of the following core components:
 
 | Component | Purpose |
 |-----------|---------|
 | ReadySet Server | Takes a snapshot of your database, listens to the database's replication stream for updates, and keeps queries cached in an in-memory dataflow graph. |
-| ReadySet Adapter | Handles connections from SQL clients and ORMs, forwards uncached queries to the upstream database, and runs cached queries against the ReadySet Server.
+| ReadySet Adapter | Handles connections from SQL clients and ORMs, forwards uncached queries to the upstream database, and runs cached queries against the ReadySet server.
 
 This page introduces the `readyset` commands for running these components, as well as information about environment variables that can be used in place of certain command options.
-
-<Callout type="info">Users on ReadySet Cloud get a fully-managed deployment of ReadySet and do not need to run `readyset` commands.</Callout>
 
 ## Commands
 
