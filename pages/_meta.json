@@ -2,7 +2,6 @@
   "index": {
     "display": "hidden"
   },
-
   "quickstart": "Quickstart",
   "deploy": "Deploy",
   "connect": "Connect",
@@ -10,15 +9,6 @@
   "reference": "Reference",
   "demos": "Demos & Tutorials",
   "concepts": "Concepts",
-  "intro": {
-    "display": "hidden"
-  },
-  "connecting": {
-    "display": "hidden"
-  },
-  "quickstart-old": {
-    "display": "hidden"
-  },
   "link": {
     "title": "Releases",
     "href": "https://github.com/readysettech/readyset/releases",
