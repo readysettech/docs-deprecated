@@ -1,9 +1,3 @@
 {
-  "view-query-metrics-with-grafana-wip": {
-    "display": "hidden"
-  },
-  "view-query-metrics-with-the-databases-slow-query-log": "View query metrics with the database's slow query log",
-  "view-query-metrics-with-3rd-party-providers-wip": {
-    "display": "hidden"
-  }
+  "view-query-metrics-with-the-databases-slow-query-log": "View query metrics with the database's slow query log"
 }
