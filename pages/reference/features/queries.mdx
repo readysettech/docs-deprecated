@@ -3,12 +3,9 @@ import { Callout } from 'nextra/components'
 
 # Supported Queries
 
-The intricacies of whether particular queries are supported by ReadySet depend on multiple variables.
+This page describes the specific query structures that are cacheable in ReadySet. 
 
-**Importantly, you do not have to do work to figure out if your particular queries are supported by ReadySet.**
-
-The easiest way to determine which queries are supported is to refer to the ReadySet dashboard, which will display information about whether individual queries are supported by ReadySet for you.
-
+<Callout> The easiest way to determine whether your queries are supported is to run them against ReadySet and check the output of [`SHOW PROXIED QUERIES`](/cache/creating-a-cache). </Callout> 
 ## Query Structure
 
 ReadySet supports the following clauses in SQL SELECT queries:

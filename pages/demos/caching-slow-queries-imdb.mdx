@@ -4,14 +4,14 @@ import Image from 'next/image'
 
 # Caching slow queries (IMDB)
 
-# Prerequisites
+## Prerequisites
 
 - A ReadySet instance connected to a MySQL or Postgres database with Grafana (we recommend that you use the [Quickstart](/quickstart) to set this up)
 - MySQL or Postgres client, depending on the primary database
 
-# Steps
+## Steps
 
-## 1. Download the IMDB dataset & load it into your database
+### 1. Download the IMDB dataset & load it into your database
 <Tabs items={['MySQL','Postgres']}>
 <Tab>
 First, download the IMDB dataset for MySQL:
@@ -52,7 +52,7 @@ PGPASSWORD=readyset psql -h127.0.0.1 -Upostgres -p5433 testdb < imdb-postgres.sq
 ```
 </Tab>
 </Tabs>
-## 2. Connect to ReadySet & make sure the tables have been imported
+### 2. Connect to ReadySet & make sure the tables have been imported
 
 It could take a few seconds for ReadySet to import the tables. You can check whether they've been successfully imported by connecting to ReadySet through your database client and running:
 
@@ -62,7 +62,7 @@ SHOW READYSET TABLES;
 
 Once the table is imported, you will see that the status of that table is 'snapshotted'.
 
-## 3. Run a query against your primary database
+### 3. Run a query against your primary database
 
 Once the tables have been imported into ReadySet, we can start running queries.
 
@@ -76,7 +76,7 @@ WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 
 By default, this query is proxied to the primary database.
 
-## 4. Cache the query in ReadySet
+### 4. Cache the query in ReadySet
 
 We can cache it in ReadySet by running the following:
 

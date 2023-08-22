@@ -1,19 +1,4 @@
 {
-    "caching": {
-      "display": "hidden"
-    },
-    "queries": {
-      "display": "hidden"
-    },
-    "dashboard": {
-      "display": "hidden"
-    },
-    "installer": {
-      "display": "hidden"
-    },
-    "troubleshooting": {
-      "display": "hidden"
-    },
     "features": "SQL Support", 
     "cli": "CLI", 
     "telemetry": "Telemetry"
