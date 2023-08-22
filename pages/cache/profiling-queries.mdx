@@ -85,19 +85,19 @@ curl -L -O "https://readyset.io/quickstart/requirements.txt"
 pip3 install -r requirements.txt
 ```
 
-3. Set the `HOST` environment variable to the IP address/hostname portion of `--metrics-address`:
+3. Set the `METRICS_HOST` environment variable to the IP address/hostname portion of `--metrics-address`:
 ```sql 
-export HOST="<metrics-host>"
+export METRICS_HOST="<metrics-host>"
 ```
 
 4. Run the script with
 ```sql
-python3 metrics.py --host=${HOST}
+python3 metrics.py --host=${METRICS_HOST}
 ```
 
 5. Run the script with
 ```sql
-python3 metrics.py --host=${HOST}
+python3 metrics.py --host=${METRICS_HOST}
 ```
 
 6. You can filter the output of this script to show only queries displayed in `SHOW PROXIED QUERIES` or `SHOW CACHES` by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
