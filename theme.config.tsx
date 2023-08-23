@@ -94,7 +94,7 @@ const config: DocsThemeConfig = {
     link: 'https://github.com/readysettech/docs',
   },
   chat: {
-    link: 'https://readysetcommunity.slack.com/join/shared_invite/zt-21sgn8yqr-RH6yp9gOwDxnDzrMUkTl4g#/shared-invite/email',
+    link: 'https://join.slack.com/t/readysetcommunity/shared_invite/zt-2272gtiz4-0024xeRJUPGWlRETQrGkFw',
     icon: (
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M5.44225 15.5671C5.44225 16.9547 4.3087 18.0882 2.92108 18.0882C1.53345 18.0882 0.399902 16.9547 0.399902 15.5671C0.399902 14.1794 1.53345 13.0459 2.92108 13.0459H5.44225V15.5671Z" fill="black" />
