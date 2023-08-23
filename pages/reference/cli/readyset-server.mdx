@@ -37,22 +37,10 @@ The IP address/hostname and port that the ReadySet Server listens on.
 **Env variable:** `LISTEN_ADDRESS`
 </div>
 
-#### `--authority`
-
-<div class="option-details" markdown="1">
-The external authority for a distributed ReadySet deployment. The authority handles node discovery, leader election, and consensus and manages internal state and metrics.
-
-**Possible values:** `"consul"`
-
-**Default:** `"consul"`
-
-**Env variable:** `AUTHORITY`
-</div>
-
 #### `--authority-address`
 
 <div class="option-details" markdown="1">
-The IP address/hostname and port of the external authority.
+The IP address/hostname and port of the external authority. ReadySet supports Consul as the external authority.
 
 **Env variable:** `AUTHORITY_ADDRESS`
 </div>
@@ -89,42 +77,6 @@ Don't sent anonymous [telemetry data](../telemetry.md) to ReadySet.
 **Env variable:** `DISABLE_TELEMETRY`
 </div>
 
-#### `--disable-upstream-ssl-verification`
-
-<div class="option-details" markdown="1">
-Disable verification of SSL certificates supplied by the upstream database on connections to replicate data and proxy queries (Postgres only, ignored for MySQL).
-
-**Env variable:** `DISABLE_UPSTREAM_SSL_VERIFICATION`
-
-<Callout tpye="warning">If invalid certificates are trusted, any certificate for any site will be trusted. Use this option with caution.</Callout>
-</div>
-
-#### `--durability`
-
-<div class="option-details" markdown="1">
-The durability of the tables that ReadySet replicates from the upstream database as the basis for caching query results.  
-
-**Possible values:**
-
-- `"persistent"`: Store replicated tables on disk (at the location specified by [`--db-dir`](#--db-dir)). Do not delete the data when the ReadySet Server is stopped. Suitable for production deployments.
-- `"ephemeral"`: Store replicated tables on disk (at the location specified by [`--db-dir`](#--db-dir)). Delete the data when the ReadySet Server is stopped. Suitable for testing only.
-- `"memory"`: Store replicated tables entirely in memory. Suitable for testing only.
-
-**Default:** `"persistent"`
-</div>
-
-#### `--eviction-policy`
-
-<div class="option-details" markdown="1">
-When possible, ReadySet stores only certain results sets for a query in memory. For example, if a query is [parameterized](/features/supported-sql-syntax#parameters) on user IDs, ReadySet would only cache the results of that query for the active subset of users, since they are the ones issuing requests. This is referred to as "partial materialization".
-
-The `--eviction-policy` option determines the strategy for evicting cache entries from partial materializations once the overall memory limit (see [`--memory-limit`](#-memory-limit-m)) has been surpassed.
-
-**Possible values:** `"random"`, `"lru"`, `"generational"`
-
-**Default:** `"random"`
-</div>
-
 #### `--external-address`
 
 <div class="option-details" markdown="1">
@@ -141,16 +93,6 @@ The IP address/hostname to advertise to ReadySet instances running in the same d
 The port to advertise to ReadySet instances running in the same deployment. This also defines the port of the Prometheus endpoint for [ReadySet metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
 
 **Default**: `6033`
-</div>
-
-#### `--allow-full-materialization`
-
-<div class="option-details" markdown="1">
-ReadySet must sometimes store the entire result set for a query in memory, for example, when there is no `WHERE` filter or when the `WHERE` filter is not [parameterized](/features/supported-sql-syntax#parameters) (by the user or by ReadySet). This is referred to as "full materialization".
-
-By default, ReadySet does not allow caching queries that need full materialization. The `--allow-full-materialization` option allows ReadySet to cache queries that would be fully materialized, but should only be used if there is certainty that the full materialization will be able to fit in the available memory of the system.
-
-**Env variable:** `ALLOW_FULL_MATERIALIZATION`
 </div>
 
 #### `--help`, `-h`
@@ -208,30 +150,6 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 <Callout>For production deployments, start by setting this to 60-80% of the machine's total memory. Then run the system under load, observe, and increase or decrease as needed.</Callout>
 </div>
 
-#### `--memory-check-every`
-
-<div class="option-details" markdown="1">
-The frequency, in seconds, at which to check memory usage by ReadySet. Once usage surpasses the limit set in [`--memory-limit`](#-memory-limit-m), ReadySet starts evicting cache entries for partial materializations based on the [`--eviction-policy`](#-eviction-policy).
-
-**Default:** `1`
-
-**Env variable:** `MEMORY_CHECK_EVERY`
-</div>
-
-#### `--no-readers`
-
-<div class="option-details" markdown="1">
-Do not run reader nodes on this instance. Reader nodes are the part of the dataflow graph that serve cached results for a query.
-</div>
-
-#### `--persistence-threads`
-
-<div class="option-details" markdown="1">
-Number of background threads used by RocksDB, the storage engine for ReadySet's snapshot of upstream database tables.
-
-**Default:** `6`
-</div>
-
 #### `--prometheus-metrics`
 
 <div class="option-details" markdown="1">
@@ -250,22 +168,6 @@ For a distributed ReadySet deployment with multiple ReadySet Server instances, t
 **Env variable:** `NORIA_QUORUM`
 </div>
 
-#### `--reader-only`
-
-<div class="option-details" markdown="1">
-Run only reader nodes on this instance. Reader nodes are the part of the dataflow graph that serve cached results for a query.
-</div>
-
-#### `--replication-pool-size`
-
-<div class="option-details" markdown="1">
-The number of connections to the upstream database for snapshotting and replication.
-
-**Default:** `50`
-
-<Callout type="warning">This can be set as high as the number of tables you want ReadySet to snapshot/replicate. However, more connections will increase both the load on your upstream database and memory usage by ReadySet.</Callout>
-</div>
-
 #### `--replication-tables`
 
 <div class="option-details" markdown="1">
@@ -274,14 +176,6 @@ By default, ReadySet attempts to snapshot and replicate all tables in the databa
 This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.  
 
 **Env variable:** `REPLICATION_TABLES`
-</div>
-
-#### `--snapshot-report-interval-secs`
-
-<div class="option-details" markdown="1">
-The time, in seconds, between logging the [snapshotting progress](/cache/check-snapshotting) and estimated time remaining for each table.
-
-**Default:** `30`
 </div>
 
 #### `--ssl-root-cert`
@@ -357,12 +251,10 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
 <Tab>
         ``` shell
         readyset-server \
-        --deployment="<deployment name>" \
         --upstream-db-url="postgresql://<db user>:<db password>@<db address>:5432/<database>" \
-        --query-caching="<caching mode>" \
         --username=<readyset user> \
         --password=<readyset password> \
-        --address=<readyset server address> \
+        --address=<readyset adapter address> \
         --authority-address=<consul address> \
         >> logs/readyset.log 2>&1 &
         ```
@@ -370,9 +262,7 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
 <Tab>
         ``` shell
         readyset-server \
-        --deployment="<deployment name>" \
         --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
-        --query-caching="<caching mode>" \
         --username=<readyset user> \
         --password=<readyset password> \
         --address=<readyset server address> \
@@ -381,14 +271,13 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
         ```
 </Tab>
 </Tabs>
-1. Start one of more ReadySet Adapters:
+1. Start one or more ReadySet Adapters:
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
 
         ``` shell
         readyset \
-        --deployment="<deployment name>" \
-        --database-type=postgresql \
+        --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
         --username=<readyset user> \
         --password=<readyset password> \
         --address=<readyset adapter address> \
@@ -400,8 +289,7 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
 
         ``` shell
         readyset-server \
-        --deployment="<deployment name>" \
-        --database-type=mysql \
+        --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
         --username=<readyset user> \
         --password=<readyset password> \
         --address=<readyset server address> \
