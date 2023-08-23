@@ -1,6 +1,7 @@
 {
     "features": "SQL Support", 
     "cli": "CLI", 
-    "telemetry": "Telemetry"
+    "telemetry": "Telemetry",
+    "tls": "TLS Support"
   }
   
