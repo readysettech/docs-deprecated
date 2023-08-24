@@ -95,12 +95,7 @@ export METRICS_HOST="<metrics-host>"
 python3 metrics.py --host=${METRICS_HOST}
 ```
 
-5. Run the script with
-```sql
-python3 metrics.py --host=${METRICS_HOST}
-```
-
-6. You can filter the output of this script to show only queries displayed in `SHOW PROXIED QUERIES` or `SHOW CACHES` by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
+5. You can filter the output of this script to show only queries displayed in `SHOW PROXIED QUERIES` or `SHOW CACHES` by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
 
 ```sql 
 PGPASSWORD=noria psql --host=127.0.0.1 --port=5433 --username=postgres --dbname=noria -c "SHOW CACHES" | python3 metrics.py --filter-queries
