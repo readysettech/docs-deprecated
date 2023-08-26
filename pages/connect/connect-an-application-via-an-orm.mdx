@@ -3,6 +3,26 @@ import { Tabs, Tab } from 'nextra/components'
 # Connect an application via an ORM
 To connect an application to ReadySet, simply swap your application's connection string to the ReadySet connection string.
 
+## Support Levels 
+There are three levels of support ReadySet provides for external drivers.
+
+### ✅ Verified
+
+The ReadySet team has validated that the ORM can connect to and cache queries from ReadySet as of the version specified.
+
+If you encounter an issue with a Verified ORM, open an issue on GItHub.
+
+### 🏗️ In Development
+
+We've identified the ORM as one we'd like to support and are actively working on supporting it in the future.
+
+### ⚠️ Unverified
+
+This ORM has not been tested by the ReadySet team. Many untested ORMs will still work with ReadySet out of the box.
+
+We're happy to help your team validate a new ORM with ReadySet - file an issue on GitHub and we'll investigate.
+
+## ORM Support
 <Tabs items={['MySQL', 'Postgres']}>
 <Tab>
 <Tabs items={['Typescript / Javacript ', 'Python', 'Java', 'Go']}>
@@ -134,21 +154,3 @@ To connect an application to ReadySet, simply swap your application's connection
 </Tab>
 </Tabs>
 
-## Support Levels 
-There are three levels of support ReadySet provides for external drivers.
-
-### ✅ Verified
-
-The ReadySet team has validated that the ORM can connect to and cache queries from ReadySet as of the version specified.
-
-If you encounter an issue with a Verified ORM, open an issue on GItHub.
-
-### 🏗️ In Development
-
-We've identified the ORM as one we'd like to support and are actively working on supporting it in the future.
-
-### ⚠️ Unverified
-
-This ORM has not been tested by the ReadySet team. Many untested ORMs will still work with ReadySet out of the box.
-
-We're happy to help your team validate a new ORM with ReadySet - file an issue on GitHub and we'll investigate.
