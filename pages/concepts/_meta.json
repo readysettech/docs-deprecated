@@ -2,5 +2,6 @@
   "overview": "Key Concepts",
   "streaming-dataflow": "Streaming Dataflow",
   "efficiency": "Memory Effeciency",
+  "ha": "High Availability",
   "example": "Example"
 }
