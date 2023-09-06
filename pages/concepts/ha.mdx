@@ -1,0 +1,58 @@
+# High Availability
+
+For production deployments where the availability needs are greater than can be
+met by a single instance, ReadySet can be run in a configuration providing
+**High Availability**, or **HA**.
+
+## Running ReadySet in HA mode
+
+In order to run ReadySet in HA mode, you'll need a minimum of three ReadySet
+instances - one two run the server, and two (or more) to run the ReadySet
+adapters.
+
+When running the server instance, you'll need to statically configure the number
+of adapter instances you'll be using. Either set the [`READER_REPLICAS`
+environment variable or `--reader-replicas` command-line flag][reader-replicas]
+to the number of adapter instances that will be running as part of your ReadySet
+deployment. Dynamically scaling the number of adapter instances is not currently
+supported - please leave a comment on [GitHub issue #548][#548] if this is
+functionality you need.
+
+In addition to the `--reader-replicas` flag / `READER_REPLICAS` environment
+variable, an HA configuration requires passing the [`--no-readers` command line
+flag or setting the `NO_READERS` environment variable to `"true"`][no-readers]
+on the server instance, and passing the [`--embedded-readers` flag or setting
+the `EMBEDDED_READERS` environment variable to `"true"`][embedded-readers] in
+each adapter instance.
+
+Since you're running multiple adapter instances which each expose the PostgreSQL
+or MySQL protocol, you'll need a way to connect to those multiple instances from
+your application. Some applications provide the ability to round-robin between
+multiple connections out of the box, but for most applications we recommend
+using a load balancer such as [HAProxy][] or Amazon's [Elastic Load
+Balancer][elb] configured for TCP load balancing to the ReadySet adapters over
+the appropriate ports.
+
+[reader-replicas]: /reference/cli/readyset-server#--reader-replicas
+[#548]: https://github.com/readysettech/readyset/issues/548
+[no-readers]: /reference/cli/readyset-server#--no-readers
+[embedded-readers]: /reference/cli/readyset#--embedded-readers
+[haproxy]: https://www.haproxy.org/
+[elb]: https://aws.amazon.com/elasticloadbalancing/
+
+## What HA guarantees
+
+When running ReadySet in High Availability mode, any running, healthy adapter
+instance can accept connections over the PostgreSQL/MySQL wire protocols, and
+will serve cached queries from ReadySet cache nodes running *inside* the
+adapter. This means that cached *warm* reads in ReadySet will alwaays be
+available as long as at least one adapter instance is running.
+
+Since cold reads (reads of keys in [partial queries][partial] that have not yet
+been cached) still have to upquery to the single server instance, the server
+instance being down will still cause the query to be sent to your upstream
+database. Non-cached (proxied) queries are also still sent to your upstream
+database, so ReadySet provides no additional availability above that of your
+upstream DB.
+
+[partial]: /concepts/efficiency
