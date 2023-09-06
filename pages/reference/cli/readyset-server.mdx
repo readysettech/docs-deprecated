@@ -120,7 +120,7 @@ The [severity level(s)](https://docs.rs/tracing-core/0.1.30/tracing_core/metadat
 
 Possible values, from most to least severe:
 
-- `ERROR`: Used for hazardous situations that require special handling, where normal operation cannot proceed as expected.   
+- `ERROR`: Used for hazardous situations that require special handling, where normal operation cannot proceed as expected.
 - `WARN`: Used for potentially hazardous situations that may require special handling.
 - `INFO`: Used for information messages that do not require action.
 - `DEBUG`: Used for lower priority information.
@@ -150,6 +150,17 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 <Callout>For production deployments, start by setting this to 60-80% of the machine's total memory. Then run the system under load, observe, and increase or decrease as needed.</Callout>
 </div>
 
+#### `--no-readers`
+
+<div class="option-details" markdown="1">
+If set, this server will never run domains containing reader nodes
+
+Pass this flag to the server instance when running a ReadySet deployment in embedded
+readers mode (eg for high availability)
+
+**Env variable:** `NO_READERS=true`
+</div>
+
 #### `--prometheus-metrics`
 
 <div class="option-details" markdown="1">
@@ -166,6 +177,16 @@ For a distributed ReadySet deployment with multiple ReadySet Server instances, t
 **Default:** `1`
 
 **Env variable:** `NORIA_QUORUM`
+</div>
+
+#### `--reader-replicas`
+
+<div class="option-details" markdown="1">
+Number of times to replicate domains that contain readers
+
+This flag should be set to the number of adapter instances in the ReadySet deployment when running in embbedded readers mode (eg for high availability)
+
+**Env variable:** `READER_REPLICAS`
 </div>
 
 #### `--replication-tables`
@@ -186,7 +207,7 @@ Only tables specified in the list will be eligible to be used by caches.
 
 By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if you know the queries you want to cache in ReadySet won't access a subset of tables in the database, you can use this option to limit the tables ReadySet snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
-This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.  
+This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.
 
 Tables specified in the list will not be eligible to be used by caches.
 
