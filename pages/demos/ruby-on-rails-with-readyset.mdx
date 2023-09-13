@@ -20,7 +20,7 @@ add to your Rails application.
 To ensure ReadySet is properly configured and pointing to your target database, simply use the Postgres client, `psql` and connect to ReadySet as 
 you would a normal Postgres instance. You can do so by using the normal Postgres connection string and substitute in the port ReadySet is listening on (i.e. 5433). 
 
-```
+```sh
 psql postgresql://user:password@host:5433/database_name
 ```
 
@@ -44,7 +44,7 @@ database as `primary` and then your read replica ReadySet instance as `primary_r
 
 For instance, your `database.yml` file will look something like this: 
 
-```
+```yml
 production:
   primary:
     database: my_primary_database
@@ -70,13 +70,13 @@ ReadySet will see any changes to the primary database already.
 In your application's `app/models` directory, you’ll find a base class for all of your model classes 
 often called `ApplicationRecord`. Open up that class and add the following line: 
 
-```
+```ruby
 connects_to database: { writing: :primary, reading: :primary_replica }
 ```
 
 If you haven’t made any changes to this base class, it should look like this:
 
-```
+```ruby
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class 
 
@@ -96,14 +96,14 @@ What's more, if for some reason you do not have access to an `ApplicationRecord`
 Finally, you’ll need to activate Rails middleware that’ll ensure writes go to the primary database and 
 reads through ReadySet. First run this command to generate a configuration file: 
 
-```
+```sh
 bin/rails generate active_record:multi_db
 ```
 
 This command will create a new file: `config/initializers/multi_db.rb`. Open up that file and uncomment 
 the following lines:
 
-```
+```ruby
 Rails.application.configure do
   config.active_record.database_selector = { delay: 2.seconds }
   config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver

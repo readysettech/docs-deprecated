@@ -91,7 +91,7 @@ const config: DocsThemeConfig = {
     </>
   ),
   project: {
-    link: 'https://github.com/readysettech/docs',
+    link: 'https://github.com/readysettech/readyset',
   },
   chat: {
     link: 'https://join.slack.com/t/readysetcommunity/shared_invite/zt-2272gtiz4-0024xeRJUPGWlRETQrGkFw',
