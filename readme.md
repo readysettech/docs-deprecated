@@ -8,9 +8,8 @@ Want a topic added to the docs? Need additional details or clarification? See an
 
 ## Write Docs
 
-Want to contribute to the docs? See [CONTRIBUTING](CONTRIBUTING.md) for details about setting yourself up and getting started.
+Contributing is easy. First, clone this repository. Next, run `npm install`. After that completes, then run `npm run dev`, which will fire up the website locally on port 3000. 
 
-## Resources
+If you want to make changes to content, simply go into the `pages` directory and you'll see the layout of our documentation corresponds to the file system. Make changes and submit a PR. 
 
-- [Code of conduct](CODE_OF_CONDUCT.md)
-- [Contributing](CONTRIBUTING.md)
+Merged PRs into `main` are automatically deployed! 
