@@ -1,5 +1,6 @@
 {
   "ruby-on-rails-with-readyset" : "Ruby on Rails with ReadySet",  
+  "aws-rds-directions" : "Configuring AWS RDS for ReadySet",
   "caching-slow-queries-imdb": "Caching slow queries (IMDB)",
     "link": {
         "title": "Integrating ReadySet into a Prisma app (Cal.com) ↗",
