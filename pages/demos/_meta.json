@@ -1,9 +1,8 @@
 {
-  "ruby-on-rails-with-readyset" : "Ruby on Rails with ReadySet",  
-    "caching-slow-queries-imdb": "Caching slow queries (IMDB)",
-    "link": {
-        "title": "Integrating ReadySet into a Prisma app (Cal.com) ↗",
-        "href": "https://github.com/readysettech/calcom-demo",
-        "newWindow": true
-      }
+  "caching-slow-queries-imdb": "Caching slow queries (IMDB)",
+  "link": {
+    "title": "Integrating ReadySet into a Prisma app (Cal.com) ↗",
+    "href": "https://github.com/readysettech/calcom-demo",
+    "newWindow": true
+  }
 }
