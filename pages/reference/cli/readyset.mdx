@@ -300,7 +300,6 @@ These examples focus on running a standard ReadySet deployment (i.e., ReadySet S
     --standalone \
     --upstream-db-url="postgresql://<db user>:<db password>@<db address>:5432/<database>" \
     --database-type=postgresql \
-    --query-caching="<caching mode>" \
     --username=<readyset user> \
     --password=<readyset password> \
     >> logs/readyset.log 2>&1 &
@@ -312,7 +311,6 @@ These examples focus on running a standard ReadySet deployment (i.e., ReadySet S
     --standalone \
     --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
     --database-type=mysql \
-    --query-caching="<caching mode>" \
     --username=<readyset user> \
     --password=<readyset password> \
     >> logs/readyset.log 2>&1 &
