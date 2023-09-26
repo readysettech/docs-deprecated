@@ -1,9 +1,4 @@
 {
     "configure-your-database": "Configure your database", 
-    "deploy-with-docker": "Install with Docker",
-    "link": {
-      "title": "Deploy with Kubernetes (using Helm) ↗",
-      "href": " https://github.com/readysettech/readyset/tree/main/helm/readyset",
-      "newWindow": true
-    }
+    "deploy-with-docker": "Install with Docker"
   }
