@@ -5,7 +5,7 @@ ReadySet slots between your application and database. It is wire-compatible with
 do to start using ReadySet is swap out your database connection string. ReadySet gives you fine-grained control over which
 queries are cached. Queries that aren't cached are proxied through ReadySet.
 
-![Basic ReadySet Stack Diagram](/rs_stack_diagram.png)
+![Basic ReadySet Stack Diagram](/readyset-architecture.jpeg)
 
 ## How does ReadySet work under the hood?
 Imagine a basic online forum application with `posts`, `users`, and `upvotes`. A simple database schema for this application might look like:
@@ -81,10 +81,7 @@ won’t take up any memory real estate in your ReadySet cluster.
 
 
 ### No Strong Consistency
-ReadySet supports **eventual consistency**. There will be a small delay between when the write is issued and the cached result is updated in ReadySet to reflect that write.
-
-
-![alt_text](/rs_write_diagram.png)
+ReadySet is **eventually consistent**. There will be a small delay between when the write is issued and the cached result is updated in ReadySet to reflect that write. This might not be suitable for all applications, or all parts of an application. v
 
 
 ## Is ReadySet a good fit for my application?
