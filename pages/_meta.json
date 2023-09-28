@@ -3,9 +3,7 @@
     "display": "hidden"
   },
   "quickstart": "Quickstart",
-  "deploy": "Deploy",
-  "connect": "Connect",
-  "cache": "Cache",
+  "get-started": "Get Started",
   "reference": "Reference",
   "demos": "Demos & Tutorials",
   "concepts": "Concepts",
