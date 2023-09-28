@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 ## Prerequisites
 
-- A ReadySet instance connected to a MySQL or Postgres database with Grafana (we recommend that you use the [Quickstart](/quickstart) to set this up)
+- A ReadySet instance connected to a MySQL or Postgres database with Grafana (we recommend that you use the [ReadySet Demo](/quickstart) to set this up)
 - MySQL or Postgres client, depending on the primary database
 
 ## Steps
@@ -26,7 +26,7 @@ Then, connect to your ReadySet instance and import the dataset:
 mysql -h<ReadySet URL> -U<username> -P<port number> <database name> -p<password> < imdb-mysql.sql
 ```
 
-**Note:** If you used the Quickstart to set up ReadySet (recommended), you can use the following command to connect:
+**Note:** If you used the ReadySet Demo instructions to set up ReadySet (recommended), you can use the following command to connect:
 
 ```
 mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset <  imdb-mysql.sql
@@ -45,7 +45,7 @@ Then, connect to your ReadySet instance and import the dataset:
 PGPASSWORD=<password> psql -h<ReadySet URL> -U<username> -p<port> <database name> < imdb-postgres.sql
 ```
 
-**Note:** If you used the Quickstart to set up ReadySet (recommended), you can use the following command to connect and import the dataset:
+**Note:** If you used the ReadySet Demo instructions to set up ReadySet (recommended), you can use the following command to connect and import the dataset:
 
 ```
 PGPASSWORD=readyset psql -h127.0.0.1 -Upostgres -p5433 testdb < imdb-postgres.sql
@@ -88,7 +88,7 @@ WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 
 We can check the Grafana dashboard to see that the query was successfully cached, and compare latencies.
 
-**Note:** if you set up ReadySet via the [Quickstart](/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
+**Note:** if you set up ReadySet via the [ReadySet Demo instructions](/quickstart) (recommended), then you can open Grafana by going to `localhost:4000` in your browser.
 
 ![](/cachingslowqueries.webp)
 
