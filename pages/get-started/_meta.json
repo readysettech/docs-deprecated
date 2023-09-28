@@ -1,0 +1,6 @@
+{
+    "configure-your-database": "Step 1 - Configure DB",
+    "deploy-with-docker": "Step 2 - Install ReadySet",
+    "connect": "Step 3 - Connect to ReadySet",
+    "cache": "Step 4 - Cache queries"
+}
