@@ -2,7 +2,8 @@
   "index": {
     "display": "hidden"
   },
-  "quickstart": "Quickstart",
+  "quickstart": "Demo",
+  "getStarted": "Get started",
   "deploy": "Deploy",
   "connect": "Connect",
   "cache": "Cache",
