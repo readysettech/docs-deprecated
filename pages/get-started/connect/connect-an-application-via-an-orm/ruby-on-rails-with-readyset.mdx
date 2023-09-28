@@ -17,7 +17,7 @@ Next, take note of the `LISTEN_ADDRESS` for your
 ReadySet instance - normally this is set to `0.0.0.0:5433`. This will be important because this will become the address of the read replica you'll 
 add to your Rails application. 
 
-To ensure [ReadySet is properly configured](/cache/check-snapshotting) and pointing to your target database, simply use the Postgres client, `psql` and connect to ReadySet as 
+To ensure [ReadySet is properly configured](/get-started/cache/check-snapshotting) and pointing to your target database, simply use the Postgres client, `psql` and connect to ReadySet as 
 you would a normal Postgres instance. You can do so by using the normal Postgres connection string and substitute in the port ReadySet is listening on (i.e. 5433). 
 
 ```sh
@@ -118,4 +118,4 @@ is consistent with writes that are going directly to the primary database.
 
 At this point, if you start your Rails application, read requests will go directly to ReadySet and 
 writes will go to your primary Postgres database. You’ll next need to [configure which SQL select statements (i.e. reads) you’ll 
-want to cache](/cache/creating-a-cache). 
+want to cache](/get-started/cache/creating-a-cache). 
