@@ -1,3 +1,4 @@
 {
-    "aws-rds-directions" : "Configuring AWS RDS"
+    "postgres": "Postgres", 
+    "mysql" : "MySQL"
 }

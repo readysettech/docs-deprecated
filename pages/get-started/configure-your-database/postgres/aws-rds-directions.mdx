@@ -1,0 +1,79 @@
+import { Tabs, Tab } from 'nextra/components'
+import { Callout } from 'nextra/components'
+
+# Configuring AWS RDS Postgres for ReadySet
+
+If you're using AWS RDS Postgres, you'll need to make a few configuration changes
+via the AWS console to enable ReadySet to properly replicate tables.  
+
+## Instructions
+### 1. Establish a network connection
+<Callout type="info"> Note: these directions assume you are using ReadySet in a different VPC than the upstream database you're connecting to. If ReadySet is within the same VPC as your database, you can ignore this step.</Callout>
+
+To make sure ReadySet can connect with your database, the database will have to be publicly accessible.
+
+1. Log in to your AWS account. 
+2. Click on RDS, which can be found by searching for it in the search bar, under the Services menu, or in your Recently Visited area. Within RDS under the Resources section, select DB instances.
+3. Choose the instance you want to make publicly accessible.
+4. Click the Modify button in the upper right corner.
+5. In the Connectivity section, click on Additional configurations	
+
+![AWS Connectivity](/aws-rds-1.png)
+
+6. Under Public access, choose Publicly accessible.
+
+![AWS Connectivity 2](/aws-rds-2.png)
+
+7. Click on Continue at the bottom of the page.
+8. Select when you want to apply the change and click Modify DB instance.
+
+### 2. Turn on logical replication
+
+1. Log in to your AWS account. 
+2. Click on RDS, which can be found by searching for it in the search bar, under the Services menu, or in your Recently Visited area. 
+3. Under the Resources section, select [Parameter groups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithDBInstanceParamGroups.html) in the upper right.
+
+<Callout type="info">Note: If you already have Parameter groups, you can simply modify the existing group. If you need to create a new parameter group, follow [these steps](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithDBInstanceParamGroups.html) first.</Callout>
+
+4. Select the Parameter group you want to modify and then click Edit in the upper right corner.
+
+![AWS Parameter Group](/aws-rds-3.png)
+
+5. Search for `rds.logical_replication` and change the value from 0 to 1.
+6. If you created a new Parameter group, you will need to associate your group with this instance. To do that, go to your RDS dashboard, click your instance name and select Modify in the upper right corner. Open Additional configurations at the bottom of the page. Under Database options there's a dropdown to 
+select a DB parameter group. Select the appropriate Parameter group.
+
+![AWS Parameter Groups 2](/aws-rds-4.png)
+
+Click on Continue at the bottom of the page. Select when you want to apply the change and click 
+Modify DB instance.
+7. To check that this worked, run the following command:
+
+```sql
+SELECT name,setting FROM pg_settings WHERE name = 'rds.logical_replication';
+```
+
+If you're not seeing: 
+
+```sql
+          name           | setting
+-------------------------+---------
+ rds.logical_replication | on
+ ```
+
+
+
+You may need to reboot your instance. To do that go to your instance and click on the Actions menu in the upper right corner and select Reboot. 
+
+![AWS Example](/aws-rds-5.png)
+
+
+### 3. Enable superuser permissions
+
+If you are using RDS and ReadySet with the same [user account](https://aws.amazon.com/blogs/database/managing-postgresql-users-and-roles/) you used to set up the database, permissions do not need to be enabled. 
+
+If you need to add a new user account or access ReadySet with a different one, you'll need to enable superuser permissions. To do that, enter the following in the `psql` command line interface:
+
+```sql
+UPDATE pg_user SET usesuper=true where usename = CURRENT_USER;
+```

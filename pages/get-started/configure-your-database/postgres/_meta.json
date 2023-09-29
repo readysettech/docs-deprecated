@@ -1,0 +1,5 @@
+{
+  "generic-db-directions": "General Postgres",
+  "aws-rds-directions": "AWS RDS Postgres", 
+  "aws-aurora-directions": "AWS Aurora Postgres"
+}
