@@ -1,0 +1,63 @@
+import { Callout } from 'nextra/components'
+
+# General MySQL
+
+If you are not using AWS RDS or Aurora MySQL, use these general instructions to configure your MySQL database. 
+
+## Instructions
+To ensure you have the correct permissions set, run the following commands as the database user you will use ReadySet with:
+
+#### 1. Ensure MySQL version 8.0 or higher is running.
+
+```sql
+mysql> SHOW VARIABLES LIKE 'version';
++---------------+--------+
+| Variable_name | Value  |
++---------------+--------+
+| version       | 8.0.33 |
++---------------+--------+
+1 row in set (0.17 sec)
+```
+
+#### 2. Ensure replication is enabled.
+
+```sql
+mysql> SHOW BINARY LOGS;
++---------------+-----------+-----------+
+| Log_name      | File_size | Encrypted |
++---------------+-----------+-----------+
+| binlog.000001 |   3040038 | No        |
+| binlog.000002 |  34978315 | No        |
+| binlog.000003 |  34978333 | No        |
++---------------+-----------+-----------+
+3 rows in set (0.07 sec)
+```
+
+If any files are returned, binary logging is correctly enabled.
+
+#### 3. Ensure superuser permissions are enabled. 
+
+ReadySet uses superuser access to be notified of changes to table DDL.
+
+```sql
+mysql> SHOW GRANTS FOR CURRENT_USER;
+```
+
+Ensure the results set contains the `SUPER` grant.
+
+## AWS RDS-only configuration
+If you are using AWS RDS, you will also need to do the following: 
+
+**1. Make sure binlog retention is enabled.**
+
+```sql
+mysql> call mysql.rds_show_configuration;
++------------------------+-------+------------------------------------------------------------------------------------------------------+
+| name                   | value | description                                                                                          |
++------------------------+-------+------------------------------------------------------------------------------------------------------+
+| binlog retention hours |    1  | binlog retention hours specifies the duration in hours before binary logs are automatically deleted. |
++------------------------+-------+------------------------------------------------------------------------------------------------------+
+1 row in set (0.06 sec)
+```
+
+If the `value` is set to `NULL`, you must [configure binlog retention](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-stored-proc-configuring.html#mysql_rds_set_configuration-usage-notes.binlog-retention-hours) to be at least long enough for snapshotting to complete.  A reasonable value here is one hour of retention for every 150 GB of database size.
