@@ -2,9 +2,9 @@ import { Tabs, Tab } from 'nextra/components'
 import { Callout } from 'nextra/components'
 import { Cards, Card } from 'nextra/components'
 
-# ReadySet Demo 
+# ReadySet Demo
 
-This demo sets up a ReadySet instance and a sample database on your local machine using Docker. 
+This demo sets up a ReadySet instance and a sample database on your local machine using Docker.
 
 <Callout>If you want to connect ReadySet to your own database, please follow the directions in the [install ReadySet](/get-started/deploy-with-docker) documentation.</Callout>
 
@@ -14,7 +14,7 @@ This demo sets up a ReadySet instance and a sample database on your local machin
 <Tab>
 **1. Download and run the ReadySet Docker compose file**
 
-```sh copy 
+```sh copy
 curl -L -o compose.yml                                  \
   "https://readyset.io/quickstart/compose.postgres.yml" \
   && docker compose pull                                \
@@ -40,7 +40,7 @@ psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
 ```
 Enable query timing.
 
-```sh copy 
+```sh copy
 \timing
 ```
 
@@ -75,17 +75,29 @@ JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
-Validate that creating the cache succeeded by running the query again.  This time, it is served by ReadySet.
+Now that ReadySet is going to cache the query, run the query to populate the cache.
 
 Query:
-```sql copy 
+```sql copy
 SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
 Results:
-```sql 
+```sql
+ count(*)
+----------
+     2418
+(1 row)
+
+Time: 154.980 ms
+```
+
+That query ran on the database, but now the ReadySet cache has been populated.  Run the query again, and this time it is served by ReadySet.
+
+Results:
+```sql
  count(*)
 ----------
      2418
@@ -94,20 +106,31 @@ Results:
 Time: 2.073 ms
 ```
 
-**5. Explore Grafana**
+**5. View Cached Queries**
 
-Navigate to [localhost:4000](localhost:4000) to view query latency metrics for ReadySet and Postgres.
-![](/cachingslowqueries.webp)
+Use the `SHOW CACHES` command to see which queries are currently being cached by ReadySet:
+
+```sql
+      query id      |     cache name     |                       query text                       | fallback behavior | count
+--------------------+--------------------+--------------------------------------------------------+-------------------+-------
+ q_bccd97aea07c545f | q_bccd97aea07c545f | SELECT                                                +| fallback allowed  | 4
+                    |                    |   count(*)                                            +|                   |
+                    |                    | FROM                                                  +|                   |
+                    |                    |   "title_ratings"                                     +|                   |
+                    |                    |   JOIN "title_basics" ON (                            +|                   |
+                    |                    |     "title_ratings"."tconst" = "title_basics"."tconst"+|                   |
+                    |                    |   )                                                   +|                   |
+                    |                    | WHERE                                                 +|                   |
+                    |                    |   (                                                   +|                   |
+                    |                    |     ("title_basics"."startyear" = $1)                 +|                   |
+                    |                    |     AND ("title_ratings"."averagerating" > 5)         +|                   |
+                    |                    |   )                                                    |                   |
+(1 row)
+```
 
 **6. Try more queries!**
 
 Explore the dataset and test ReadySet's performance with additional queries.
-
-View currently cached queries:
-
-```sql copy
-SHOW CACHES;
-```
 
 View proxied queries:
 ```sqp copy
@@ -138,7 +161,7 @@ curl -L -s "https://readyset.io/quickstart/imdb-mysql.sql" \
 
 <Callout type="warning">
 Data loading will be slow on Macs with Apple Silicon.
-</Callout> 
+</Callout>
 
 **3. Connect and explore the dataset**
 
@@ -189,18 +212,29 @@ JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
-Validate that creating the cache succeeded by running the query again.  This time, it is served by ReadySet.
+Now that ReadySet is going to cache the query, run the query to populate the cache.
 
 Query:
 ```sql copy
 SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
-
 ```
 
 Results:
-```sql 
+```sql
++----------+
+| count(*) |
++----------+
+|     2418 |
++----------+
+1 row in set (0.69 sec)
+```
+
+That query ran on the database, but now the ReadySet cache has been populated.  Run the query again, and this time it is served by ReadySet.
+
+Results:
+```sql
 +----------+
 | count(*) |
 +----------+
@@ -209,19 +243,23 @@ Results:
 1 row in set (0.03 sec)
 ```
 
-**5. Explore Grafana**
+**5. View Cached Queries**
 
-Navigate to [localhost:4000](localhost:4000) to view query latency metrics for ReadySet and Postgres.
-![](/cachingslowqueries.webp)
+Use the `SHOW CACHES` command to see which queries are currently being cached by ReadySet:
+
+```sql
+mysql> show caches;
++--------------------+--------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+-------+
+| query id           | cache name         | query text                                                                                                                                                                                           | fallback behavior | count |
++--------------------+--------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+-------+
+| q_cb4448c088a2c2f6 | q_cb4448c088a2c2f6 | SELECT count(*) FROM `title_ratings` JOIN `title_basics` ON (`title_ratings`.`tconst` = `title_basics`.`tconst`) WHERE ((`title_basics`.`startyear` = $1) AND (`title_ratings`.`averagerating` > 5)) | fallback allowed  | 2     |
++--------------------+--------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------+-------+
+1 row in set (0.02 sec)
+```
 
 **6. Try more queries!**
 
 Explore the dataset and test ReadySet's performance with additional queries.
-
-View currently cached queries:
-```sql copy
-SHOW CACHES;
-```
 
 View proxied queries:
 ```sql copy
