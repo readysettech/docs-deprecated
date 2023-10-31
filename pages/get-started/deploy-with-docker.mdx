@@ -11,7 +11,7 @@ This guide walks you through how to run ReadySet using Docker, connecting to an 
 <Tab>
 **1. Download the ReadySet Docker compose file**
 
-```sh
+```sh copy
 curl -L -o compose.yml "https://readyset.io/quickstart/compose.yml"
 ```
 
@@ -39,7 +39,7 @@ services:
 
 In the terminal, run:
 
-```sh
+```sh copy
 docker compose up -d
 ```
 
@@ -51,7 +51,7 @@ For this process to succeed, you must have sufficient disk space to store a copy
 
 To check ReadySet's status, check the logs for the docker container.
 
-```
+```sh copy
 docker logs readyset-cache-1
 ```
 
