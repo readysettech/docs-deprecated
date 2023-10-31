@@ -15,7 +15,7 @@ Before each step listed below, you'll need to:
 ### 1. Establish a network connection
 <Callout type="info"> Note: these directions assume you are using ReadySet in a different VPC than the upstream database you're connecting to. If ReadySet is within the same VPC as your database, you can ignore this step.</Callout>
 
-To make sure ReadySet can connect with your database, the database will have to be publicly accessible.
+To make sure ReadySet can connect with your database, it's easiest if you install ReadySet in the same VPC as your database. If ReadySet is located in another VPC, you can set up VPC peering; otherwise, the database will have to be publicly accessible.
 
 1. Within RDS under the Resources section, select DB instances.
 
@@ -54,29 +54,18 @@ select a DB parameter group. Select the appropriate Parameter group.
 
 Click on Continue at the bottom of the page. Select when you want to apply the change and click 
 Modify DB instance.
-5. To check that this worked, run the following command:
+5. To check that this worked, you can return to Resources and select Parameter groups (see step 3). Select the Parameter group you edited and search for `rds.logical_replication` under Parameters:
 
-```sql copy
-SELECT name,setting FROM pg_settings WHERE name = 'rds.logical_replication';
-```
+![AWS Parameter Groups 3](/aws-rds-11.png)
 
-If you're not seeing: 
-
-```sql
-          name           | setting
--------------------------+---------
- rds.logical_replication | on
- ```
-
-
-You may need to reboot your instance. To do that go to your instance and click on the Actions menu in the upper right corner and select Reboot. 
+If you're not seeing a value of 1, you may need to reboot your instance. To do that go to your instance and click on the Actions menu in the upper right corner and select Reboot. 
 
 ![AWS Example](/aws-rds-5.png)
 
 
 ### 3. Enable superuser permissions
 
-When you initially set up your RDS instance, you created an [admin user and password](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SettingUp.html#sign-up-for-aws). If you use this admin user / password during your ReadySet set up process, you will not need to enable superuser permissions.
+When you initially set up your RDS instance, you created an [admin user and password](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SettingUp.html#sign-up-for-aws). If you use this admin user account when configuring your database for ReadySet, you will not need to enable superuser permissions
 
 However, if you are using a different database user than the default admin, you will need to enable superuser permissions.  To do that, execute the following:
 
