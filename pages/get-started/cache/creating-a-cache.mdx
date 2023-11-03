@@ -34,6 +34,13 @@ CREATE CACHE [ALWAYS] [<name>] FROM <query>;
 - `<query>` is the full text of the query or the unique identifier assigned to the query by ReadySet, as seen in output of `SHOW PROXIED QUERIES`.
 - `ALWAYS` is optional. If a cached query is executed inside a transaction (e.g., due to an ORM), use `ALWAYS` to run the query against ReadySet; otherwise, the query will be proxied to the upstream database with the rest of the transaction.
 ​
+
+For example, to cache from the query `SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC`:
+
+```
+CREATE CACHE FROM SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC;
+```
+
 ## View cached queries
 To show all queries that have been cached, use:
 ​

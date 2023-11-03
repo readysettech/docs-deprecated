@@ -38,8 +38,8 @@ route traffic and finally configure Rails' connection switching middleware with 
 ### Update database configuration
 
 Taking advantage of ReadySet means defining a read replica of your primary database. 
-Rails makes this incredibly simple and in the case of ReadySet you’ll configure the replica to point 
-to your ReadySet instance. We recommend following Rails established patterns and name your primary 
+Rails makes this incredibly simple and in the case of ReadySet, <b>you’ll configure the replica to point 
+to your ReadySet instance</b>. We recommend following Rails established patterns and name your primary 
 database as `primary` and then your read replica ReadySet instance as `primary_replica`. 
 
 For instance, your `database.yml` file will look something like this: 
@@ -55,6 +55,8 @@ production:
     database: my_primary_database
     username: root
     password: <%= ENV['READYSET_PASSWORD'] %>
+    host: <%= ENV['READYSET_HOST'] %>
+    port: 5433
     adapter: postgresql
     replica: true 
     database_tasks: false
