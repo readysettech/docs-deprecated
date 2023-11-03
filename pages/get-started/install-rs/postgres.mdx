@@ -1,0 +1,86 @@
+import { Callout } from 'nextra/components'
+
+# ReadySet Installation Guide for PostgreSQL 
+
+This guide walks you through how to run ReadySet using Docker, connecting to an existing primary database.
+
+## 0. Make sure you can connect to your primary database.  
+
+ReadySet needs to be installed on a machine that can communicate with your primary database. To check to make sure that it can, 
+you can run the following on that instance:
+
+```sh
+psql -h <ip address> -p <port> -d <database name which you want to connect> -U <username of the database server>
+```
+
+If you are able to successfully make the connection, you should be all set. 
+
+## 1. Ensure you have sufficient disk space and memory for ReadySet 
+Any tables referenced by queries that you would like to cache need to be pulled into ReadySet. Before installing ReadySet, 
+ensure that the machine that you are installing it on has sufficient disk space and memory to replicate the base tables and 
+cache queries. 
+
+
+<Callout type="info"> Note that by default, ReadySet will pull in all tables from your database. If you only want to pull in specific
+tables, you will need to set the `--replication-tables` flag in Step 3.  </Callout>
+
+## 2. Download the ReadySet Docker image
+To download the ReadySet Docker image from DockerHub, run the following command in your terminal:
+
+```sh
+docker pull readysettech/readyset
+```
+
+## 3.  Run ReadySet
+
+
+First, find your primary database's connection string. 
+
+It should look something like this: 
+
+```postgres://<username>:<password>@<host>:<port>/<db_name>```
+
+Next, define the list of tables you want to pull into ReadySet as a comma-separated list: 
+```<schema>.<table>, <schema>.<table2>```. Note, this is optional - you can import all tables too by ignoring this command line flag.
+If you'd like to import all of the tables in a given schema, you can specify everything as follows: ```<schema>.*```. 
+
+
+
+**By default, ReadySet will import all tables.**
+
+If you'd like to import all database tables, you can skip passing in this argument. 
+
+
+Now, you're ready to start ReadySet. In your terminal, run the following command:  
+
+```sh
+docker run -d -t -i  \ 
+-e UPSTREAM_DB_URL=<database connection string> \
+-e REPLICATION_TABLES=<your tables> \
+readysettech/readyset:latest --standalone
+```
+
+ReadySet will then connect to your database and replicate the specified tables (or all of your tables if you 
+left this option off). Depending on how large these tables
+are and the network connection between ReadySet and your database, this could take between seconds and hours. 
+
+To check whether the tables have been imported, run the following: 
+
+```
+docker logs readyset-cache-1
+```
+
+While the snapshot is ongoing, you will see many log messages related to snapshotting progress.
+
+Once you see:
+
+```
+INFO replicators::noria_adapter: Streaming replication started
+```
+
+ReadySet is ready to start caching queries.
+
+## Next Steps
+
+As a next step, you can [connect to ReadySet from a database shell ](/get-started/connect/connect-via-database-shell) or [connect from your application](/get-started/connect/connect-an-application-via-an-orm). 
+
