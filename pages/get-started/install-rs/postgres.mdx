@@ -59,6 +59,15 @@ docker run -d -t -i  \
 -e REPLICATION_TABLES=<your tables> \
 readysettech/readyset:latest --standalone
 ```
+For instance, connecting to a locally running docker Postgres and importing all tables 
+in the `locution` database would look like this:
+
+```sh
+docker run -d -t -t \
+-e UPSTREAM_DB_URL=postgres://postgres:locution@host.docker.internal:5432/locution \
+readysettech/readyset:latest --standalone
+```
+
 
 ReadySet will then connect to your database and replicate the specified tables (or all of your tables if you 
 left this option off). Depending on how large these tables
