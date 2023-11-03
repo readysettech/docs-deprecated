@@ -26,11 +26,6 @@ services:
     ...
     environment:
       # UPSTREAM_DB_URL: <your db url>
-  ...
-  grafana:
-    ...
-    environment:
-      # UPSTREAM_DB_URL: <your db url>
 ```
 <Callout type="info"> Your connection string should look like ```postgres://<username>:<password>@<host>:<port>/<db_name>```</Callout>
 <Callout type="warning">If your database is running locally, use `host.docker.internal` instead of `localhost` or `127.0.0.1` as your host.</Callout>
