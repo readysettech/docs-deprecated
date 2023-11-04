@@ -9,7 +9,7 @@ This guide walks you through how to run ReadySet using Docker, connecting to an 
 ReadySet needs to be installed on a machine that can communicate with your primary database. To check to make sure that it can, 
 you can run the following on that instance:
 
-```sh
+```sh copy
 psql -h <ip address> -p <port> -d <database name which you want to connect> -U <username of the database server>
 ```
 
@@ -27,7 +27,7 @@ tables, you will need to set the `--replication-tables` flag in Step 3.  </Callo
 ## 2. Download the ReadySet Docker image
 To download the ReadySet Docker image from DockerHub, run the following command in your terminal:
 
-```sh
+```sh copy
 docker pull readysettech/readyset
 ```
 
@@ -53,7 +53,7 @@ If you'd like to import all database tables, you can skip passing in this argume
 
 Now, you're ready to start ReadySet. In your terminal, run the following command:  
 
-```sh
+```sh copy
 docker run -d -t -i  \ 
 -e UPSTREAM_DB_URL=<database connection string> \
 -e REPLICATION_TABLES=<your tables> \
@@ -75,7 +75,7 @@ are and the network connection between ReadySet and your database, this could ta
 
 To check whether the tables have been imported, run the following: 
 
-```
+```sh copy
 docker logs readyset-cache-1
 ```
 
