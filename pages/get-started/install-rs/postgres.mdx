@@ -54,17 +54,24 @@ If you'd like to import all database tables, you can skip passing in this argume
 Now, you're ready to start ReadySet. In your terminal, run the following command:  
 
 ```sh copy
-docker run -d -t -i  \ 
+docker run -d -t -i  \
+-p 5433:5433 \ 
 -e UPSTREAM_DB_URL=<database connection string> \
 -e REPLICATION_TABLES=<your tables> \
+-e LISTEN_ADDRESS=0.0.0.0:5433 \
 readysettech/readyset:latest --standalone
 ```
+
+As you can see above, ReadySet is set to listen on port 5433. 
+
 For instance, connecting to a locally running docker Postgres and importing all tables 
 in the `locution` database would look like this:
 
 ```sh
 docker run -d -t -t \
+-p 5433:5433 \ 
 -e UPSTREAM_DB_URL=postgres://postgres:locution@host.docker.internal:5432/locution \
+-e LISTEN_ADDRESS=0.0.0.0:5433 \
 readysettech/readyset:latest --standalone
 ```
 
