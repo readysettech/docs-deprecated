@@ -4,9 +4,9 @@ import Image from 'next/image'
 
 # Use ReadySet with Ruby on Rails
 
-Enabling ReadySet to work with a Rails application requires Rails multiple database support, which is easy to configure. 
-In short, ReadySet becomes a lighting fast read-replica. This guide walks you through how to configure ReadySet 
-in your Rails app. 
+This guide walks you through how to use ReadySet with your Ruby on Rails app. 
+To do this, you'll use the [built-in Rails multiple database support]((https://guides.rubyonrails.org/active_record_multiple_databases.html#activating-automatic-role-switching)) to get the performance of 
+caching with the simplicity of a single read replica. 
 
 ## 0. Set up ReadySet
 Setting up your application to take advantage of ReadySet takes a few steps. 
@@ -15,12 +15,12 @@ Setting up your application to take advantage of ReadySet takes a few steps.
 
 ## 1. Configure Rails in three steps
 
-[Ruby On Rails allows you to configure ReadySet](https://guides.rubyonrails.org/active_record_multiple_databases.html#activating-automatic-role-switching) as a read replica and define a time window after writes 
+Ruby On Rails allows you to configure ReadySet as a read replica and define a time window after writes 
 for when to switch read traffic over to ReadySet. This allows clients to observe recent writes if there is write 
 traffic ongoing while still taking advantage of ReadySet's caching for read-heavy workloads.
 
-This will take three steps. You'll need to add ReadySet as a read replica and configure ActiveRecord to 
-route traffic and finally configure Rails' connection switching middleware with a few quick changes.
+This will take three steps. You'll need to add ReadySet as a read replica, then configure ActiveRecord to 
+route traffic, and finally configure Rails' connection switching middleware with a few quick changes.
 
 ### a. Update database configuration
 
