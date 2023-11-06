@@ -5,37 +5,24 @@ import Image from 'next/image'
 # Using ReadySet with Ruby on Rails
 
 Enabling ReadySet to work with a Rails application requires Rails multiple database support, which is easy to configure. 
-In short, ReadySet becomes a lighting fast read-replica. 
+In short, ReadySet becomes a lighting fast read-replica. This guide walks you through how to configure ReadySet 
+in your Rails app. 
 
-## Setting up ReadySet
-ReadySet can speed up Rails read queries quite easily. Setting up your application to take advantage of ReadySet takes a few steps. 
-First, connect ReadySet to your database. For instance, if [running with Docker](/get-started/install-rs) and connecting to Postgres, ensure the 
-`UPSTREAM_DB_URL` environment variable is pointing to your Postgres instance. For instance, use the standard Postgres connection 
-string in the format `postgresql://user:password@hostl:5432/database_name`. 
+## 0. Setting up ReadySet
+Setting up your application to take advantage of ReadySet takes a few steps. 
+  1. [Make sure your database is configured for ReadySet](/get-started/configure-your-database)
+  2. [Install ReadySet](/get-started/install-rs)
 
-Next, take note of the host address for your ReadySet instance. This will be important because this will become the address of the 
-read replica you'll add to your Rails application. By default, ReadySet listens on port 5433. 
+## 1. Configuring Rails in 3 steps
 
-To ensure [ReadySet is properly configured](/get-started/cache/check-snapshotting) and pointing to your target database, simply use 
-the Postgres client, `psql` and connect to ReadySet as you would a normal Postgres instance. You can do so by using the normal Postgres 
-connection string and substitute in the port ReadySet is listening on (i.e. 5433). 
-
-```sh
-psql postgresql://user:password@host:5433/database_name
-```
-
-Once you’re in the Postgres console, type `show readyset status;` and look for Snapshot Status to be Completed. 
-
-## Configuring Rails in 3 steps
-
-[Ruby On Rails allows you to configure ReadySet](https://guides.rubyonrails.org/active_record_multiple_databases.html#activating-automatic-role-switching) as a read replica and define a time window after writes 
+[Ruby On Rails allows you to configure ReadySet(https://guides.rubyonrails.org/active_record_multiple_databases.html#activating-automatic-role-switching) as a read replica and define a time window after writes 
 for when to switch read traffic over to ReadySet. This allows clients to observe recent writes if there is write 
 traffic ongoing while still taking advantage of ReadySet's caching for read-heavy workloads.
 
 This will take 3 steps. You’ll need to add ReadySet as a read replica and configure ActiveRecord to 
 route traffic and finally configure Rails' connection switching middleware with a few quick changes.
 
-### Update database configuration
+### a. Update database configuration
 
 Taking advantage of ReadySet means defining a read replica of your primary database. 
 Rails makes this incredibly simple and in the case of ReadySet, <b>you’ll configure the replica to point 
@@ -67,7 +54,7 @@ flags are set: `replica` is `true` and `database_tasks` is `false`. The `databas
 will disable Rails database migrations running against ReadySet. This isn’t needed as 
 ReadySet will see any changes to the primary database already. 
 
-### Update `ApplicationRecord` to use two connections
+### b. Update `ApplicationRecord` to use two connections
 
 In your application's `app/models` directory, you’ll find a base class for all of your model classes 
 often called `ApplicationRecord`. Open up that class and add the following line: 
@@ -93,7 +80,7 @@ If you aren't on Rails 7, you'll need to replace `primary_abstract_class` with `
 What's more, if for some reason you do not have access to an `ApplicationRecord` base class, you'll need to
 [monkey patch](https://dev.to/ayushn21/applying-monkey-patches-in-rails-1bj1) one. 
 
-### Activate connection switching middleware
+### c. Activate connection switching middleware
 
 Finally, you’ll need to activate Rails middleware that’ll ensure writes go to the primary database and 
 reads through ReadySet. First run this command to generate a configuration file: 
@@ -119,5 +106,5 @@ is consistent with writes that are going directly to the primary database.
 ## You’re off to the races! 
 
 At this point, if you start your Rails application, read requests will go directly to ReadySet and 
-writes will go to your primary Postgres database. You’ll next need to [configure which SQL select statements (i.e. reads) you’ll 
-want to cache](/get-started/cache/creating-a-cache). 
+writes will go to your primary Postgres database. You’ll next need to configure which SQL select statements (i.e. reads) you’ll 
+want to cache. Check out [our caching guide](/get-started/cache/creating-a-cache) for more information. 
