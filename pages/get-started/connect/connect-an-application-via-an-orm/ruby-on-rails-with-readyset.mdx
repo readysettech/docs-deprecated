@@ -2,30 +2,30 @@ import { Tabs, Tab } from 'nextra/components'
 import { Callout } from 'nextra/components'
 import Image from 'next/image'
 
-# Using ReadySet with Ruby on Rails
+# Use ReadySet with Ruby on Rails
 
 Enabling ReadySet to work with a Rails application requires Rails multiple database support, which is easy to configure. 
 In short, ReadySet becomes a lighting fast read-replica. This guide walks you through how to configure ReadySet 
 in your Rails app. 
 
-## 0. Setting up ReadySet
+## 0. Set up ReadySet
 Setting up your application to take advantage of ReadySet takes a few steps. 
   1. [Make sure your database is configured for ReadySet](/get-started/configure-your-database)
   2. [Install ReadySet](/get-started/install-rs)
 
-## 1. Configuring Rails in three steps
+## 1. Configure Rails in three steps
 
 [Ruby On Rails allows you to configure ReadySet](https://guides.rubyonrails.org/active_record_multiple_databases.html#activating-automatic-role-switching) as a read replica and define a time window after writes 
 for when to switch read traffic over to ReadySet. This allows clients to observe recent writes if there is write 
 traffic ongoing while still taking advantage of ReadySet's caching for read-heavy workloads.
 
-This will take three steps. You’ll need to add ReadySet as a read replica and configure ActiveRecord to 
+This will take three steps. You'll need to add ReadySet as a read replica and configure ActiveRecord to 
 route traffic and finally configure Rails' connection switching middleware with a few quick changes.
 
 ### a. Update database configuration
 
 Taking advantage of ReadySet means defining a read replica of your primary database. 
-Rails makes this incredibly simple and in the case of ReadySet, <b>you’ll configure the replica to point 
+Rails makes this incredibly simple and in the case of ReadySet, <b>you'll configure the replica to point 
 to your ReadySet instance</b>. We recommend following Rails established patterns and name your primary 
 database as `primary` and then your read replica ReadySet instance as `primary_replica`. 
 
@@ -49,14 +49,14 @@ production:
     database_tasks: false
 ```
 
-It’s important to note that the `primary_replica` definition points to ReadySet and that two 
+It's important to note that the `primary_replica` definition points to ReadySet and that two 
 flags are set: `replica` is `true` and `database_tasks` is `false`. The `database_tasks` flag 
-will disable Rails database migrations running against ReadySet. This isn’t needed as 
+will disable Rails database migrations running against ReadySet. This isn't needed as 
 ReadySet will see any changes to the primary database already. 
 
 ### b. Update `ApplicationRecord` to use two connections
 
-In your application's `app/models` directory, you’ll find a base class for all of your model classes 
+In your application's `app/models` directory, you'll find a base class for all of your model classes 
 often called `ApplicationRecord`. Open up that class and add the following line: 
 
 ```ruby
@@ -82,7 +82,7 @@ What's more, if for some reason you do not have access to an `ApplicationRecord`
 
 ### c. Activate connection switching middleware
 
-Finally, you’ll need to activate Rails middleware that’ll ensure writes go to the primary database and 
+Finally, you'll need to activate Rails middleware that'll ensure writes go to the primary database and 
 reads through ReadySet. First run this command to generate a configuration file: 
 
 ```sh
@@ -100,11 +100,11 @@ Rails.application.configure do
 end
 ```
 
-It’s important to note that a delay of 2 seconds is designed to ensure the read replica (in this case ReadySet) 
+It's important to note that a delay of 2 seconds is designed to ensure the read replica (in this case ReadySet) 
 is consistent with writes that are going directly to the primary database. 
 
-## You’re off to the races! 
+## You're off to the races! 
 
 At this point, if you start your Rails application, read requests will go directly to ReadySet and 
-writes will go to your primary Postgres database. You’ll next need to configure which SQL select statements (i.e. reads) you’ll 
+writes will go to your primary Postgres database. You'll next need to configure which SQL select statements (i.e. reads) you’ll 
 want to cache. Check out [our caching guide](/get-started/cache/creating-a-cache) for more information. 
