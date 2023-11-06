@@ -19,7 +19,7 @@ Setting up your application to take advantage of ReadySet takes a few steps.
 for when to switch read traffic over to ReadySet. This allows clients to observe recent writes if there is write 
 traffic ongoing while still taking advantage of ReadySet's caching for read-heavy workloads.
 
-This will take 3 steps. You’ll need to add ReadySet as a read replica and configure ActiveRecord to 
+This will take three steps. You’ll need to add ReadySet as a read replica and configure ActiveRecord to 
 route traffic and finally configure Rails' connection switching middleware with a few quick changes.
 
 ### a. Update database configuration
