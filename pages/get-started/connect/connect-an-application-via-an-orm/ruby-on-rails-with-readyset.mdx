@@ -73,7 +73,7 @@ class ApplicationRecord < ActiveRecord::Base
 end
 ```
 
-Note how `connects_to_database` is pointing to the names of both the primary database and ReadySet 
+Note how `connects_to database:` is pointing to the names of both the primary database and ReadySet
 via the names you defined in your `database.yml` configuration. 
 
 If you aren't on Rails 7, you'll need to replace `primary_abstract_class` with `self.abstract_class = true`. 
