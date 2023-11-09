@@ -8,7 +8,7 @@ Once you've [identified queries](/get-started/cache/profiling-queries) that can 
 ​
 To view all queries that ReadySet has proxied to the upstream database and check if they can be cached in ReadySet, connect to ReadySet via the shell and run:
 ​
-```
+```sh copy 
 SHOW PROXIED QUERIES;
 ```
 ​
@@ -22,12 +22,12 @@ This command returns a virtual table with three columns:
   - If the value is `no`, ReadySet cannot cache the query.
 ​
 ​
-<Callout type="info">To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](/features/supported-sql-syntax.mdx). ​If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).</Callout>
+<Callout type="info">To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](/reference/features/supported-data-types). ​If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).</Callout>
 ​
 ## Cache queries
 To cache a query, use:
 ​
-```
+```sh copy 
 CREATE CACHE [ALWAYS] [<name>] FROM <query>;
 ```
 - `<name>` is optional. If a cache is not named, ReadySet automatically assigns an identifier.
@@ -37,18 +37,18 @@ CREATE CACHE [ALWAYS] [<name>] FROM <query>;
 
 For example, to cache from the query `SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC`:
 
-```
+```sh copy 
 CREATE CACHE FROM SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC;
 ```
 
 ## View cached queries
 To show all queries that have been cached, use:
 ​
-```
+```sh copy 
 SHOW CACHES;
 To show a specific cached query, use:
 ```
-```
+```sh copy 
 SHOW CACHES where query_id = <query ID>;
 ```
 This command returns a virtual table with 2 columns:
@@ -59,7 +59,7 @@ This command returns a virtual table with 2 columns:
 ## Remove cached queries
 To remove a cache from ReadySet, use:
 ​
-```
+```sh copy 
 DROP CACHE <id>
 ```
 - `<id>` is either the name assigned to the query by the user or the ID assigned to the query by ReadySet, as seen in the output of `SHOW CACHES`.

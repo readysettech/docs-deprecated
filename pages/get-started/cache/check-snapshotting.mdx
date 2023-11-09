@@ -14,7 +14,7 @@ Since snapshotting can take between a few minutes to several hours, depending on
 
 To check ReadySet's overall snapshotting progress, connect a SQL shell to ReadySet and run the following custom SQL command:
 
-``` sql
+``` sql copy 
 SHOW READYSET STATUS;
 ```
 
@@ -31,7 +31,7 @@ This command returns either `In Progress` or `Completed` as the snapshotting sta
 
 To check the snapshotting status of each table in the database that ReadySet is connected to, connect a SQL shell to ReadySet and run the following custom SQL command:
 
-``` sql
+``` sql copy 
 SHOW READYSET TABLES;
 ```
 
@@ -60,7 +60,7 @@ To track the progress and estimated time remaining for each table, `grep` the Re
 
 ### Postgres
 
-    ``` sh
+    ``` sh copy 
     grep 'Snapshotting table' readyset.log
     ```
 
@@ -76,7 +76,7 @@ To track the progress and estimated time remaining for each table, `grep` the Re
 
 ### MySQL
 
-    ``` sh
+    ``` sh copy 
     grep 'taking database snapshot' readyset.log
     ```
 

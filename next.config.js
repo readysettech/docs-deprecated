@@ -21,6 +21,11 @@ module.exports = withNextra({
         destination: 'https://github.com/readysettech/readyset/releases',
         permanent: true,
       },
+      {
+        source: '/quickstart',
+        destination: '/demo',
+        permanent: true,
+      },
     ]
   },
 })

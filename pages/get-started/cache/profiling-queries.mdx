@@ -18,13 +18,13 @@ You can use the [pg_stat_statements extension](https://www.postgresql.org/docs/c
 
 Connect to your database via the shell. Run the following command to see if pg_stat_statements is installed.
 
-```
+```sh copy 
 SELECT calls, query FROM pg_stat_statements LIMIT 1;
 ```
 
 If an error is returned, enable pg_stat_statments with the following command:
 
-```
+```sh copy 
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 ```
 
@@ -51,7 +51,7 @@ ReadySet can cache many `SELECT` queries.
 
 To find `SELECT` queries with the highest latency, run:
 
-```sql
+```sql copy 
 SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by mean_exec_time DESC;
 ```
 
@@ -59,13 +59,13 @@ Similarly, ReadySet can be used to offload high-impact queries to improve throug
 
 To find the most frequently-run `SELECT` queries, run:
 
-```sql
+```sql copy 
 SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by calls DESC;
 ```
 
 To find queries that cause the most total load on the database, run:
 
-```sql
+```sql copy 
 SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by total_exec_time DESC;
 ```
 </Tab>
@@ -74,30 +74,30 @@ ReadySet metrics are formatted for easy integration with [Prometheus](https://pr
 
 1. Download the metrics utility and its `requirements.txt`:
 
-```sql 
+```sql copy 
 curl -L -O "https://readyset.io/quickstart/metrics.py"
 curl -L -O "https://readyset.io/quickstart/requirements.txt"
 ```
 
 2. Install dependencies for the utility:
 
-```
+```sh copy 
 pip3 install -r requirements.txt
 ```
 
 3. Set the `METRICS_HOST` environment variable to the IP address/hostname portion of `--metrics-address`:
-```sql 
+```sql copy 
 export METRICS_HOST="<metrics-host>"
 ```
 
 4. Run the script with
-```sql
+```sql copy 
 python3 metrics.py --host=${METRICS_HOST}
 ```
 
 5. You can filter the output of this script to show only queries displayed in `SHOW PROXIED QUERIES` or `SHOW CACHES` by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
 
-```sql 
+```sql copy 
 PGPASSWORD=noria psql --host=127.0.0.1 --port=5433 --username=postgres --dbname=noria -c "SHOW CACHES" | python3 metrics.py --filter-queries
 ```
 </Tab>

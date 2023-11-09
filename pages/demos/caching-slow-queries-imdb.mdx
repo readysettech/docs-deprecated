@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 ## Prerequisites
 
-- A ReadySet instance connected to a MySQL or Postgres database with Grafana (we recommend that you use the [ReadySet Demo](/quickstart) to set this up)
+- A ReadySet instance connected to a MySQL or Postgres database with Grafana (we recommend that you use the [ReadySet Demo](/demo) to set this up)
 - MySQL or Postgres client, depending on the primary database
 
 ## Steps
@@ -16,38 +16,38 @@ import Image from 'next/image'
 <Tab>
 First, download the IMDB dataset for MySQL:
 
-```
+```sh copy 
 curl -L -O "https://readyset.io/quickstart/imdb-mysql.sql"
 ```
 
 Then, connect to your ReadySet instance and import the dataset:
 
-```
+```sh copy 
 mysql -h<ReadySet URL> -U<username> -P<port number> <database name> -p<password> < imdb-mysql.sql
 ```
 
 **Note:** If you used the ReadySet Demo instructions to set up ReadySet (recommended), you can use the following command to connect:
 
-```
+```sh copy 
 mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset <  imdb-mysql.sql
 ```
 </Tab>
 <Tab>
 First, download the IMDB dataset for Postgres:
 
-```
+```sh copy 
 curl -L -O "https://readyset.io/quickstart/imdb-postgres.sql"
 ```
 
 Then, connect to your ReadySet instance and import the dataset:
 
-```
+```sh copy 
 PGPASSWORD=<password> psql -h<ReadySet URL> -U<username> -p<port> <database name> < imdb-postgres.sql
 ```
 
 **Note:** If you used the ReadySet Demo instructions to set up ReadySet (recommended), you can use the following command to connect and import the dataset:
 
-```
+```sh copy 
 PGPASSWORD=readyset psql -h127.0.0.1 -Upostgres -p5433 testdb < imdb-postgres.sql
 ```
 </Tab>
@@ -56,7 +56,7 @@ PGPASSWORD=readyset psql -h127.0.0.1 -Upostgres -p5433 testdb < imdb-postgres.sq
 
 It could take a few seconds for ReadySet to import the tables. You can check whether they've been successfully imported by connecting to ReadySet through your database client and running:
 
-```
+```sql copy 
 SHOW READYSET TABLES;
 ```
 
@@ -68,7 +68,7 @@ Once the tables have been imported into ReadySet, we can start running queries.
 
 Let's try this one, which counts how many titles released in 2000 had an average rating that was higher than 5:
 
-```
+```sql copy 
 SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
@@ -80,7 +80,7 @@ By default, this query is proxied to the primary database.
 
 We can cache it in ReadySet by running the following:
 
-```
+```sql copy 
 CREATE CACHE FROM SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;

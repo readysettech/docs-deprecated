@@ -57,7 +57,7 @@ To make sure ReadySet can connect with your database, the database will have to 
 
 13. To check that this worked, run the following command:
 
-```sql
+```sql copy 
 SELECT name,setting FROM pg_settings WHERE name = 'rds.logical_replication';
 ```
 
@@ -79,7 +79,7 @@ If you are using RDS and ReadySet with the same [user account](https://aws.amazo
 If you need to add a new user account or access ReadySet with a different one, you'll need to enable superuser permissions. To do that, enter the following in the `psql` command line interface:
 
 
-```sql
+```sql copy 
 UPDATE pg_user SET usesuper=true where usename = CURRENT_USER;
 ```
 
