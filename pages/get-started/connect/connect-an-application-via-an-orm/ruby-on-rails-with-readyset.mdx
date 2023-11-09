@@ -5,7 +5,7 @@ import Image from 'next/image'
 # Use ReadySet with Ruby on Rails
 
 This guide walks you through how to use ReadySet with your Ruby on Rails app. 
-To do this, you'll use the [built-in Rails multiple database support]((https://guides.rubyonrails.org/active_record_multiple_databases.html#activating-automatic-role-switching)) to get the performance of 
+To do this, you'll use the [built-in Rails multiple database support](https://guides.rubyonrails.org/active_record_multiple_databases.html#activating-automatic-role-switching) to get the performance of 
 caching with the simplicity of a single read replica. 
 
 ## 0. Set up ReadySet
@@ -59,11 +59,11 @@ ReadySet will see any changes to the primary database already.
 In your application's `app/models` directory, you'll find a base class for all of your model classes 
 often called `ApplicationRecord`. Open up that class and add the following line: 
 
-```ruby
+```ruby copy 
 connects_to database: { writing: :primary, reading: :primary_replica }
 ```
 
-If you haven’t made any changes to this base class, it should look like this:
+If you haven't made any changes to this base class, it should look like this:
 
 ```ruby
 class ApplicationRecord < ActiveRecord::Base
@@ -85,7 +85,7 @@ What's more, if for some reason you do not have access to an `ApplicationRecord`
 Finally, you'll need to activate Rails middleware that'll ensure writes go to the primary database and 
 reads through ReadySet. First run this command to generate a configuration file: 
 
-```sh
+```sh copy 
 bin/rails generate active_record:multi_db
 ```
 

@@ -8,13 +8,13 @@ You can use the [pg_stat_statements extension](https://www.postgresql.org/docs/c
 
 Connect to your database via the shell. Run the following command to see if pg_stat_statements is installed.
 
-```
+```sh copy 
 SELECT calls, query FROM pg_stat_statements LIMIT 1;
 ```
 
 If an error is returned, enable pg_stat_statments with the following command:
 
-```
+```sh copy 
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 ```
 <Callout type="warning">
@@ -24,19 +24,19 @@ In some environments, the pg_stat_statements extension may not be available. In 
 ### Identifying queries to cache
 To find queries that put the highest load on the database, run:
 
-```
+```sh copy 
 SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by total_exec_time DESC;
 ```
 
 To find queries with the highest latency, run:
 
-```
+```sh copy 
 SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by mean_exec_time DESC;
 ```
 
 To find the most frequently issued queries, run: 
 
-```
+```sh copy 
 SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by calls DESC;
 ```
 
