@@ -33,28 +33,25 @@ docker pull readysettech/readyset
 
 ## 3.  Run ReadySet
 
-
 First, find your primary database's connection string. 
 
 It should look something like this: 
 
 ```postgres://<username>:<password>@<host>:<port>/<db_name>```
 
-Next, define the list of tables you want to pull into ReadySet as a comma-separated list: 
-```<schema>.<table>, <schema>.<table2>```. Note, this is optional - you can import all tables too by ignoring this command line flag.
-If you'd like to import all of the tables in a given schema, you can specify everything as follows: ```<schema>.*```. 
-
-
 **By default, ReadySet will import all tables.** If you'd like to import all database tables, 
-you can skip passing in this argument. 
-
+you can skip defining a `REPLICATION_TABLES` environment variable. If, however, you'd only like
+to import a a subset of your database, then you need to define the list of tables you want to pull 
+into ReadySet as a comma-separated list: ```<schema>.<table>, <schema>.<table2>```. 
+Note, this is optional - you can import all tables too by ignoring this command line flag. If you'd 
+like to import all of the tables in a given schema, you can specify everything as follows: ```<schema name>.*```. 
 
 Now, you're ready to start ReadySet. In your terminal, run the following command:  
 
 ```sh copy
 docker run -d -p 5433:5433 --name readyset      \
 -e UPSTREAM_DB_URL=<database connection string> \
--e REPLICATION_TABLES=<your tables>             \
+-e REPLICATION_TABLES=<specific tables or omit> \
 -e LISTEN_ADDRESS=0.0.0.0:5433                  \
 -e PROMETHEUS_METRICS=true                      \
 -e STANDALONE=true                              \
@@ -64,6 +61,9 @@ readysettech/readyset:latest
 As you can see above, ReadySet is set to listen on port 5433. All `-e` environment variables can be 
 placed into a file and referenced via Docker's `--env-file` flag if you'd rather simply your command 
 line experience. 
+
+<Callout type="info"> If your database is running locally as a docker container, you'll need to 
+use `host.docker.internal` rather than `localhost`. </Callout>
 
 Connecting to a locally running docker Postgres and importing all tables 
 in the `locution` database, for instance, would look like this:
