@@ -33,7 +33,6 @@ docker pull readysettech/readyset
 
 ## 3. Run ReadySet
 
-
 First, find your primary database's connection string. 
 
 It should look something like this: 
@@ -41,47 +40,35 @@ It should look something like this:
 ```mysql://<username>:<password>@<host>:<port>/<db_name>```
 
 Next, define the list of tables you want to pull into ReadySet as a comma-separated list: 
-```<schema>.<table>, <schema>.<table2>```
+```<schema>.<table>, <schema>.<table2>```. Note, this is optional - you can import all tables too by ignoring this command line flag.
+If you'd like to import all of the tables in a given schema, you can specify everything as follows: ```<schema>.*```. 
 
-**By default, ReadySet will import all tables.**
-
-If this is what you want, you can skip passing in this argument. 
-
-If you'd like to import all of the tables in a given schema, you can specify that as follows: ```<schema>.*```. 
+**By default, ReadySet will import all tables.** If this is what you want, you can skip passing in this argument. 
 
 Now, you're ready to start ReadySet. In your terminal, run the following command:  
 
 ```sh copy
-docker run -d -t -i                             \
--p 5433:5433                                    \
+docker run -d -p 5433:5433 --name readyset      \
 -e UPSTREAM_DB_URL=<database connection string> \
 -e REPLICATION_TABLES=<your tables>             \
 -e LISTEN_ADDRESS=0.0.0.0:5433                  \
-readysettech/readyset:latest --standalone --prometheus-metrics
+-e PROMETHEUS_METRICS=true                      \
+-e STANDALONE=true                              \
+readysettech/readyset:latest
 ```
 
-As you can see above, ReadySet is set to listen on port 5433. 
+As you can see above, ReadySet is set to listen on port 5433. All `-e` environment variables can be 
+placed into a file and referenced via Docker's `--env-file` flag if you'd rather simply your command 
+line experience. 
 
-
-For instance, connecting to a locally running docker Postgres and importing all tables 
-in the `locution` database would look like this:
-
-```sh 
-docker run -d -t -t                                                                \
--p 5433:5433                                                                       \
--e UPSTREAM_DB_URL=postgres://postgres:locution@host.docker.internal:5432/locution \
--e LISTEN_ADDRESS=0.0.0.0:5433                                                     \
-readysettech/readyset:latest --standalone --prometheus-metrics
-```
-
-
-ReadySet will then connect to your database and replicate the specified tables. Depending on how large these tables
-are and the network connection between ReadySet and your database, this could take between seconds and hours. 
+ReadySet will then connect to your database and replicate specified tables (i.e. all or the explictly defined ones). 
+Depending on how large these tables are and the network connection between ReadySet and your database, 
+this could take between seconds and hours. 
 
 To check whether the tables have been imported, run the following: 
 
 ```sh copy
-docker logs readyset-cache-1
+docker logs readyset
 ```
 
 While the snapshot is ongoing, you will see many log messages related to snapshotting progress.
@@ -93,6 +80,16 @@ INFO replicators::noria_adapter: Streaming replication started
 ```
 
 ReadySet is ready to start caching queries.
+
+Alternatively, you can log into the ReadySet shell and run
+
+```sql
+SHOW READYSET STATUS;
+```
+Look at the `Snapshot Status` column. If snapshotthing successfully completed, 
+it'll report `Completed`.
+
+Now ReadySet is ready to start caching queries.
 
 ## Next Steps
 
