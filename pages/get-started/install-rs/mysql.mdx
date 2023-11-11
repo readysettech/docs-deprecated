@@ -62,7 +62,7 @@ As you can see above, ReadySet is set to listen on port 5433. All `-e` environme
 placed into a file and referenced via Docker's `--env-file` flag if you'd rather simply your command 
 line experience.
 
-<Callout type="info"> If your database is running locally as a docker container, you'll need to 
+<Callout type="info"> If your database is running locally, you'll need to 
 use `host.docker.internal` rather than `localhost`. </Callout>
 
 ReadySet will then connect to your database and replicate specified tables (i.e. all or the explictly defined ones). 
