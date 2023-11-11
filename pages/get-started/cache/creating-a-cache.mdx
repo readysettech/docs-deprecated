@@ -28,10 +28,10 @@ This command returns a virtual table with three columns:
 To cache a query, use:
 ​
 ```sh copy 
-CREATE CACHE [ALWAYS] [<name>] FROM <query>;
+CREATE CACHE [ALWAYS] [<name>] FROM <query string or query ID>;
 ```
 - `<name>` is optional. If a cache is not named, ReadySet automatically assigns an identifier.
-- `<query>` is the full text of the query or the unique identifier assigned to the query by ReadySet, as seen in output of `SHOW PROXIED QUERIES`.
+- `<query>` is the full text of the query or the unique identifier (i.e. `query id`) assigned to the query by ReadySet, as seen in output of `SHOW PROXIED QUERIES`.
 - `ALWAYS` is optional. If a cached query is executed inside a transaction (e.g., due to an ORM), use `ALWAYS` to run the query against ReadySet; otherwise, the query will be proxied to the upstream database with the rest of the transaction.
 ​
 
@@ -40,14 +40,36 @@ For example, to cache from the query `SELECT "words".* FROM "words" WHERE ("word
 ```sh copy 
 CREATE CACHE FROM SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC;
 ```
+You can also grab the query ID from `show proxied queries` and use that identifier to cache a query. 
+For instance, running `show proxied queries` shows this table:
+
+```
+      query id      |                 proxied query                 | readyset supported | count
+--------------------+-----------------------------------------------+--------------------+-------
+ q_bb6bd342f17bd8cd | SELECT                                       +| yes                |     1
+                    |   *                                          +|                    |
+                    | FROM                                         +|                    |
+                    |   "employees"."employee"                     +|                    |
+                    | WHERE                                        +|                    |
+                    |   ("last_name" = $1)                          |                    |
+```
+
+You can create a cache for the `select` query above with its ID (`q_bb6bd342f17bd8cd`) like so:
+
+```
+CREATE CACHE FROM q_bb6bd342f17bd8cd;
+```
+This makes it easier to create caches from a list of queries found in `show proxied queries`. 
 
 ## View cached queries
 To show all queries that have been cached, use:
 ​
 ```sh copy 
 SHOW CACHES;
-To show a specific cached query, use:
 ```
+
+To show a specific cached query, use:
+
 ```sh copy 
 SHOW CACHES where query_id = <query ID>;
 ```
