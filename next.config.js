@@ -26,6 +26,11 @@ module.exports = withNextra({
         destination: '/demo',
         permanent: true,
       },
+      {
+        source: '/deploy/configure-your-database',
+        destination: '/get-started/configure-your-database/postgres',
+        permanent: false
+      }
     ]
   },
 })
