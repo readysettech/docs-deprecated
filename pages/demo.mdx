@@ -6,9 +6,12 @@ import { Cards, Card } from 'nextra/components'
 
 This demo sets up a ReadySet instance and a sample database on your local machine using Docker.
 
-<Callout>If you want to connect ReadySet to your own database, please follow the directions in the [install ReadySet](/get-started/install-rs) documentation.</Callout>
+<Callout>If you want to connect ReadySet to your own database, please follow the directions in 
+the [install ReadySet](/get-started/install-rs) documentation.</Callout>
 
-<Callout>Before starting, make sure you have Docker Engine version >= 19.03.0​ and Docker Compose V2 OR Docker Desktop >= 4.1.0 and the MySQL or Postgres client installed.</Callout>
+<Callout>Before starting, make sure you have Docker Engine version >= 19.03.0 and Docker Compose V2 OR 
+Docker Desktop >= 4.1.0 and the [MySQL](https://dev.mysql.com/doc/refman/8.0/en/mysql.html) or 
+[Postgres](https://www.postgresql.org/docs/current/app-psql.html) client installed.</Callout>
 
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
@@ -27,6 +30,7 @@ curl -L -o compose.yml                                  \
 curl -L -s "https://readyset.io/quickstart/imdb-postgres.sql" \
   | psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
 ```
+
 <Callout type="warning">
 Data loading will be slow on Macs with Apple Silicon.
 </Callout>
@@ -38,24 +42,23 @@ Connect to ReadySet.
 ```sh copy
 psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
 ```
+
 Enable query timing.
 
 ```sh copy
 \timing
 ```
 
-Run a sample query.
+Run a sample query. Note that since we have not created a cache, this query is served directly by Postgres.
 
-Note that since we have not created a cache, this query is served by Postgres.
-
-Query:
 ```sql copy
 SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
-Results:
+You'll see simimlar results:
+
 ```sql
  count
 -------
@@ -67,7 +70,11 @@ Time: 154.980 ms
 
 **4. Cache a query!**
 
-Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet.
+<Callout type="warning">
+Query performance will be slow on Macs with Apple Silicon.
+</Callout>
+
+Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet like so:
 
 ```sql copy
 CREATE CACHE FROM SELECT count(*) FROM title_ratings
@@ -75,16 +82,16 @@ JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
-Now that ReadySet is going to cache the query, run the query to populate the cache.
+Now that ReadySet is going to cache the query, run the same query to populate the cache:
 
-Query:
 ```sql copy
 SELECT count(*) FROM title_ratings
 JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
-Results:
+Same results as earlier:
+
 ```sql
  count(*)
 ----------
@@ -94,9 +101,9 @@ Results:
 Time: 154.980 ms
 ```
 
-That query ran on the database, but now the ReadySet cache has been populated.  Run the query again, and this time it is served by ReadySet.
+This most recent query ran against Postgres, but now the ReadySet cache has been populated.  
+Run the query again and this time it's served by ReadySet:
 
-Results:
 ```sql
  count(*)
 ----------
@@ -128,7 +135,62 @@ Use the `SHOW CACHES` command to see which queries are currently being cached by
 (1 row)
 ```
 
-**6. Try more queries!**
+**6. Update the underlying data**
+
+You'll notice that query you've run a few times returns the count of movies in '00 that had a rating greater than 5 (i.e. 2,418 movies). 
+"Battlefield Earth" was a movie released in '00 that received poor ratings. For instance, run this query:
+
+```sql copy
+ SELECT title_basics.tconst, title_basics.primarytitle, title_ratings.averagerating, title_ratings.numvotes 
+ FROM title_basics                                                
+ INNER JOIN title_ratings on title_ratings.tconst = title_basics.tconst                                                                                                               
+ WHERE title_basics.primarytitle = 'Battlefield Earth';
+```
+
+You'll see it scored an average rating of 2.5:
+
+```sql
+  tconst   |   primarytitle    | averagerating | numvotes
+-----------+-------------------+---------------+----------
+ tt0185183 | Battlefield Earth |           2.5 |    80451
+(1 row)
+
+Time: 63.621 ms
+```
+
+It was, indeed, an awful movie. Nevertheless, historical revisionism is fun when you have 
+full control of the data. You can grab the id for "Battlefield Earth" (`tt0185183`) and update its
+average rating accordingly: 
+
+```sql copy
+UPDATE title_ratings
+SET averagerating = 5.1
+WHERE tconst = 'tt0185183';
+```
+
+**7. The cache is auto-updated!** 
+
+Rerun the previously cached query that returns the count of movies: 
+
+```sql copy
+SELECT count(*) FROM title_ratings                                                                                                                                         
+JOIN title_basics ON title_ratings.tconst = title_basics.tconst                                                                                                                      
+WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
+```
+
+And bingo! The count has been increased by one (i.e 2,419 vs 2,418). 
+
+```sql
+ count(*)
+----------
+     2419
+(1 row)
+
+Time: 2.617 ms
+```
+
+
+**8. Try more queries!**
 
 Explore the dataset and test ReadySet's performance with additional queries.
 
@@ -142,6 +204,7 @@ Remove a cache:
 DROP CACHE <cache id>;
 ```
 </Tab>
+
 <Tab>
 **1. Download and run the ReadySet Docker compose file**
 
@@ -257,7 +320,59 @@ mysql> show caches;
 1 row in set (0.02 sec)
 ```
 
-**6. Try more queries!**
+**6. Update the underlying data**
+
+You'll notice that query you've run a few times returns the count of movies in '00 that had a rating greater than 5 (i.e. 2,418 movies). 
+"Battlefield Earth" was a movie released in '00 that received poor ratings. For instance, run this query:
+
+```sql copy
+ SELECT title_basics.tconst, title_basics.primarytitle, title_ratings.averagerating, title_ratings.numvotes 
+ FROM title_basics                                                
+ INNER JOIN title_ratings on title_ratings.tconst = title_basics.tconst                                                                                                               
+ WHERE title_basics.primarytitle = 'Battlefield Earth';
+```
+
+You'll see it scored an average rating of 2.5:
+
+```sql
+  tconst   |   primarytitle    | averagerating | numvotes
+-----------+-------------------+---------------+----------
+ tt0185183 | Battlefield Earth |           2.5 |    80451
+1 row in set (0.62 sec)
+```
+
+It was, indeed, an awful movie. Nevertheless, historical revisionism is fun when you have 
+full control of the data. You can grab the id for "Battlefield Earth" (`tt0185183`) and update its
+average rating accordingly: 
+
+```sql copy
+UPDATE title_ratings
+SET averagerating = 5.1
+WHERE tconst = 'tt0185183';
+```
+
+**7. The cache is auto-updated!** 
+
+Rerun the previously cached query that returns the count of movies: 
+
+```sql copy
+SELECT count(*) FROM title_ratings                                                                                                                                         
+JOIN title_basics ON title_ratings.tconst = title_basics.tconst                                                                                                                      
+WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
+```
+
+And bingo! The count has been increased by one (i.e 2,419 vs 2,418). 
+
+```sql
++----------+
+| count(*) |
++----------+
+|     2419 |
++----------+
+1 row in set (0.03 sec)
+```
+
+**8. Try more queries!**
 
 Explore the dataset and test ReadySet's performance with additional queries.
 
