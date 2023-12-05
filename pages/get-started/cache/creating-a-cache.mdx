@@ -15,7 +15,7 @@ use ReadySet's custom SQL commands to check if the queries are supported and the
 To view all queries that ReadySet has proxied to the upstream database and check if they can be cached in ReadySet, 
 connect to ReadySet via the shell and run:
 
-```sh copy 
+```sql copy 
 SHOW PROXIED QUERIES;
 ```
 ​
@@ -35,7 +35,7 @@ This command returns a virtual table with four columns:
 ## Cache queries
 To cache a query, use:
 ​
-```sh copy 
+```sql copy 
 CREATE CACHE [ALWAYS] [<name>] FROM <query>;
 ```
 - `<name>` is optional. If a cache is not named, ReadySet automatically assigns an identifier.
@@ -45,7 +45,7 @@ CREATE CACHE [ALWAYS] [<name>] FROM <query>;
 
 For example, to cache from the query `SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC`:
 
-```sh copy 
+```sql copy 
 CREATE CACHE FROM SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC;
 ```
 You can also grab the query ID from `show proxied queries` and use that identifier to cache a query. 
@@ -72,13 +72,13 @@ This makes it easier to create caches from a list of queries found in `show prox
 ## View cached queries
 To show all queries that have been cached, use:
 ​
-```sh copy 
+```sql copy 
 SHOW CACHES;
 ```
 
 To show a specific cached query, use:
 
-```sh copy 
+```sql copy 
 SHOW CACHES where query_id = <query ID>;
 ```
 This command returns a virtual table with 2 columns:
@@ -89,9 +89,10 @@ This command returns a virtual table with 2 columns:
 ## Remove cached queries
 To remove a cache from ReadySet, use:
 ​
-```sh copy 
+```sql copy 
 DROP CACHE <query>;
 ```
 - `<query>` is the full text of the query or the unique identifier (i.e. `query id`) assigned to the query by ReadySet, as seen in output of `SHOW CACHES`.
 ​
+
 After removing a query from ReadySet, any instances of this query will be proxied to the upstream database.
