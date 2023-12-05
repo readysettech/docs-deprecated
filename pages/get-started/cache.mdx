@@ -28,7 +28,7 @@ Once you see the status is `Completed` ReadySet is ready to cache queries.
 If you are unsure what queries to cache, you can [run diagnostics with both Postgres and MySQL](/reference/profiling-queries) to ascertain 
 costly queries. 
 
-# Creating a Cache 
+## 0. Creating a Cache 
 
 It's important to note that ReadySet sits between your application and your database. SQL traffic must pass through ReadySet so 
 that it can cache desired queries. You can check to see that an application is successfully connected to ReadySet
@@ -39,7 +39,7 @@ being you in the ReadySet shell and the other being your application).
 Once you've [identified queries](/get-started/cache/profiling-queries) that can benefit from caching with ReadySet, 
 use ReadySet's custom SQL commands to check if the queries are supported and then to cache supported queries in ReadySet.
 
-## 0. Checking query support
+## 1. Checking query support
 To view all queries that ReadySet has proxied to the upstream database and check if they can be cached in ReadySet, 
 connect to ReadySet via the shell and run:
 
@@ -60,7 +60,7 @@ This command returns a virtual table with four columns:
 
 <Callout type="info">To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](/reference/features/supported-data-types). ​If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).</Callout>
 
-## 1. Cache queries
+## 2. Cache queries
 To cache a query, use:
 
 ```sql copy 
@@ -97,7 +97,7 @@ CREATE CACHE FROM q_bb6bd342f17bd8cd;
 ```
 This makes it easier to create caches from a list of queries found in `show proxied queries`. 
 
-## 2. View cached queries
+## 3. View cached queries
 To show all queries that have been cached, use:
 
 ```sql copy 
@@ -114,7 +114,7 @@ This command returns a virtual table with 2 columns:
 - **Name:** The name assigned to the query by the user, or the ID assigned to the query by ReadySet.
 - **Query Text:** The SQL source of the query. This is the canonical structure of the query, not the original SQL passed to ReadySet.
 
-## 3. Remove cached queries
+## 4. Remove cached queries
 To remove a cache from ReadySet, use:
 
 ```sql copy 
