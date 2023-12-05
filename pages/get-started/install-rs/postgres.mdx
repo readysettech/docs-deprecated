@@ -54,8 +54,6 @@ docker run -d -p 5433:5433 -p 6034:6034         \
 -e UPSTREAM_DB_URL=<database connection string> \
 -e REPLICATION_TABLES=<specific tables or omit> \
 -e LISTEN_ADDRESS=0.0.0.0:5433                  \
--e PROMETHEUS_METRICS=true                      \
--e STANDALONE=true                              \
 readysettech/readyset:latest
 ```
 
@@ -75,8 +73,6 @@ in the `locution` database, for instance, would look like this:
 docker run -d -p 5433:5433 -p 6034:6034 --name readyset                            \
 -e UPSTREAM_DB_URL=postgres://postgres:locution@host.docker.internal:5432/locution \
 -e LISTEN_ADDRESS=0.0.0.0:5433                                                     \
--e PROMETHEUS_METRICS=true                                                         \
--e STANDALONE=true                                                                 \
 readysettech/readyset:latest
 ```
 
