@@ -2,9 +2,13 @@ import { Callout } from 'nextra/components'
 
 # Check Snapshotting
 
-When you first connect ReadySet to your database, ReadySet stores a snapshot of your database tables on disk and then keeps this snapshot up-to-date by listening to your database's replication stream. **Queries can be cached in ReadySet only once all tables have finished the initial snapshotting process.**
+When you first connect ReadySet to your database, ReadySet stores a snapshot of your database tables on 
+disk and then keeps this snapshot up-to-date by listening to your database's replication 
+stream. **Queries can be cached in ReadySet only once all tables have finished the initial snapshotting 
+process.**
 
-Since snapshotting can take between a few minutes to several hours, depending on the size of your dataset, ReadySet gives you various ways to check the snapshotting status:
+Since snapshotting can take between a few minutes to several hours, depending on the size of your 
+dataset, ReadySet gives you various ways to check the snapshotting status:
 
 - [Check overall status](#check-overall-status): Run a custom SQL command to check the overall snapshotting status.
 - [Check per-table status](#check-per-table-status): Run a custom SQL command to check the snapshotting status of each table in the database that ReadySet is connected to.

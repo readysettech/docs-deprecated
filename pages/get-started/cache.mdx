@@ -4,6 +4,123 @@ import { Callout } from 'nextra/components'
 # Cache queries in ReadySet
 
 Once your application is sending SQL queries through ReadySet, you can see which queries are cacheable. 
+**Queries can be cached in ReadySet only once all tables have finished the initial snapshotting 
+process.**
 
-You can run diagnostics with both Postgres and MySQL to ascertain costly queries. This information might 
-be helpful in determining which queries you should cache with ReadySet. 
+Before attemping to cache a query, check ReadySet's overall snapshotting progress by connecting 
+a SQL shell to ReadySet and running the following custom SQL command:
+
+``` sql copy 
+SHOW READYSET STATUS;
+```
+
+Look for the row labeled `Snapshot Status` -- it shoud be either `In Progress` or `Completed`.
+
+``` {.text .no-copy}
+name            |   value
+----------------+----------
+Snapshot Status | Completed
+(1 row)
+```
+
+Once you see the status is `Completed` ReadySet is ready to cache queries. 
+
+If you are unsure what queries to cache, you can [run diagnostics with both Postgres and MySQL](/reference/profiling-queries) to ascertain 
+costly queries. 
+
+## 0. Creating a Cache 
+
+It's important to note that ReadySet sits between your application and your database. SQL traffic must pass through ReadySet so 
+that it can cache desired queries. You can check to see that an application is successfully connected to ReadySet
+by using the ReadySet shell and running the commands `show proxied queries` (you should see queries) or `show connections` (you should see two connections - one 
+being you in the ReadySet shell and the other being your application). 
+
+
+Once you've [identified queries](/get-started/cache/profiling-queries) that can benefit from caching with ReadySet, 
+use ReadySet's custom SQL commands to check if the queries are supported and then to cache supported queries in ReadySet.
+
+## 1. Checking query support
+To view all queries that ReadySet has proxied to the upstream database and check if they can be cached in ReadySet, 
+connect to ReadySet via the shell and run:
+
+```sql copy 
+SHOW PROXIED QUERIES;
+```
+
+This command returns a virtual table with four columns:
+
+- **QueryID:** A unique identifier for the query.
+- **Proxied Query:** The text of the query being proxied.
+- **ReadySet supported:** Whether or not ReadySet can cache the query.
+  - If the value is `pending`, check again until you see `yes` or `no`.  If the value remains pending for more than 15 seconds, the query is unsupported.
+  - If the value is `yes`, ReadySet can cache the query.
+  - If the value is `no`, ReadySet cannot cache the query.
+- **Count:** The number of times ReadySet has seen this query.
+
+
+<Callout type="info">To successfully cache the results of a query, ReadySet must support the SQL features and syntax in the query. For more details, see [SQL Support](/reference/features/supported-data-types). ​If an unsupported feature is important to your use case, [submit a feature request](https://github.com/readysettech/readyset/issues/new/choose).</Callout>
+
+## 2. Cache queries
+To cache a query, use:
+
+```sql copy 
+CREATE CACHE [ALWAYS] [<name>] FROM <query>;
+```
+- `<name>` is optional. If a cache is not named, ReadySet automatically assigns an identifier.
+- `<query>` is the full text of the query or the unique identifier (i.e. `query id`) assigned to the query by ReadySet, as seen in output of `SHOW PROXIED QUERIES`.
+- `ALWAYS` is optional. If a cached query is executed inside a transaction (e.g., due to an ORM), use `ALWAYS` to run the query against ReadySet; otherwise, the query will be proxied to the upstream database with the rest of the transaction.
+
+
+For example, to cache from the query `SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC`:
+
+```sql copy 
+CREATE CACHE FROM SELECT "words".* FROM "words" WHERE ("words"."id" = $1) ORDER BY "words"."id" ASC;
+```
+You can also grab the query ID from `show proxied queries` and use that identifier to cache a query. 
+For instance, running `show proxied queries` shows this table:
+
+```
+      query id      |                 proxied query                 | readyset supported | count
+--------------------+-----------------------------------------------+--------------------+-------
+ q_bb6bd342f17bd8cd | SELECT                                       +| yes                |   219
+                    |   *                                          +|                    |
+                    | FROM                                         +|                    |
+                    |   "employees"."employee"                     +|                    |
+                    | WHERE                                        +|                    |
+                    |   ("last_name" = $1)                          |                    |
+```
+
+You can create a cache for the `select` query above with its ID (`q_bb6bd342f17bd8cd`) like so:
+
+```
+CREATE CACHE FROM q_bb6bd342f17bd8cd;
+```
+This makes it easier to create caches from a list of queries found in `show proxied queries`. 
+
+## 3. View cached queries
+To show all queries that have been cached, use:
+
+```sql copy 
+SHOW CACHES;
+```
+
+To show a specific cached query, use:
+
+```sql copy 
+SHOW CACHES where query_id = <query ID>;
+```
+This command returns a virtual table with 2 columns:
+
+- **Name:** The name assigned to the query by the user, or the ID assigned to the query by ReadySet.
+- **Query Text:** The SQL source of the query. This is the canonical structure of the query, not the original SQL passed to ReadySet.
+
+## 4. Remove cached queries
+To remove a cache from ReadySet, use:
+
+```sql copy 
+DROP CACHE <query>;
+```
+- `<query>` is the full text of the query or the unique identifier (i.e. `query id`) assigned to the query by ReadySet, as seen in output of `SHOW CACHES`.
+
+
+After removing a query from ReadySet, any instances of this query will be proxied to the upstream database.
