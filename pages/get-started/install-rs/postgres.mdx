@@ -66,6 +66,12 @@ line experience.
 <Callout type="info"> If your database is running locally, you'll need to 
 use `host.docker.internal` rather than `localhost`. </Callout>
 
+<Callout type="info">If you're running our current docker 
+image on a Mac, you'll see a warning: `WARNING: The requested image's platform (linux/amd64) does 
+not match the detected host platform (linux/arm64/v8) and no specific platform was requested`. You 
+can ignore this; alternatively, you can pass the `--platform linux/amd64` flag to the docker 
+`run` command to suppress the warning.  </Callout>
+
 Connecting to a locally running docker Postgres and importing all tables 
 in the `locution` database, for instance, would look like this:
 
