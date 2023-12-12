@@ -1,6 +1,5 @@
 {
-    "configure-your-database": "Step 1 - Configure your database",
-    "install-rs": "Step 2 - Install ReadySet",
-    "connect": "Step 3 - Connect to ReadySet",
-    "cache": "Step 4 - Cache queries"
+    "install-rs": "Step 1 - Install ReadySet",
+    "connect": "Step 2 - Connect to ReadySet",
+    "cache": "Step 3 - Cache queries"
 }

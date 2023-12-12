@@ -5,7 +5,49 @@ import { Cards, Card } from 'nextra/components'
 
 # Install ReadySet
 
-These guides walk you through the process for downloading, configuring, and running ReadySet using Docker. 
+These guides walk you through the process for downloading, configuring, and running ReadySet using 
+Docker. 
+
+## Database Requirements
+
+For ReadySet to work properly, the following database setttings are required: 
+1. Logical replication must be turned on in your database
+2. ReadySet must have superuser permissions
+
+For directions on how to check and alter these configurations, please see our 
+[database reference documentation](/reference/configure-your-database). The steps to 
+configure these settings vary by database 
+type and hosting provider. 
+
+## Supported Database Versions
+
+| Database Type | Versions | Support Level |
+| ----------- | ----------- | ----------- |
+| PostgreSQL | 13.0+ | Beta |
+| MySQL  | 8.0 | Alpha |
+
+
+## Supported Hosting Providers
+
+|  Hosting Provider | Support Level |
+| ----------- | ----------- |
+| Self-hosted | Beta |
+| AWS RDS | Beta |
+| AWS Aurora | Beta |
+| Azure SQL Database | Alpha |
+| GCP SQL | Alpha |
+
+
+**Beta support** conveys that ReadySet is routinely tested in those contexts. 
+
+**Alpha support** conveys that ReadySet has previously been validated to work in those contexts, but we don't actively check for regressions. 
+
+## Troubleshooting 
+
+If you experience any issues, please reach out to us in [Slack](https://join.slack.com/t/readysetcommunity/shared_invite/zt-2272gtiz4-0024xeRJUPGWlRETQrGkFw)
+or open a [Github issue](https://github.com/readysettech/readyset/issues/new/choose). We will help you troubleshoot. 
+
+
 
 <Cards>
   <Card title="Install ReadySet for MySQL" href="/get-started/install-rs/mysql" />
