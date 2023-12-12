@@ -3,6 +3,7 @@
     "profiling-queries": "Profiling Queries", 
     "cli": "CLI", 
     "telemetry": "Telemetry",
-    "tls": "TLS Support"
+    "tls": "TLS Support",
+    "configure-your-database" : "Database configuration"
   }
   
