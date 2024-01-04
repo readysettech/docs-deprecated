@@ -118,9 +118,9 @@ This command returns a virtual table with 2 columns:
 To remove a cache from ReadySet, use:
 
 ```sql copy 
-DROP CACHE <query>;
+DROP CACHE <id>;
 ```
-- `<query>` is the full text of the query or the unique identifier (i.e. `query id`) assigned to the query by ReadySet, as seen in output of `SHOW CACHES`.
+- `<id>` is either the name assigned to the query by the user or the ID assigned to the query by ReadySet, as seen in the output of `SHOW CACHES`.
 
 
 After removing a query from ReadySet, any instances of this query will be proxied to the upstream database.
