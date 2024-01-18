@@ -1,4 +1,4 @@
 {
-    "postgres": "Postgres",
-    "mysql": "MySQL"
+    "docker": "Docker",
+    "binaries": "Binaries"
 }
