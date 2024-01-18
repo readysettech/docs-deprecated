@@ -1,6 +1,6 @@
 {
     "install-rs": "Step 1 - Install ReadySet",
     "connect": "Step 2 - Connect to ReadySet",
-    "cache": "Step 3 - Cache queries",
-    "install-package": "Optional: Install binary package"
+    "cache": "Step 3 - Cache queries"
+   
 }
