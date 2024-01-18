@@ -113,6 +113,29 @@ Format to use when emitting log events. See the [docs for the tracing library](h
 **Env variable:** `LOG_FORMAT`
 </div>
 
+#### `--log-path`
+
+<div class="option-details" markdown="1">
+**Default:** `None`
+Optional path to write logs to. If set, logs will rollover based on the chosen `log_rotation` policy, which defaults to daily.
+Readyset must have write permissions to the provided path.
+Logs will be written to `readyset.log-<suffix>` within this path, with suffix depending on the rotation policy.
+
+**Env variable:** `LOG_PATH`
+</div>
+
+#### `--log-rotation`
+
+<div class="option-details" markdown="1">
+Log Rotation policy to use if a log file is set. Defaults to daily. Does nothing if no log file is set.
+
+**Possible values:** `"daily"`, `"hourly"`, `"minutely"`, `"never"`
+
+**Default:** `"daily"`
+
+**Env variable:** `LOG_ROTATION`
+</div>
+
 #### `--log-level`
 
 <div class="option-details" markdown="1">
