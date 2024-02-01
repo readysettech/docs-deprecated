@@ -3,7 +3,8 @@
     "display": "hidden"
   },
   "demo": "ReadySet Demo",
-  "get-started": "Get Started",
+  "cloud": "ReadySet Cloud",
+  "get-started": "ReadySet Self-Hosted",
   "reference": "Reference",
   "demos": "Demos & Tutorials",
   "concepts": "Concepts",
