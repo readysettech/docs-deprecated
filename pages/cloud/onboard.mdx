@@ -1,0 +1,55 @@
+# Onboarding to Readyset.cloud
+
+This section walks through the process of onboarding to [Readyset.Cloud](https://readyset.cloud).
+
+## Create an account
+
+Follow the prompts to create a login account and log in to Readyset.Cloud.
+
+## Create a project
+
+A Project is a logical collection of Readyset instances. Follow the prompts to create an empty project.
+
+## Create a cache instance
+
+Now proceed to create a ReadySet cache instance under the project just created.
+One would typically deploy a ReadySet cache instance between the client and the
+backend Postgres database. When creating a cache, you must provide connectivity
+details so the ReadySet instance can connect to your backend database.
+
+### Prerequisites
+
+- Please follow the instructions to configure [AWS
+  RDS](/reference/configure-your-database/postgres/aws-rds-directions) or [AWS
+  Aurora](/reference/configure-your-database/postgres/aws-aurora-directions)
+  Databases.
+
+- When connecting using a public RDS URL, you must format the URL like so:
+
+  ```
+  postgresql://<username>:<password>@<pghost>:5432/<pgdb>
+  ```
+
+  Note: You must explicitly specify the port number in the URL.
+
+  You are encouraged to test connectivity to your public RDS or Aurora Postgres
+  database by connecting to the URL from a Postgres client.
+  For, e.g.
+
+  ```
+  psql postgresql://postgres:password@pghostname.us-east-1.rds.amazonaws.com:5432/postgres
+  ```
+
+### Instance creation
+
+Here are some general guidelines for creating the cache instance.
+
+- When choosing a region, pick one identical to your backend database.
+- Cache creation will take several minutes. If the cluster creation fails, the
+  most common reason is the inability to connect to the backend Postgres
+  database. If so, re-validate the Postgres URL, credentials, port number, and
+  database configuration for connectivity, including enabling permissions.
+
+### Demonstration
+
+![Create a cache instance](./CreateCacheInstance.gif)
