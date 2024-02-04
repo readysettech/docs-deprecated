@@ -17,7 +17,9 @@
     "prism-react-renderer": "^1.2.1",
     "prismjs": "^1.25.0",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "^18.1.0",
+    "sonner": "^1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",

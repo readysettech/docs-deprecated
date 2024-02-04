@@ -1,11 +1,16 @@
 import './global.css';
 import React from 'react';
+import { Toaster } from '../components/Toast';
 
 export default function Nextra({ Component, pageProps }) {
-  React.useEffect(()=> {
+  React.useEffect(() => {
     localStorage.theme = 'light';
   })
-  return <Component {...pageProps}/>
+  return (
+    <>
+      <Toaster position="bottom-right" closeButton duration={3500} />
+      <Component {...pageProps} />
+    </>)
 }
 
 import Prism from 'prism-react-renderer/prism'
