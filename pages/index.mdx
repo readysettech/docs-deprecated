@@ -18,7 +18,7 @@ import Link from "next/link"
       <div className="absolute top-0 right-0 h-32 w-64 bg-gradient-radial from-blue-400/80 dark:from-blue-700/50 to-white/20 dark:to-neutral-800/20 to-white/20 dark:to-neutral-800/20 rounded-md blur-3xl" > </div>
       <div className="absolute bg-gradient-radial from-white/20 dark:from-neutral-800/20 via-purple-100 dark:via-purple-700/20 to-white/50 dark:from-neutral-800/20 to-white/50  dark:from-neutral-800/20 inset-0 rounded-md blur-2xl" > </div>
       <div className="absolute left-0 bottom-0 h-64 w-40 bg-gradient-radial from-blue-300/50 dark:from-blue-700/50 to-white/20 dark:to-neutral-800/20 to-white/20 dark:to-neutral-800/20 rounded-md blur-3xl" > </div>
-      <div className="flex flex-col z-10 m-8">
+      <div className="flex flex-col z-10 m-6">
         <div className="shadow-floating border rounded-lg border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-3 flex w-fit items-center justify-center">
           <Image src="/Brand_just_logo_dark.svg" width={32} height={32} />
         </div>
@@ -29,13 +29,13 @@ import Link from "next/link"
           <Link href="https://readyset.cloud">
           <Button className='w-fit'> Try Readyset Cloud </Button>
           </Link>
-            <div>
+            <div className="text-sm md:text-base">
           or
           </div>
           <div>
-          <h2>Get started with ReadySet open-source </h2>
-          <div className='flex items-center px-3 py-2 border rounded-md bg-white text-black w-fit mt-1'>
-          {`bash -c "$(curl -sSL https://launch.readyset.io)"`}
+          <h2 className="text-sm md:text-base">Get started with ReadySet open-source </h2>
+          <div className='flex items-center px-3 py-2 border rounded-md bg-white text-black max-w-[272px] mt-2 md:max-w-fit'>
+          <span className="whitespace-nowrap overflow-x-auto text-sm md:text-base">{`bash -c "$(curl -sSL https://launch.readyset.io)"`} </span>
           <CopyToClipboard text={`bash -c "$(curl -sSL https://launch.readyset.io)"`} className='text-gray-500 ml-4'/>
           </div>
           </div>
