@@ -1,0 +1,33 @@
+# Release Notes
+
+The following are known issues with Readyset.Cloud.
+
+- Readyset.Cloud does not automatically delete replication slots on the backend Postgres database.
+  When Readyset establishes a connection with the backend database, it uses
+  [logical replication](https://blog.readyset.io/how-database-replication-works-under-the-hood/) to replicate the database.
+  When deleting an instance of the Readyset cache, Readyset.Cloud does not vacate these replication slots.
+  Please remove replication slots manually like so:
+
+  List all replication slots:
+
+  ```
+  SELECT slot_name FROM pg_replication_slots WHERE slot_name ~* 'readyset.*';
+  ```
+
+  Sample output is as shown:
+
+  ```
+  slot_name
+  ═══════════════════════════════
+  readyset_vol094d259d1f1a03ef3
+  readyset_vol0afe19b3bca8a55f3
+  (2 rows)
+  ```
+
+  Drop each replication slot, as shown in this example below:
+
+```
+ SELECT pg_drop_replication_slot('readyset_vol094d259d1f1a03ef3');
+ SELECT pg_drop_replication_slot('readyset_vol0afe19b3bca8a55f3');
+
+```
