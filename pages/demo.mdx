@@ -234,12 +234,6 @@ Connect to ReadySet.
 mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
 ```
 
-Enable query timing.
-
-```sql copy
-set profiling=1;
-```
-
 Run a sample query.
 
 Note that since we have not created a cache, this query is served by MySQL.
@@ -335,10 +329,12 @@ You'll notice that query you've run a few times returns the count of movies in '
 You'll see it scored an average rating of 2.5:
 
 ```sql
-  tconst   |   primarytitle    | averagerating | numvotes
------------+-------------------+---------------+----------
- tt0185183 | Battlefield Earth |           2.5 |    80451
-1 row in set (0.62 sec)
++-----------+-------------------+---------------+----------+
+| tconst    | primarytitle      | averagerating | numvotes |
++-----------+-------------------+---------------+----------+
+| tt0185183 | Battlefield Earth |           2.5 |    80451 |
++-----------+-------------------+---------------+----------+
+1 row in set (0.13 sec)
 ```
 
 It was, indeed, an awful movie. Nevertheless, historical revisionism is fun when you have 
