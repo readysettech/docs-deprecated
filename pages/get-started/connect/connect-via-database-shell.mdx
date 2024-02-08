@@ -28,13 +28,13 @@ ReadySet is wire-compatible with MySQL, so you can use the `mysql` client to con
 ReadySet uses the same username, password and database name as your upstream database.  To connect, fill in those values and run:
 
 ```sh
-mysql 'mysql://<username>:<password>@<host>:<port>/<db_name>'
+mysql -h<HOST> -u<USER> -p<PASSWORD> -P<READYSET PORT> <DATABASE>
 ```
 
 Once connected, you can see the status of tables in ReadySet by running:
 
 ```sql
-testdb=> SHOW READYSET STATUS;
+mysql> SHOW READYSET STATUS;
 ```
 </Tab>
 </Tabs>

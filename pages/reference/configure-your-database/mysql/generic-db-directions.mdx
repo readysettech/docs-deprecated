@@ -57,7 +57,7 @@ ReadySet uses below list of privileges:
 * [`REPLICATION SLAVE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-slave) - Readyset register itself as a replica for CDC (Change Data Capture). This enables Readyset to automatically keep cache entries up to date when data changes in your database.
 * [`SELECT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) - Used to snapshot data withing replicated tables.
 
-<Callout type="info">Note: ReadySet proxies all traffic from application to database. You should also add the privileges your current application uses to function (eg. [`INSERT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_insert), [`DELETE`],(https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_delete), [`UPDATE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_update))</Callout>
+<Callout type="info">Note: ReadySet proxies all traffic from application to database. You should also add the privileges your current application uses to function (eg. [`INSERT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_insert), [`DELETE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_delete), [`UPDATE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_update))</Callout>
 
 
 Example:

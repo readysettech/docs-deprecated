@@ -49,16 +49,16 @@ like to import all of the tables in a given schema, you can specify everything a
 Now, you're ready to start ReadySet. In your terminal, run the following command:  
 
 ```sh copy
-docker run -d -p 5433:5433 -p 6034:6034         \
+docker run -d -p 3307:3307 -p 6034:6034         \
 --name readyset                                 \
 -e UPSTREAM_DB_URL=<database connection string> \
 -e REPLICATION_TABLES=<specific tables or omit> \
--e LISTEN_ADDRESS=0.0.0.0:5433                  \
+-e LISTEN_ADDRESS=0.0.0.0:3307                  \
 readysettech/readyset:latest
 ```
 
-As you can see above, ReadySet is exposing two ports: 5433 and 6034. The ReadySet 
-process will listen for query traffic on port 5433 and emits telemetry on port 6034 via 
+As you can see above, ReadySet is exposing two ports: 3307 and 6034. The ReadySet
+process will listen for query traffic on port 3307 and emits telemetry on port 6034 via
 a `/metrics` endpoint. All `-e` environment variables can be 
 placed into a file and referenced via Docker's `--env-file` flag if you'd rather simply your command 
 line experience.
