@@ -7,7 +7,7 @@ If you are not using AWS RDS or Aurora MySQL, use these general instructions to 
 ## Instructions
 To ensure you have the correct permissions set, run the following commands as the database user you will use ReadySet with:
 
-#### 1. Ensure MySQL version 8.0 or higher is running.
+#### 1. Ensure MySQL version 8.0 is running.
 
 ```sql
 mysql> SHOW VARIABLES LIKE 'version';
@@ -19,7 +19,7 @@ mysql> SHOW VARIABLES LIKE 'version';
 1 row in set (0.17 sec)
 ```
 
-#### 2. Ensure replication is enabled.
+#### 2. Ensure replication is enabled and properly configured .
 
 ```sql
 mysql> SHOW BINARY LOGS;
@@ -35,15 +35,37 @@ mysql> SHOW BINARY LOGS;
 
 If any files are returned, binary logging is correctly enabled.
 
-#### 3. Ensure superuser permissions are enabled. 
-
-ReadySet uses superuser access to be notified of changes to table DDL.
-
 ```sql
-mysql> SHOW GRANTS FOR CURRENT_USER;
+mysql> SELECT @@global.binlog_format, @@global.binlog_row_image, @@global.binlog_transaction_compression, @@global.binlog_encryption\G
+*************************** 1. row ***************************
+                 @@global.binlog_format: ROW
+              @@global.binlog_row_image: FULL
+@@global.binlog_transaction_compression: 0
+             @@global.binlog_encryption: 0
+1 row in set, 1 warning (0.00 sec)
 ```
 
-Ensure the results set contains the `SUPER` grant.
+Ensure `binlog_format` is set to `ROW`, `binlog_row_image` is set to `FULL`, `binlog_transaction_compression` is `0` and `binlog_encryption` is also set to `0`.
+
+#### 3. Ensure readyset user has sufficient privileges.
+
+ReadySet uses below list of privileges:
+
+* [`BACKUP_ADMIN`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_backup-admin) - During initial snapshot, Readyset executes the metadata lock [`LOCK INSTANCE FOR BACKUP`](https://dev.mysql.com/doc/refman/8.0/en/lock-instance-for-backup.html) to prevent unsafe statements such as DDL's from happening while snapshot is in progress.
+* [`LOCK TABLES`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_lock-tables) - During initial snapshot, Readyset takes a brief lock in the table in order to start a transaction and have a consistent view of the table data and corelate it with the binlog position taken from the output of `SHOW BINARY LOGS`.
+* [`REPLICATION CLIENT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-client) - During initial snapshot, Readyset executes [`SHOW MASTER STATUS`](https://dev.mysql.com/doc/refman/8.0/en/show-master-status.html) to get a consistent binlog file and position for each table.
+* [`REPLICATION SLAVE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-slave) - Readyset register itself as a replica for CDC (Change Data Capture). This enables Readyset to automatically keep cache entries up to date when data changes in your database.
+* [`SELECT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) - Used to snapshot data withing replicated tables.
+
+<Callout type="info">Note: ReadySet proxies all traffic from application to database. You should also add the privileges your current application uses to function (eg. [`INSERT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_insert), [`DELETE`],(https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_delete), [`UPDATE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_update))</Callout>
+
+
+Example:
+```sql
+mysql> GRANT SELECT, INSERT, UPDATE, DELETE, LOCK TABLES ON YOUR_DATABASE.* TO USER@'HOST';
+mysql> GRANT BACKUP_ADMIN, REPLICATION CLIENT, REPLICATION SLAVE ON *.* TO USER@'HOST';
+```
+
 
 ## AWS RDS-only configuration
 If you are using AWS RDS, you will also need to do the following: 
