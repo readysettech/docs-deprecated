@@ -1,5 +1,6 @@
 {
     "onboard": "Onboard",
+    "vpc-peering": "VPC Peering",
     "connect": "Connect",
     "cache": "Cache queries",
     "release-notes": "Release Notes"

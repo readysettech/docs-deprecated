@@ -1,0 +1,29 @@
+# VPC Peering
+
+## How to accept Readyset VPC peering request
+
+Go to **VPC** > **Peering connections**. You should see one peering connection as **Pending**. Select the pending peering connection and click **Actions** > **Accept request**:
+
+![VPC Peering Pending Request](./img/vpc_peering_pending_request.jpg)
+
+A new pop-up window appears, showing all the details. Take a note of the **Requester CIDRs** and **Peering connection ID** click Accept request:
+
+![VPC Peering Accept Request](./img/vpc_peering_accept_request.jpg)
+
+Now we will need to add the Requester CIDRs block to all routing tables assigned to your VPC. Navigate to the Routing tables ( **VPC** > **Routing tables** ) and filter all routing tables for your VPC:
+
+![VPC Peering Filter VPC](./img/vpc_peering_filter_vpc.jpg)
+
+Enter each one of your routing tables by clicking the routing table ID:
+
+![VPC Peering Route Table Select](./img/vpc_peering_route_table_select.jpg)
+
+In the Route Table detailed view, select **Edit routes**:
+
+![VPC Peering Edit Route](./img/vpc_peering_edit_route.jpg)
+
+Add the VPC Peering CIDRs block noted before in the **Destination** field, set the target to **Peering Connection**, select the respective **peering connection ID** noted when accepting VPC peering request and click **Save changes**:
+
+![VPC Peering Save Route](./img/vpc_peering_save_route.jpg)
+
+Repeat this process for all routing tables on this VPC.
