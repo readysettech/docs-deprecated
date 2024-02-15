@@ -1,6 +1,14 @@
+import { Callout } from 'nextra/components'
+
 # VPC Peering
 
-## How to accept Readyset VPC peering request
+If your application is behind a VPC without public IP access, you will need to configure VPC peering. You need to configure these steps:
+
+1. Accept Readyset Cloud VPC peering request
+2. Configure your Route table
+3. Configure your Security group.
+
+## Accept Readyset VPC Peering Request
 
 Go to **VPC** > **Peering connections**. You should see one peering connection as **Pending**. Select the pending peering connection and click **Actions** > **Accept request**:
 
@@ -10,7 +18,9 @@ A new pop-up window appears, showing all the details. Take a note of the **Reque
 
 ![VPC Peering Accept Request](./img/vpc_peering_accept_request.jpg)
 
-Now we will need to add the Requester CIDRs block to all routing tables assigned to your VPC. Navigate to the Routing tables ( **VPC** > **Routing tables** ) and filter all routing tables for your VPC:
+## Configure Route Table
+
+We will need to add the Requester CIDRs block to all routing tables assigned to your VPC. Navigate to the Routing tables ( **VPC** > **Rout tables** ) and filter all routing tables for your VPC:
 
 ![VPC Peering Filter VPC](./img/vpc_peering_filter_vpc.jpg)
 
@@ -27,3 +37,50 @@ Add the VPC Peering CIDRs block noted before in the **Destination** field, set t
 ![VPC Peering Save Route](./img/vpc_peering_save_route.jpg)
 
 Repeat this process for all routing tables on this VPC.
+
+## Configure Security Group
+
+Your security group needs to be configured to allow:
+1. Your database to inbound traffic from Readyset CIDR block on your PostgreSQL port (Default 5432):
+
+Go to **RDS** > **Databases** and select the the writer instance of your RDS cluster. In the **Connectivity & Security** tab and click on your security group (You might have more than one security group. Any security group you select is ok):
+
+![VPC Peering Security Group Inbound Select](./img/vpc_peering_security_group_inbound_select.jpg)
+
+Click in the **Security group ID** to enter your Security Group:
+
+![VPC Peering Security Group Inbound Enter](./img/vpc_peering_security_group_inbound_enter.jpg)
+
+Select **Inbound rules** tab and click **Edit inbound rules**
+
+![VPC Peering Security Group Inbound Edit](./img/vpc_peering_security_group_inbound_edit.jpg)
+
+Click **Add rule** button. In **Type** field select **PostgreSQL**, in **Source** field select **Custom**, add the VPC Peering Requester CIDR block and click **Save rules**.
+
+![VPC Peering Security Group Inbound Save](./img/vpc_peering_security_group_inbound_save.jpg)
+
+Now Readyset cloud has all the necessary configuration to communicate with your RDS instance.
+
+
+2. Your application to outbound traffic to Readyset CIDR block on port 5433.
+
+Readyset uses port 5433 for application traffic. In order for your application to connect to Readyset you need to configure your app Security Group.
+
+Navigate to your application instance (eg.: ec2) select **Security** tab and click on your security group (You might have more than one security group. Any security group you select is ok):
+
+![VPC Peering Security Group Outbound Save](./img/vpc_peering_security_group_outbound_enter.jpg)
+
+Select **Outbound rules** tab and click **Edit outbound rules**
+
+![VPC Peering Security Group Inbound Edit](./img/vpc_peering_security_group_outbound_edit.jpg)
+
+Click **Add rule** button. In **Type** field select **Custom TCP**, in **Port range** type **5433**, in **Source** field select **Custom**, add the VPC Peering Requester CIDR block and click **Save rules**
+
+![VPC Peering Security Group Outbound Save](./img/vpc_peering_security_group_outbound_save.jpg)
+
+Now your application should be able to connect to Readyset cloud.
+
+
+<Callout type="info"> Note: Navigate to Readyset Cloud control panel and wait for your cache instance status to appear as **Healthy**. </Callout>
+
+![VPC Peering Cluster Healthy](./img/vpc_peering_cluster_healthy.jpg)
