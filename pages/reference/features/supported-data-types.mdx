@@ -58,10 +58,10 @@ The scope of data types, character sets, and table changes supported by ReadySet
 **Network address typess**
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
-| [`INET`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-INET)| ✔️ |ReadySet represents this type internally as normalized string.|
+| [`INET`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-INET)| ✖️ | |
 | [`CIDR`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-CIDR)| ✖️ | |
-| [`MACADDR	`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR)| ✔️ |ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting.|
-| [`MACADDR8`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR8)| ✖️| |
+| [`MACADDR	`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR)| ✖️ | |
+| [`MACADDR8`](https://www.postgresql.org/docs/current/datatype-net-types.html#DATATYPE-MACADDR8)| ✖️ | |
 	
 **Bit string types**
 | Type | Supported | Notes |
@@ -77,7 +77,7 @@ The scope of data types, character sets, and table changes supported by ReadySet
 **UUID types**
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
-| [`UUID`](https://www.postgresql.org/docs/current/datatype-uuid.html)| ✔️ |ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting.|
+| [`UUID`](https://www.postgresql.org/docs/current/datatype-uuid.html)|✖️ | |
 
 **XML types**
 | Type | Supported | Notes |
@@ -87,7 +87,7 @@ The scope of data types, character sets, and table changes supported by ReadySet
 **JSON types**
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
-| [`JSON JSONB`](https://www.postgresql.org/docs/current/datatype-json.html)| ✔️ |ReadySet represents this type internally as a normalized string. This can cause different behavior than in Postgres with respect to expressions or sorting.|
+| [`JSON JSONB`](https://www.postgresql.org/docs/current/datatype-json.html)| ✖️ | |
 		
 **Array types**
 | Type | Supported | Notes |
@@ -144,7 +144,7 @@ The scope of data types, character sets, and table changes supported by ReadySet
 **JSON types**
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
-| [`JSON`](https://dev.mysql.com/doc/refman/8.0/en/json.html)| ✔️ |ReadySet represents this type internally as a normalized string. This can cause different behavior than in MySQL with respect to expressions or sorting.|
+| [`JSON`](https://dev.mysql.com/doc/refman/8.0/en/json.html)| ✖️ | |
 
 **Spatial types**
 | Type | Supported | Notes |

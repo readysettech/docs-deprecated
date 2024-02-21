@@ -114,6 +114,13 @@ ReadySet supports the following components of the SQL expression language:
 
 ### Unsupported
 
+ReadySet does not yet support the following data types:
+- `JSON`
+- `JSONB`
+- `UUID`
+- `MACADDR`
+- `INET`
+
 ReadySet does not support any of the following components of the SQL expression language (this is not an exhaustive list):
 - Literals
     - `DATE` and `TIME` specifications for literals
@@ -257,15 +264,6 @@ ReadySet supports the following data types:
     - ReadySet will parse, but ignores the optional length field
 - `SERIAL`
 - `BIGSERIAL`
-
-ReadySet additionally has limited support for the following data types:
-- `JSON`
-- `JSONB`
-- `UUID`
-- `MACADDR`
-- `INET`
-
-All of the above data types will be snapshotted and replicated by ReadySet, but represented internally as normalized text strings, which may cause them to behave differently with respect to expressions or sorting than in MySQL or Postgres.
 
 ### Character sets
 ReadySet stores all strings internally as UTF-8. ReadySet does not support any other character encoding for strings (though you can use the `BYTEA` SQL type to store arbitrary binary data), nor does it support any alternative collations or comparison methods (for example, strings in ReadySet are always compared case-sensitively, and always sorted character-wise lexicographically).
