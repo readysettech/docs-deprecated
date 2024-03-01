@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components'
+
 # Onboarding to ReadySet.Cloud
 
 This section walks through the process of onboarding to [Readyset.Cloud](https://readyset.cloud).
@@ -24,15 +26,11 @@ details so the Readyset instance can connect to your backend database.
   Aurora](/reference/configure-your-database/postgres/aws-aurora-directions)
   Databases.
 
-- When connecting using a public RDS URL, you must format the URL like so:
+  <Callout type="warning"> Do not skip the above step as AWS RDS must be configured with replication and
+  appropriate privileges allowing Readyset to subscribe to changes from the
+  backend database. </Callout>
 
-  ```
-  postgresql://<username>:<password>@<pghost>:5432/<pgdb>
-  ```
-
-  Note: You must explicitly specify the port number in the URL.
-
-  You are encouraged to test connectivity to your public RDS or Aurora Postgres
+- You are encouraged to test connectivity to your public RDS or Aurora Postgres
   database by connecting to the URL from a Postgres client.
   For, e.g.
 
