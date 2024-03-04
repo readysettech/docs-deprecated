@@ -48,6 +48,39 @@ Here are some general guidelines for creating the cache instance.
   database. If so, re-validate the Postgres URL, credentials, port number, and
   database configuration for connectivity, including enabling permissions.
 
+### Gather information
+
+Readyset `check_db_postgres` is a script to gather information required to create a cache instance:
+
+```bash
+curl -Ls https://raw.githubusercontent.com/readysettech/readyset/main/quickstart/check_db_postgres.sh | bash -s -- postgresql://user:password@host:port/db_name
+```
+Replace the `postgresql://user:password@host:port/db_name` part with your credentials to access the Postgres instance you will be connecting to Readyset.
+If your instance is not public accessible you will require to have `aws cli` configured in order to fetch the VPC information.
+
+Example output:
+
+```bash
+Readyset Create New Cache Fields:
+Use below information to fill up your new Readyset Cloud Cache Instance:
+{
+  "cache_type":  Free,
+  "user": postgres,
+  "host": postgres.us-east-1.rds.amazonaws.com,
+  "port": 5432,
+  "db_name": postgres,
+  "connection_type": "private",
+  "upstream_aws_account_id": 09999999999,
+  "upstream_vpc_region": us-east-1,
+  "upstream_vpc_id": vpc-ffffffff,
+  "upstream_vpc_cidr_block": 172.31.0.0/16,
+  "desired_cluster_cidr_block": 10.0.0.0/16,
+}
+
+Slow Query Info:
+You currently have 1 SELECT queries taking more than 2 seconds to run.
+```
+
 ### Demonstration
 
 ![Create a cache instance](./img/CreateCacheInstance.gif)
