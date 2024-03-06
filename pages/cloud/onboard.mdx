@@ -53,9 +53,9 @@ Here are some general guidelines for creating the cache instance.
 Readyset `check_db_postgres` is a script to gather information required to create a cache instance:
 
 ```bash
-curl -Ls https://raw.githubusercontent.com/readysettech/readyset/main/quickstart/check_db_postgres.sh | bash -s -- postgresql://user:password@host:port/db_name
+bash -c "$(curl -sSL https://raw.githubusercontent.com/readysettech/readyset/main/quickstart/check_db_postgres.sh)"
 ```
-Replace the `postgresql://user:password@host:port/db_name` part with your credentials to access the Postgres instance you will be connecting to Readyset.
+The script will request you to provide a connection string in the format of `postgresql://user:password@host:port/db_name`.
 If your instance is not public accessible you will require to have `aws cli` configured in order to fetch the VPC information.
 
 Example output:
