@@ -13,7 +13,7 @@ The scope of data types, character sets, and table changes supported by ReadySet
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
 |[`INT SMALLINT BIGINT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-INT)| ✔️| ReadySet ignores the optional length field.|
-|[`DECIMAL NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL)| ✔️| ReadySet does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point.|
+|[`DECIMAL NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL)| ✔️| ReadySet does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point. 'NaN', 'Infinity', and '-Infinity' are also not supported. |
 |[`FLOAT DOUBLE PRECISION REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html)| ✔️| |
 |[`SERIAL SMALLSERIAL BIGSERIAL`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL)| ✔️| | 
 
