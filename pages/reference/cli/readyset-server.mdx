@@ -305,54 +305,35 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
 
 1. Start an instance of Consul to serve as the external authority for node discovery, leader election, and consensus, and to manage internal state and metrics.
 
-1. Start the ReadySet Server:
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
+1. Start the ReadySet Server:
         ``` shell
         readyset-server \
         --upstream-db-url="postgresql://<db user>:<db password>@<db address>:5432/<database>" \
-        --username=<readyset user> \
-        --password=<readyset password> \
-        --address=<readyset adapter address> \
-        --authority-address=<consul address> \
         >> logs/readyset.log 2>&1 &
         ```
-</Tab>
-<Tab>
-        ``` shell
-        readyset-server \
-        --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
-        --username=<readyset user> \
-        --password=<readyset password> \
-        --address=<readyset server address> \
-        --authority-address=<consul address>
-        >> logs/readyset.log 2>&1 &
-        ```
-</Tab>
-</Tabs>
 1. Start one or more ReadySet Adapters:
-<Tabs items={['Postgres', 'MySQL']}>
-<Tab>
 
         ``` shell
         readyset \
-        --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
-        --username=<readyset user> \
-        --password=<readyset password> \
-        --address=<readyset adapter address> \
-        --authority-address=<consul address>
+        --upstream-db-url="postgresql://<db user>:<db password>@<db address>:5432/<database>" \
+        --deployment-mode=adapter \
         >> logs/readyset.log 2>&1 &
         ```
 </Tab>
 <Tab>
-
+1. Start the ReadySet Server:
         ``` shell
         readyset-server \
         --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
-        --username=<readyset user> \
-        --password=<readyset password> \
-        --address=<readyset server address> \
-        --authority-address=<consul address>
+        >> logs/readyset.log 2>&1 &
+        ```
+1. Start one or more ReadySet Adapters:
+        ``` shell
+        readyset \
+        --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
+        --deployment-mode=adapter \
         >> logs/readyset.log 2>&1 &
         ```
 </Tab>
@@ -365,7 +346,7 @@ readyset-server --version
 
 ``` {.text .no-copy}
 readyset-server
-release-version: beta-2023-01-18
+release-version: string-yyyy-mm-dd
 commit_id:       de35883e248180c7e3f2f7913c0d1c2b371e53ec
 platform:        aarch64-apple-darwin
 rustc_version:   rustc 1.64.0-nightly (fe3342816 2022-08-01)
