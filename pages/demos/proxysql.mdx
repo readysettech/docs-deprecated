@@ -1,0 +1,180 @@
+import { Callout } from 'nextra/components'
+
+# ProxySQL
+
+This manual provides instructions for configuring ProxySQL alongside Readyset. Readyset has developed its own [ProxySQL Scheduler](https://github.com/readysettech/proxysql_scheduler) designed to integrate both tools.
+This scheduler enables the identification of slow queries, assesses whether Readyset supports these queries, and automatically generates query rules to reroute these queries to Readyset, serving them directly from its cache.
+The scheduler is also responsible for checking the health of a Readyset instance and adjusting it's status if necessary.
+
+## Pre-requirements
+This guide assumes that you already have ProxySQL installed, Readyset set up, and three MySQL servers in place (one writer and two readers).
+
+We will be using 3 hostgroups:
+
+| Hostgroup | Role     |
+| --------- | -------- |
+| 10        | Write   |
+| 11        | Read   |
+| 12        | Cache   |
+
+For demo purposes, we will be using below list of servers and IPS:
+
+| Server        | Port  | Hostgroup | Role     |
+| ------------- | ----- | --------- | -------- |
+| 172.20.238.10 | 3306  | 10        | Source   |
+| 172.20.238.11 | 3306  | 11/12     | Replica1 |
+| 172.20.238.12 | 3306  | 11/12     | Replica2 |
+| 172.20.238.20 | 3306  | 12        | Readyset |
+
+As a best practice, we will include the replicas in the cache hostgroup 12. This ensures that if Readyset becomes unavailable, the cache queries will be served by the Readers.
+
+All commands will be executed in the admin interface of ProxySQL
+
+```sql
+mysql -u admin -padmin -P6032
+```
+
+## Configuring Users
+We will configure our application user to connect by default to `hostgroup 10`
+
+```sql
+INSERT INTO mysql_users (username, password, default_hostgroup) VALUES ('app', 'app', 10);
+LOAD MYSQL USERS TO RUNTIME; SAVE MYSQL USERS FROM RUNTIME; SAVE MYSQL USERS TO DISK;
+```
+
+## Configuring Servers 
+
+We will configure the server as follow:
+
+```sql
+INSERT INTO mysql_servers (hostgroup_id, hostname, port, weight, comment) VALUES
+(10, '172.20.238.10', 3306, 1, 'Writer'),
+(11, '172.20.238.11', 3306, 1, 'Read - Replica 1'),
+(11, '172.20.238.12', 3306, 1, 'Read - Replica 2'),
+(12, '172.20.238.20', 3306, 1000, 'Cache - Readyset'),
+(12, '172.20.238.11', 3306, 1, 'Cache - Replica 1'),
+(12, '172.20.238.12', 3306, 1, 'Cache - Replica 2');
+LOAD MYSQL SERVERS TO RUNTIME; SAVE MYSQL SERVERS TO DISK;
+```
+
+<Callout type="info">Currently, Readyset does not support automatic failover; therefore, the configuration of mysql_replication_hostgroups has been omitted.</Callout>
+
+## Configuring Default Read / Write splitting
+
+By default, we want to send all reads to `hostgroup 11`. The standard rules for splitting read and write operations are as follows::
+
+```sql
+INSERT INTO mysql_query_rules (username,destination_hostgroup,active,match_digest,apply) VALUES
+('app',10,1,'^SELECT.*FOR UPDATE',1),
+('app',11,1,'^SELECT ',0);
+LOAD MYSQL QUERY RULES TO RUNTIME; SAVE MYSQL QUERY RULES TO DISK;
+```
+
+<Callout type="info"> The last rule on `^SELECT `should be set with `apply=0`, allowing ProxySQL to evaluate additional rules that will be introduced through the scheduler.</Callout>
+
+
+## Configuring Scheduler
+
+Download and install the latest release of [Readyset ProxySQL Scheduler](https://github.com/readysettech/proxysql_scheduler/releases).
+
+Adjust `/etc/readyset_proxysql_scheduler.cnf` to reflect your credentials:
+
+```
+proxysql_user = 'admin'
+proxysql_password = 'admin'
+proxysql_host = '127.0.0.1'
+proxysql_port = 6032
+readyset_user = 'app'
+readyset_password = 'app'
+readyset_host = '172.20.238.20'
+readyset_port = 3306
+source_hostgroup = 11
+readyset_hostgroup = 12
+warmup_time = 60
+lock_file = '/tmp/readyset_scheduler.lock'
+```
+
+
+We're setting the warmup_time to 60 seconds. This configuration causes every new query identified by the scheduler to be mirrored to Readyset for this duration. It triggers the construction of the dataflow for the query, allowing Readyset to warm up the cache for this specific query entry.
+
+Now, we need to proceed with adding a scheduler entry:
+
+```sql
+INSERT INTO scheduler (active, interval_ms, filename, arg1) VALUES (1, 10000, '/usr/bin/readyset_proxysql_scheduler', '--config=/etc/readyset_proxysql_scheduler.cnf');
+LOAD SCHEDULER TO RUNTIME; SAVE SCHEDULER TO DISK;
+```
+
+That's everything required. Now, if we execute a sample query, it should activate the scheduler's query detection mechanism:
+
+```sql
+mysql> SELECT COUNT(*) FROM employees WHERE gender = 'F';
++----------+
+| COUNT(*) |
++----------+
+|   120051 |
++----------+
+1 row in set (0,05 sec)
+```
+
+If we check the `proxysql.log` file, we should observe the following:
+
+```
+2024-04-04 17:42:37 [INFO] Readyset[98173]: Running readyset_scheduler
+2024-04-04 17:42:37 [INFO] Readyset[98173]: Going to test query support for SELECT COUNT(*) FROM employees WHERE gender = ?
+2024-04-04 17:42:37 [INFO] Readyset[98173]: Query is supported, adding it to proxysql and readyset
+2024-04-04 17:42:37 [INFO] Readyset[98173]: Inserted warm-up rule
+2024-04-04 17:42:37 [INFO] Received LOAD MYSQL QUERY RULES TO RUNTIME command
+2024-04-04 17:42:37 [INFO] Computed checksum for 'LOAD MYSQL QUERY RULES TO RUNTIME' was '0x34AC063B91801340', with epoch '1712263357'
+2024-04-04 17:42:37 [INFO] Received SAVE MYSQL QUERY RULES TO DISK command
+2024-04-04 17:42:37 [INFO] Readyset[98173]: Finished readyset_scheduler
+```
+Running the same query while it is under the warm-up rule should yield the same 50ms runtime, as it is still been served by the read replicas while also warming up the Readyset cache. After the `warmup_time` has elapsed, the rule will automatically be migrated from `mirror_hostgroup` to `destination_hostgroup`, and from this point forward, Readyset will start receiving this query.
+```
+2024-04-04 17:43:47 [INFO] Readyset[98327]: Running readyset_scheduler
+2024-04-04 17:43:47 [INFO] Readyset[98327]: Updated rule ID 13 from warmup to destination
+2024-04-04 17:43:47 [INFO] Received LOAD MYSQL QUERY RULES TO RUNTIME command
+2024-04-04 17:43:47 [INFO] Computed checksum for 'LOAD MYSQL QUERY RULES TO RUNTIME' was '0x3F6C96CD31D7261B', with epoch '1712263427'
+2024-04-04 17:43:47 [INFO] Received SAVE MYSQL QUERY RULES TO DISK command
+2024-04-04 17:43:47 [INFO] Readyset[98327]: Finished readyset_scheduler
+```
+
+Checking the query again should show that it completes in 0ms, indicating that the query is now being served from the Readyset cache:
+```sql
+mysql> SELECT COUNT(*) FROM employees WHERE gender = 'F';
++----------+
+| COUNT(*) |
++----------+
+|   120051 |
++----------+
+1 row in set (0,00 sec)
+```
+
+If you add a new employee, the cache will be automatically updated by Readyset to reflect this change.
+
+```sql
+mysql> INSERT INTO employees VALUES (999999, '2000-01-01', 'Some', 'One', 'F',
+'2020-01-01');
+Query OK, 1 row affected (0,01 sec)
+
+mysql> SELECT COUNT(*) FROM employees WHERE gender = 'F';
++----------+
+| count(*) |
++----------+
+|   120052 |
++----------+
+1 row in set (0,00 sec)
+```
+
+The write operation mentioned above was redirected by ProxySQL to the source server, and the SELECT query was directed to Readyset, which again completed in 0ms while also bringing the updated cache entry.
+
+Additionally, it's important to note that cache filters are parameterized, meaning that if we change the filter value, we will still be serving data from the cache:
+
+```sql
+mysql> SELECT COUNT(*) FROM employees WHERE gender = 'M';
++----------+
+| count(*) |
++----------+
+|   179973 |
++----------+
+1 row in set (0,00 sec)
+```
