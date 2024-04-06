@@ -1,4 +1,5 @@
 {
+  "proxysql": "ProxySQL MySQL Integration",
   "caching-slow-queries-imdb": "Caching slow queries (IMDB)",
   "link": {
     "title": "Integrating ReadySet into a Prisma app (Cal.com) ↗",
