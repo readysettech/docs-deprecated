@@ -4,7 +4,7 @@ If you are not using AWS RDS or Aurora Postgres, use these general instructions 
 
 ## Instructions
 
-To ensure you have the correct permissions set, run the following commands as the database user you will use ReadySet with:
+To ensure you have the correct permissions set, run the following commands as the database user you will use Readyset with:
 
 #### 1. Ensure Postgres version 13.0 or higher is running.
 
@@ -31,7 +31,7 @@ testdb=> SHOW WAL_LEVEL;
 
 #### 3. Ensure superuser permissions are enabled.
 
-ReadySet uses superuser access to be notified of changes to table DDL.
+Readyset uses superuser access to be notified of changes to table DDL.
 
 ```sql
 testdb=> SELECT * FROM pg_user where usename = CURRENT_USER;
@@ -45,6 +45,6 @@ Ensure the `usesuper` variable is `true`.
 
 #### 4. Decide on how to deal with unsupported features.
 
-Some Postgres features, like row-level security, are not yet supported by ReadySet. You can either skip replicating those tables
-into ReadySet (in [Step 2 – Install ReadySet](/get-started/install-rs)), or alternatively,
- you can disable these features on tables replicated by ReadySet prior to proceeding. 
+Some Postgres features, like row-level security, are not yet supported by Readyset. You can either skip replicating those tables
+into Readyset (in [Step 2 – Install Readyset](/get-started/install-rs)), or alternatively,
+ you can disable these features on tables replicated by Readyset prior to proceeding. 

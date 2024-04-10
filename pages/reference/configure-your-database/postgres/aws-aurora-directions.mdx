@@ -1,19 +1,19 @@
 import { Tabs, Tab } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
-# Configuring AWS Aurora Postgres for ReadySet
+# Configuring AWS Aurora Postgres for Readyset
 
 If you're using AWS Aurora Postgres, you'll need to make a few configuration changes
-via the AWS console to enable ReadySet to properly replicate tables.  
+via the AWS console to enable Readyset to properly replicate tables.  
 
 ## Instructions 
-<Callout type="info">Note: ReadySet only needs access to the write node of any Aurora cluster.</Callout>
+<Callout type="info">Note: Readyset only needs access to the write node of any Aurora cluster.</Callout>
 
 ### 1. Establish a network connection
-<Callout type="info"> Note: these directions assume you are using ReadySet in a different VPC than the upstream database you're connecting to. 
-If ReadySet is within the same VPC as your database, you can ignore this step.</Callout>
+<Callout type="info"> Note: these directions assume you are using Readyset in a different VPC than the upstream database you're connecting to. 
+If Readyset is within the same VPC as your database, you can ignore this step.</Callout>
 
-To make sure ReadySet can connect with your database, the database will have to be publicly accessible.
+To make sure Readyset can connect with your database, the database will have to be publicly accessible.
 
 1. Log in to your AWS account. 
 2. Click on RDS, which can be found by searching for it in the search bar, under the Services menu, or in your Recently Visited area. Within RDS under the Resources section, select DB instances.
@@ -37,11 +37,11 @@ To make sure ReadySet can connect with your database, the database will have to 
 2. Click on RDS, which can be found by searching for it in the search bar, under the Services menu, or in your Recently Visited area. 
 3. Under the Resources section, select [Parameter groups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithDBInstanceParamGroups.html) in the upper right.
 
-<Callout type ="info">Note: To use ReadySet with Aurora, you must create a new parameter group.</Callout>
+<Callout type ="info">Note: To use Readyset with Aurora, you must create a new parameter group.</Callout>
 
 4. Select Create Parameter group from the upper right corner.
 5. Choose Aurora postgres 15 from the dropdown menu.
-6. Under Group Name select DB Cluster Parameter Group from the dropdown. For ReadySet to work this *must* be at the cluster-level.
+6. Under Group Name select DB Cluster Parameter Group from the dropdown. For Readyset to work this *must* be at the cluster-level.
 
 ![AWS Example](/aws-rds-8.png)
 
@@ -74,9 +74,9 @@ You may need to reboot your instance. To do that go to your write node instance 
 
 ### 3. Enable superuser permissions
 
-If you are using RDS and ReadySet with the same [user account](https://aws.amazon.com/blogs/database/managing-postgresql-users-and-roles/) you used to set up the database, permissions do not need to be enabled. 
+If you are using RDS and Readyset with the same [user account](https://aws.amazon.com/blogs/database/managing-postgresql-users-and-roles/) you used to set up the database, permissions do not need to be enabled. 
 
-If you need to add a new user account or access ReadySet with a different one, you'll need to enable superuser permissions. To do that, enter the following in the `psql` command line interface:
+If you need to add a new user account or access Readyset with a different one, you'll need to enable superuser permissions. To do that, enter the following in the `psql` command line interface:
 
 
 ```sql copy 

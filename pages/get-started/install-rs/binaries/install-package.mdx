@@ -3,9 +3,9 @@ import { Callout } from 'nextra/components'
 import { Cards, Card } from 'nextra/components'
 
 
-# Install ReadySet System Packages
+# Install Readyset System Packages
 
-ReadySet can be installed as a stand-alone `systemd` service using a Linux
+Readyset can be installed as a stand-alone `systemd` service using a Linux
 distribution package.  We currently only produce a `deb` package for the
 x86_64/amd64 architecture which installs on Debian-based systems running
 OpenSSL 3 (i.e. Ubuntu 22.04, Debian 12).
@@ -15,9 +15,9 @@ To install the package:
 2. Install the package using `sudo dpkg -i <PACKAGE_NAME>`
 
 
-## Configure ReadySet Service
+## Configure Readyset Service
 
-The ReadySet service must be configured to connect to an upstream database
+The Readyset service must be configured to connect to an upstream database
 before it can be started. Edit the default `/etc/readyset/readyset.conf` file
 installed by the package and update the `UPSTREAM_DB_URL` to point to the
 database.  Additional configuration variables are documented in `readyset.conf`
@@ -31,7 +31,7 @@ For directions on how to check and alter these configurations, please see our
 steps to configure these settings vary by database type and hosting provider.
 
 
-## Run ReadySet Service
+## Run Readyset Service
 
 Once `readyset.conf` has been updated, the service can be controlled with
 [`systemctl`](https://www.linux.org/docs/man1/systemctl.html).  For example,
@@ -45,7 +45,7 @@ setting.  If logging to `journalctl` is desired instead, comment out `LOG_PATH`
 in `readyset.conf`.
 
 
-## Uninstalling ReadySet Service
+## Uninstalling Readyset Service
 
 To uninstall, use `sudo apt remove readyset`.  This will uninstall the service
 and executable, but will leave the `/etc/readyset/readyset.conf` configuration

@@ -2,12 +2,12 @@ import { Tabs, Tab } from 'nextra/components'
 import { Callout } from 'nextra/components'
 import { Cards, Card } from 'nextra/components'
 
-# ReadySet Demo
+# Readyset Demo
 
-This demo sets up a ReadySet instance and a sample database on your local machine using Docker.
+This demo sets up a Readyset instance and a sample database on your local machine using Docker.
 
-<Callout>If you want to connect ReadySet to your own database, please follow the directions in 
-the [install ReadySet](/get-started/install-rs) documentation.</Callout>
+<Callout>If you want to connect Readyset to your own database, please follow the directions in 
+the [install Readyset](/get-started/install-rs) documentation.</Callout>
 
 <Callout>Before starting, make sure you have Docker Engine version >= 19.03.0 and Docker Compose V2 OR 
 Docker Desktop >= 4.1.0 and the [MySQL](https://dev.mysql.com/doc/refman/8.0/en/mysql.html) or 
@@ -15,7 +15,7 @@ Docker Desktop >= 4.1.0 and the [MySQL](https://dev.mysql.com/doc/refman/8.0/en/
 
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
-**1. Download and run the ReadySet Docker compose file**
+**1. Download and run the Readyset Docker compose file**
 
 ```sh copy
 curl -L -o compose.yml                                  \
@@ -37,7 +37,7 @@ Data loading will be slow on Macs with Apple Silicon.
 
 **3. Connect and explore the dataset**
 
-Connect to ReadySet.
+Connect to Readyset.
 
 ```sh copy
 psql 'postgresql://postgres:readyset@127.0.0.1:5433/testdb'
@@ -74,7 +74,7 @@ Time: 154.980 ms
 Query performance will be slow on Macs with Apple Silicon.
 </Callout>
 
-Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet like so:
+Using the `CREATE CACHE FROM` SQL extension, cache the query in Readyset like so:
 
 ```sql copy
 CREATE CACHE FROM SELECT count(*) FROM title_ratings
@@ -82,7 +82,7 @@ JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
-Now that ReadySet is going to cache the query, run the same query to populate the cache:
+Now that Readyset is going to cache the query, run the same query to populate the cache:
 
 ```sql copy
 SELECT count(*) FROM title_ratings
@@ -101,8 +101,8 @@ Same results as earlier:
 Time: 154.980 ms
 ```
 
-This most recent query ran against Postgres, but now the ReadySet cache has been populated.  
-Run the query again and this time it's served by ReadySet:
+This most recent query ran against Postgres, but now the Readyset cache has been populated.  
+Run the query again and this time it's served by Readyset:
 
 ```sql
  count(*)
@@ -115,7 +115,7 @@ Time: 2.073 ms
 
 **5. View Cached Queries**
 
-Use the `SHOW CACHES` command to see which queries are currently being cached by ReadySet:
+Use the `SHOW CACHES` command to see which queries are currently being cached by Readyset:
 
 ```sql
       query id      |     cache name     |                       query text                       | fallback behavior | count
@@ -192,7 +192,7 @@ Time: 2.617 ms
 
 **8. Try more queries!**
 
-Explore the dataset and test ReadySet's performance with additional queries.
+Explore the dataset and test Readyset's performance with additional queries.
 
 View proxied queries:
 ```sqp copy
@@ -206,7 +206,7 @@ DROP CACHE <query id>;
 </Tab>
 
 <Tab>
-**1. Download and run the ReadySet Docker compose file**
+**1. Download and run the Readyset Docker compose file**
 
 ```sh copy
 curl -L -o compose.yml                                  \
@@ -228,7 +228,7 @@ Data loading will be slow on Macs with Apple Silicon.
 
 **3. Connect and explore the dataset**
 
-Connect to ReadySet.
+Connect to Readyset.
 
 ```sql copy
 mysql -h127.0.0.1 -uroot -P3307 testdb -preadyset
@@ -261,7 +261,7 @@ Results:
 Query performance will be slow on Macs with Apple Silicon.
 </Callout>
 
-Using the `CREATE CACHE FROM` SQL extension, cache the query in ReadySet.
+Using the `CREATE CACHE FROM` SQL extension, cache the query in Readyset.
 
 ```sql copy
 CREATE CACHE FROM SELECT count(*) FROM title_ratings
@@ -269,7 +269,7 @@ JOIN title_basics ON title_ratings.tconst = title_basics.tconst
 WHERE title_basics.startyear = 2000 AND title_ratings.averagerating > 5;
 ```
 
-Now that ReadySet is going to cache the query, run the query to populate the cache.
+Now that Readyset is going to cache the query, run the query to populate the cache.
 
 Query:
 ```sql copy
@@ -288,7 +288,7 @@ Results:
 1 row in set (0.69 sec)
 ```
 
-That query ran on the database, but now the ReadySet cache has been populated.  Run the query again, and this time it is served by ReadySet.
+That query ran on the database, but now the Readyset cache has been populated.  Run the query again, and this time it is served by Readyset.
 
 Results:
 ```sql
@@ -302,7 +302,7 @@ Results:
 
 **5. View Cached Queries**
 
-Use the `SHOW CACHES` command to see which queries are currently being cached by ReadySet:
+Use the `SHOW CACHES` command to see which queries are currently being cached by Readyset:
 
 ```sql
 mysql> show caches;
@@ -370,7 +370,7 @@ And bingo! The count has been increased by one (i.e 2,419 vs 2,418).
 
 **8. Try more queries!**
 
-Explore the dataset and test ReadySet's performance with additional queries.
+Explore the dataset and test Readyset's performance with additional queries.
 
 View proxied queries:
 ```sql copy

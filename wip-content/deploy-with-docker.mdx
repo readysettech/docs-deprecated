@@ -3,13 +3,13 @@ import { Callout } from 'nextra/components'
 
 # Install With Docker
 
-This guide walks you through how to run ReadySet using Docker, connecting to an existing primary database.
+This guide walks you through how to run Readyset using Docker, connecting to an existing primary database.
 
 <Callout type ="warning">Before starting, make sure your [upstream database is properly configured.](/get-started/configure-your-database)</Callout>
 
 <Tabs items={['Postgres', 'MySQL']}> 
 <Tab>
-**1. Download the ReadySet Docker compose file**
+**1. Download the Readyset Docker compose file**
 
 ```sh copy
 curl -L -o compose.yml "https://readyset.io/quickstart/compose.yml"
@@ -30,7 +30,7 @@ services:
 <Callout type="info"> Your connection string should look like ```postgres://<username>:<password>@<host>:<port>/<db_name>```</Callout>
 <Callout type="warning">If your database is running locally, use `host.docker.internal` instead of `localhost` or `127.0.0.1` as your host.</Callout>
 
-**3. Start ReadySet!**
+**3. Start Readyset!**
 
 In the terminal, run:
 
@@ -38,13 +38,13 @@ In the terminal, run:
 docker compose up -d
 ```
 
-**4. Verify that ReadySet has snapshotted your database**
+**4. Verify that Readyset has snapshotted your database**
 
-After connecting, ReadySet will begin taking a snapshot of your underlying database.
+After connecting, Readyset will begin taking a snapshot of your underlying database.
 
-For this process to succeed, you must have sufficient disk space to store a copy of your database on the machine where ReadySet is running.
+For this process to succeed, you must have sufficient disk space to store a copy of your database on the machine where Readyset is running.
 
-To check ReadySet's status, check the logs for the docker container.
+To check Readyset's status, check the logs for the docker container.
 
 ```sh copy
 docker logs readyset-cache-1
@@ -58,10 +58,10 @@ When you see:
 INFO replicators::noria_adapter: Streaming replication started
 ```
 
-At this point, ReadySet is ready to start caching queries.
+At this point, Readyset is ready to start caching queries.
 </Tab>
 <Tab>
-**1. Download the ReadySet Docker compose file**
+**1. Download the Readyset Docker compose file**
 
 ```sh
 curl -L -o compose.yml "https://readyset.io/quickstart/compose.yml"
@@ -88,7 +88,7 @@ services:
 <Callout type="info"> Your connection string should look like ```mysql://<username>:<password>@<host>:<port>/<db_name>```</Callout>
 <Callout type="warning">If your database is running locally, use `host.docker.internal` instead of `localhost` or `127.0.0.1` as your host.</Callout>
 
-**3. Start ReadySet!**
+**3. Start Readyset!**
 
 In the terminal, run:
 
@@ -96,11 +96,11 @@ In the terminal, run:
 docker compose up -d
 ```
 
-**4. Verify that ReadySet has snapshotted your database**
+**4. Verify that Readyset has snapshotted your database**
 
-After starting, ReadySet will begin taking a snapshot of your underlying database.  You must have sufficient disk space to store a copy of your database on the machine where ReadySet is running.
+After starting, Readyset will begin taking a snapshot of your underlying database.  You must have sufficient disk space to store a copy of your database on the machine where Readyset is running.
 
-To check ReadySet's status, check the logs for the docker container.
+To check Readyset's status, check the logs for the docker container.
 
 ```
 docker logs readyset-cache-1
@@ -114,9 +114,9 @@ When you see:
 INFO replicators::noria_adapter: Streaming replication started
 ```
 
-ReadySet is ready to cache data.
+Readyset is ready to cache data.
 </Tab>
 </Tabs>
 ## Next Steps
 
-As a next step, you can [connect to ReadySet from a database shell ](/get-started/connect/connect-via-database-shell)or [connect from your application](/get-started/connect/connect-an-application-via-an-orm). Once connected, you can start [caching queries](/get-started/cache#0-creating-a-cache).
+As a next step, you can [connect to Readyset from a database shell ](/get-started/connect/connect-via-database-shell)or [connect from your application](/get-started/connect/connect-an-application-via-an-orm). Once connected, you can start [caching queries](/get-started/cache#0-creating-a-cache).

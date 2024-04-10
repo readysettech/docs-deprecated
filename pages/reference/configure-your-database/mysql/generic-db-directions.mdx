@@ -5,7 +5,7 @@ import { Callout } from 'nextra/components'
 If you are not using AWS RDS or Aurora MySQL, use these general instructions to configure your MySQL database. 
 
 ## Instructions
-To ensure you have the correct permissions set, run the following commands as the database user you will use ReadySet with:
+To ensure you have the correct permissions set, run the following commands as the database user you will use Readyset with:
 
 #### 1. Ensure MySQL version 8.0 is running.
 
@@ -49,7 +49,7 @@ Ensure `binlog_format` is set to `ROW`, `binlog_row_image` is set to `FULL`, `bi
 
 #### 3. Ensure readyset user has sufficient privileges.
 
-ReadySet uses below list of privileges:
+Readyset uses below list of privileges:
 
 * [`BACKUP_ADMIN`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_backup-admin) - During initial snapshot, Readyset executes the metadata lock [`LOCK INSTANCE FOR BACKUP`](https://dev.mysql.com/doc/refman/8.0/en/lock-instance-for-backup.html) to prevent unsafe statements such as DDL's from happening while snapshot is in progress.
 * [`LOCK TABLES`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_lock-tables) - During initial snapshot, Readyset takes a brief lock in the table in order to start a transaction and have a consistent view of the table data and corelate it with the binlog position taken from the output of `SHOW BINARY LOGS`.
@@ -57,7 +57,7 @@ ReadySet uses below list of privileges:
 * [`REPLICATION SLAVE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_replication-slave) - Readyset register itself as a replica for CDC (Change Data Capture). This enables Readyset to automatically keep cache entries up to date when data changes in your database.
 * [`SELECT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_select) - Used to snapshot data withing replicated tables.
 
-<Callout type="info">Note: ReadySet proxies all traffic from application to database. You should also add the privileges your current application uses to function (eg. [`INSERT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_insert), [`DELETE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_delete), [`UPDATE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_update))</Callout>
+<Callout type="info">Note: Readyset proxies all traffic from application to database. You should also add the privileges your current application uses to function (eg. [`INSERT`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_insert), [`DELETE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_delete), [`UPDATE`](https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html#priv_update))</Callout>
 
 
 Example:

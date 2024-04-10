@@ -3,17 +3,17 @@ import { Callout } from 'nextra/components'
 
 # Supported Data Types
 
-ReadySet takes an initial snapshot of tables from a primary database and uses the database's replication stream to keep the snapshot (and cached query results) up to date as the tables change.
-To successfully snapshot and replicate a table, ReadySet must support the data types of the columns, the character set in which the data is encoded, and any modifications to the table via writes and schema changes.
+Readyset takes an initial snapshot of tables from a primary database and uses the database's replication stream to keep the snapshot (and cached query results) up to date as the tables change.
+To successfully snapshot and replicate a table, Readyset must support the data types of the columns, the character set in which the data is encoded, and any modifications to the table via writes and schema changes.
 
-The scope of data types, character sets, and table changes supported by ReadySet are described below. 
+The scope of data types, character sets, and table changes supported by Readyset are described below. 
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
 **Numeric types**
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
-|[`INT SMALLINT BIGINT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-INT)| ✔️| ReadySet ignores the optional length field.|
-|[`DECIMAL NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL)| ✔️| ReadySet does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point. 'NaN', 'Infinity', and '-Infinity' are also not supported. |
+|[`INT SMALLINT BIGINT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-INT)| ✔️| Readyset ignores the optional length field.|
+|[`DECIMAL NUMERIC`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL)| ✔️| Readyset does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point. 'NaN', 'Infinity', and '-Infinity' are also not supported. |
 |[`FLOAT DOUBLE PRECISION REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html)| ✔️| |
 |[`SERIAL SMALLSERIAL BIGSERIAL`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL)| ✔️| | 
 
@@ -66,7 +66,7 @@ The scope of data types, character sets, and table changes supported by ReadySet
 **Bit string types**
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
-| [`BITBIT VARYING`](https://www.postgresql.org/docs/current/datatype-bit.html)| ✔️ |ReadySet ignores the optional length field.|
+| [`BITBIT VARYING`](https://www.postgresql.org/docs/current/datatype-bit.html)| ✔️ |Readyset ignores the optional length field.|
 
 **Text search types**
 | Type | Supported | Notes |
@@ -119,10 +119,10 @@ The scope of data types, character sets, and table changes supported by ReadySet
 **Numeric types**
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
-|[`INT INT UNSIGNED TINYINT TINYINT UNSIGNED SMALLINT SMALLINT UNSIGNED MEDIUMINT MEDIUMINT UNSIGNED BIGINT BIGINT UNSIGNED SERIAL`](https://dev.mysql.com/doc/refman/8.0/en/integer-types.html)| ✔️| ReadySet ignores the optional length field.|
-|[`DECIMAL NUMERIC`](https://dev.mysql.com/doc/refman/8.0/en/fixed-point-types.html)| ✔️| ReadySet does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point.|
+|[`INT INT UNSIGNED TINYINT TINYINT UNSIGNED SMALLINT SMALLINT UNSIGNED MEDIUMINT MEDIUMINT UNSIGNED BIGINT BIGINT UNSIGNED SERIAL`](https://dev.mysql.com/doc/refman/8.0/en/integer-types.html)| ✔️| Readyset ignores the optional length field.|
+|[`DECIMAL NUMERIC`](https://dev.mysql.com/doc/refman/8.0/en/fixed-point-types.html)| ✔️| Readyset does not support `DECIMAL`/`NUMERIC` values with a scale greater than 28, i.e., with more than 28 digits to the right of the decimal point.|
 |[`FLOAT DOUBLE REAL`](https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html)| ✔️| |
-|[`BIT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL)| ✔️|ReadySet ignores the optional length field.| 
+|[`BIT`](https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-SERIAL)| ✔️|Readyset ignores the optional length field.| 
 
 **Date and time types**
 | Type | Supported | Notes |
@@ -134,8 +134,8 @@ The scope of data types, character sets, and table changes supported by ReadySet
 **String types**
 | Type | Supported | Notes |
 | ---- | ---- | ---- |
-| [`CHAR VARCHAR`](https://dev.mysql.com/doc/refman/8.0/en/char.html)| ✔️ |ReadySet ignores the optional length field. |
-| [`BINARY VARBINARY`](https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html)| ✔️ |ReadySet ignores the optional length field. |
+| [`CHAR VARCHAR`](https://dev.mysql.com/doc/refman/8.0/en/char.html)| ✔️ |Readyset ignores the optional length field. |
+| [`BINARY VARBINARY`](https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html)| ✔️ |Readyset ignores the optional length field. |
 | [`BLOB TINYBLOG MEDIUMBLOB LONGBLOB`](https://dev.mysql.com/doc/refman/8.0/en/blob.html)| ✔️ | |
 | [`TEXT TINYTEXT MEDIUMTEXT LONGTEXT`](https://dev.mysql.com/doc/refman/8.0/en/blob.html)| ✔️ | |
 | [`ENUM`](https://dev.mysql.com/doc/refman/8.0/en/enum.html)| ✔️ | |
