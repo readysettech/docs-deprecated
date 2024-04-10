@@ -19,9 +19,9 @@ const config: DocsThemeConfig = {
       <meta name="theme-color" content="#ffffff" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
-      <meta name="description" content="ReadySet Documentation" />
-      <meta name="og:description" content="ReadySet Documentation" />
-      <meta name="og:title" content="ReadySet Documentation" />g
+      <meta name="description" content="Readyset Documentation" />
+      <meta name="og:description" content="Readyset Documentation" />
+      <meta name="og:title" content="Readyset Documentation" />g
       <meta name="google-site-verification" content="YqIu2mCiGAIik--xb2ehQQgwE0IaZKA831UKV33IwCg" />
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-QHKR2RLDNK"></script>
       <script src="gtag.js"></script>
@@ -48,12 +48,12 @@ const config: DocsThemeConfig = {
   darkMode: false,
   docsRepositoryBase: 'https://github.com/readysettech/docs/tree/main',
   footer: {
-    text: 'ReadySet Documentation',
+    text: 'Readyset Documentation',
   },
   primaryHue: 194,
   useNextSeoProps() {
     return {
-      titleTemplate: '%s – ReadySet'
+      titleTemplate: '%s – Readyset'
     }
   },
 }

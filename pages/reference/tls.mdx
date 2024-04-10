@@ -3,14 +3,14 @@ import { Callout } from 'nextra/components'
 
 # TLS Support
 
-ReadySet supports TLS encryption between itself and your upstream database out
-of the box. To do this, ReadySet must have access to the root certificate used
+Readyset supports TLS encryption between itself and your upstream database out
+of the box. To do this, Readyset must have access to the root certificate used
 by your upstream database. Operating systems typically come with the root
 certificates for some common certificate authorities already installed. If your
 upstream database uses a different root certificate, then you must either
 install that certificate (such that all applications on your system can use it
 to verify certificates) or provide the root certificate file path directly to
-ReadySet via the `--ssl-root-cert` option.
+Readyset via the `--ssl-root-cert` option.
 
 <Callout type="warning">
 The `--ssl-root-cert` option only supports a single certificate in the PEM or
@@ -19,7 +19,7 @@ DER format. It does not support bundles containing multiple certificates.
 
 <Callout type="warning">
 On macOS, providing the root certificate via the `--ssl-root-cert` option is
-not supported, the Apple Security framework (used by ReadySet to provide TLS
+not supported, the Apple Security framework (used by Readyset to provide TLS
 support) does not allow the use of untrusted certificates even when explicitly
 provided.
 </Callout>
@@ -29,7 +29,7 @@ Below are instructions for installing and trusting a new root certificate on sup
 <Tabs items={['Ubuntu', 'Amazon Linux 2', 'macOS']}>
 
 <Tab>
-ReadySet uses the system-provided OpenSSL package on Linux.
+Readyset uses the system-provided OpenSSL package on Linux.
 
 The following instructions are derived from [the Ubuntu docs](https://ubuntu.com/server/docs/security-trust-store).
 
@@ -45,7 +45,7 @@ sudo update-ca-certificates
 </Tab>
 
 <Tab>
-ReadySet uses the system-provided OpenSSL package on Linux.
+Readyset uses the system-provided OpenSSL package on Linux.
 
 The following instructions are derived from [the AWS docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/SSL-on-amazon-linux-2.html).
 
@@ -58,7 +58,7 @@ sudo chmod 600 $CERTIFICATE
 </Tab>
 
 <Tab>
-ReadySet uses the Security framework on macOS.
+Readyset uses the Security framework on macOS.
 Certificates must be trusted by the system to be used.
 
 To install and trust a new certificate, do the following:

@@ -2,21 +2,21 @@ import { Callout } from 'nextra/components'
 
 # Check Snapshotting
 
-When you first connect ReadySet to your database, ReadySet stores a snapshot of your database tables on 
+When you first connect Readyset to your database, Readyset stores a snapshot of your database tables on 
 disk and then keeps this snapshot up-to-date by listening to your database's replication 
-stream. **Queries can be cached in ReadySet only once all tables have finished the initial snapshotting 
+stream. **Queries can be cached in Readyset only once all tables have finished the initial snapshotting 
 process.**
 
 Since snapshotting can take between a few minutes to several hours, depending on the size of your 
-dataset, ReadySet gives you various ways to check the snapshotting status:
+dataset, Readyset gives you various ways to check the snapshotting status:
 
 - [Check overall status](#check-overall-status): Run a custom SQL command to check the overall snapshotting status.
-- [Check per-table status](#check-per-table-status): Run a custom SQL command to check the snapshotting status of each table in the database that ReadySet is connected to.
+- [Check per-table status](#check-per-table-status): Run a custom SQL command to check the snapshotting status of each table in the database that Readyset is connected to.
 - [Track detailed progress](#track-detailed-progress): Check log messages to track the snapshotting progress and estimated time remaining for each table.
 
 ## Check overall status
 
-To check ReadySet's overall snapshotting progress, connect a SQL shell to ReadySet and run the following custom SQL command:
+To check Readyset's overall snapshotting progress, connect a SQL shell to Readyset and run the following custom SQL command:
 
 ``` sql copy 
 SHOW READYSET STATUS;
@@ -33,7 +33,7 @@ This command returns either `In Progress` or `Completed` as the snapshotting sta
 
 ## Check per-table status
 
-To check the snapshotting status of each table in the database that ReadySet is connected to, connect a SQL shell to ReadySet and run the following custom SQL command:
+To check the snapshotting status of each table in the database that Readyset is connected to, connect a SQL shell to Readyset and run the following custom SQL command:
 
 ``` sql copy 
 SHOW READYSET TABLES;
@@ -50,8 +50,8 @@ SHOW READYSET TABLES;
 
 This command returns a virtual table with 2 columns:
 
-- **Table:** The name of the table in the database that ReadySet is connected to.
+- **Table:** The name of the table in the database that Readyset is connected to.
 - **Status:** The snapshotting status of the table. There are 3 possible statuses:
     - **Snapshotting:** The initial snapshot of the table is in progress.
-    - **Snapshotted:** The initial snapshot of the table is complete. ReadySet is replicating changes to the table via the database's replication stream.
-    - **Not Replicated:** The table has not been snapshotted by ReadySet. This can be because ReadySet encountered an error (e.g., due to unsupported data types) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](/reference/cli/readyset#--replication-tables) option).
+    - **Snapshotted:** The initial snapshot of the table is complete. Readyset is replicating changes to the table via the database's replication stream.
+    - **Not Replicated:** The table has not been snapshotted by Readyset. This can be because Readyset encountered an error (e.g., due to unsupported data types) or the table has been intentionally excluded from snapshotting (via the [`--replication-tables`](/reference/cli/readyset#--replication-tables) option).

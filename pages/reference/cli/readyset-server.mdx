@@ -1,21 +1,21 @@
 import { Tabs, Tab } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
-# ReadySet Server
+# Readyset Server
 
-The `readyset-server` command starts the ReadySet server.
+The `readyset-server` command starts the Readyset server.
 
-<Callout type="info">This command is used only when running the ReadySet Server and Adapter as separate processes on separate machines. The default and recommended deployment method of Readyset is to run server and adaptor in a single process via [`readyset`](readyset.md) command.</Callout>
+<Callout type="info">This command is used only when running the Readyset Server and Adapter as separate processes on separate machines. The default and recommended deployment method of Readyset is to run server and adaptor in a single process via [`readyset`](readyset.md) command.</Callout>
 
 ## Usage
 
-Start the ReadySet Server:
+Start the Readyset Server:
 
 ``` {.text .no-copy}
 readyset-server [OPTIONS]
 ```
 
-Start the ReadySet Adapter:
+Start the Readyset Adapter:
 
 ``` {.text .no-copy}
 readyset [OPTIONS, excluding --standalone]
@@ -32,7 +32,7 @@ readyset-server --help
 #### `--address`, `-a`
 
 <div class="option-details" markdown="1">
-The IP address/hostname and port that the ReadySet Server listens on.
+The IP address/hostname and port that the Readyset Server listens on.
 
 **Env variable:** `LISTEN_ADDRESS`
 </div>
@@ -40,7 +40,7 @@ The IP address/hostname and port that the ReadySet Server listens on.
 #### `--authority-address`
 
 <div class="option-details" markdown="1">
-The IP address/hostname and port of the external authority. ReadySet supports Consul as the external authority.
+The IP address/hostname and port of the external authority. Readyset supports Consul as the external authority.
 
 **Env variable:** `AUTHORITY_ADDRESS`
 </div>
@@ -48,13 +48,13 @@ The IP address/hostname and port of the external authority. ReadySet supports Co
 #### `--cannot-become-leader`
 
 <div class="option-details" markdown="1">
-When running multiple ReadySet Servers, prevent this Server from ever being elected as leader.
+When running multiple Readyset Servers, prevent this Server from ever being elected as leader.
 </div>
 
 #### `--db-dir`
 
 <div class="option-details" markdown="1">
-The path to the directory where ReadySet stores replicated table data.
+The path to the directory where Readyset stores replicated table data.
 
 **Default:** Current working directory
 
@@ -64,7 +64,7 @@ The path to the directory where ReadySet stores replicated table data.
 #### `--deployment`
 
 <div class="option-details" markdown="1">
-A unique identifier for the ReadySet deployment.
+A unique identifier for the Readyset deployment.
 
 **Env variable:** `DEPLOYMENT`
 </div>
@@ -72,7 +72,7 @@ A unique identifier for the ReadySet deployment.
 #### `--disable-telemetry`
 
 <div class="option-details" markdown="1">
-Don't sent anonymous [telemetry data](../telemetry.md) to ReadySet.
+Don't sent anonymous [telemetry data](../telemetry.md) to Readyset.
 
 **Env variable:** `DISABLE_TELEMETRY`
 </div>
@@ -80,7 +80,7 @@ Don't sent anonymous [telemetry data](../telemetry.md) to ReadySet.
 #### `--external-address`
 
 <div class="option-details" markdown="1">
-The IP address/hostname to advertise to ReadySet instances running in the same deployment. This also defines the IP address/hostname of the Prometheus endpoint for [ReadySet metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
+The IP address/hostname to advertise to Readyset instances running in the same deployment. This also defines the IP address/hostname of the Prometheus endpoint for [Readyset metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
 
 **Default**: Address from `--address`
 
@@ -90,7 +90,7 @@ The IP address/hostname to advertise to ReadySet instances running in the same d
 #### `--external-port`, `-p`
 
 <div class="option-details" markdown="1">
-The port to advertise to ReadySet instances running in the same deployment. This also defines the port of the Prometheus endpoint for [ReadySet metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
+The port to advertise to Readyset instances running in the same deployment. This also defines the port of the Prometheus endpoint for [Readyset metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
 
 **Default**: `6033`
 </div>
@@ -139,7 +139,7 @@ Log Rotation policy to use if a log file is set. Defaults to daily. Does nothing
 #### `--log-level`
 
 <div class="option-details" markdown="1">
-The [severity level(s)](https://docs.rs/tracing-core/0.1.30/tracing_core/metadata/struct.Level.html#implementations) to include in ReadySet logs. Messages at the specified and more severe levels are included. For example, when set to `INFO`, messages at the `INFO`, `WARN`, and `ERROR` levels are included.
+The [severity level(s)](https://docs.rs/tracing-core/0.1.30/tracing_core/metadata/struct.Level.html#implementations) to include in Readyset logs. Messages at the specified and more severe levels are included. For example, when set to `INFO`, messages at the `INFO`, `WARN`, and `ERROR` levels are included.
 
 Possible values, from most to least severe:
 
@@ -149,7 +149,7 @@ Possible values, from most to least severe:
 - `DEBUG`: Used for lower priority information.
 - `TRACE`: Used for very low priority, often extremely verbose information.
 
-<Callout type="info">The `TRACE` level is not available for [official releases of ReadySet](https://github.com/readysettech/readyset/), or for binaries built with the `--release` flag.
+<Callout type="info">The `TRACE` level is not available for [official releases of Readyset](https://github.com/readysettech/readyset/), or for binaries built with the `--release` flag.
 Also, `--log-level` can be set to a comma-separated list of directives for debugging during development. For the directive syntax, see the [docs for the tracing library](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html).</ Callout>
 
 **Default:** `INFO`
@@ -160,11 +160,11 @@ Also, `--log-level` can be set to a comma-separated list of directives for debug
 #### `--memory-limit`, `-m`
 
 <div class="option-details" markdown="1">
-The amount of memory, in bytes, available to the ReadySet Server.
+The amount of memory, in bytes, available to the Readyset Server.
 
-This memory limit accounts for all memory use, including partial materializations (i.e., queries for which ReadySet stores only part of the result set), full materializations (i.e., queries for which ReadySet stores the entire result set), and other parts of the ReadySet process (e.g., RocksDB).
+This memory limit accounts for all memory use, including partial materializations (i.e., queries for which Readyset stores only part of the result set), full materializations (i.e., queries for which Readyset stores the entire result set), and other parts of the Readyset process (e.g., RocksDB).
 
-Once memory usage surpasses this limit, ReadySet starts evicting cache entries from partial materializations based on the [`--eviction-policy`](#--eviction-policy).
+Once memory usage surpasses this limit, Readyset starts evicting cache entries from partial materializations based on the [`--eviction-policy`](#--eviction-policy).
 
 **Default:** `0` (unlimited)
 
@@ -178,7 +178,7 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 <div class="option-details" markdown="1">
 If set, this server will never run domains containing reader nodes
 
-Pass this flag to the server instance when running a ReadySet deployment in embedded
+Pass this flag to the server instance when running a Readyset deployment in embedded
 readers mode (eg for high availability)
 
 **Env variable:** `NO_READERS=true`
@@ -187,7 +187,7 @@ readers mode (eg for high availability)
 #### `--prometheus-metrics`
 
 <div class="option-details" markdown="1">
-Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics`. The metrics address is defined by [`--external-address`](#--external-address) and [`--external-port`](#--external-port).
+Output Readyset metrics to the Prometheus endpoint at `<metrics address>/metrics`. The metrics address is defined by [`--external-address`](#--external-address) and [`--external-port`](#--external-port).
 
 **Env variable:** `PROMETHEUS_METRICS`
 </div>
@@ -195,7 +195,7 @@ Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics
 #### `--quorum`, `-q`
 
 <div class="option-details" markdown="1">
-For a distributed ReadySet deployment with multiple ReadySet Server instances, the number of ReadySet Server instances. ReadySet will wait until this number is reached before accepting requests.
+For a distributed Readyset deployment with multiple Readyset Server instances, the number of Readyset Server instances. Readyset will wait until this number is reached before accepting requests.
 
 **Default:** `1`
 
@@ -207,7 +207,7 @@ For a distributed ReadySet deployment with multiple ReadySet Server instances, t
 <div class="option-details" markdown="1">
 Number of times to replicate domains that contain readers
 
-This flag should be set to the number of adapter instances in the ReadySet deployment when running in embbedded readers mode (eg for high availability)
+This flag should be set to the number of adapter instances in the Readyset deployment when running in embbedded readers mode (eg for high availability)
 
 **Env variable:** `READER_REPLICAS`
 </div>
@@ -215,7 +215,7 @@ This flag should be set to the number of adapter instances in the ReadySet deplo
 #### `--replication-tables`
 
 <div class="option-details" markdown="1">
-By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use this option to limit the tables ReadySet snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
+By default, Readyset attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in Readyset access only a subset of tables in the database, you can use this option to limit the tables Readyset snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
 This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.
 
@@ -228,7 +228,7 @@ Only tables specified in the list will be eligible to be used by caches.
 
 <div class="option-details" markdown="1">
 
-By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if you know the queries you want to cache in ReadySet won't access a subset of tables in the database, you can use this option to limit the tables ReadySet snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
+By default, Readyset attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if you know the queries you want to cache in Readyset won't access a subset of tables in the database, you can use this option to limit the tables Readyset snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
 This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.
 
@@ -272,48 +272,48 @@ To use this option, you must set [`--tracing-host`](#--tracing-host).
 #### `--upstream-db-url`
 
 <div class="option-details" markdown="1">
-The URL for connecting ReadySet to to the upstream database. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to snapshot/replicate.
+The URL for connecting Readyset to to the upstream database. This connection URL includes the username and password for Readyset to authenticate with as well as the database to snapshot/replicate.
 
 **Env variable:** `UPSTREAM_DB_URL`
 
-<Callout>By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use the [`--replication-tables`](#--replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.</Callout>
+<Callout>By default, Readyset attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in Readyset access only a subset of tables in the database, you can use the [`--replication-tables`](#--replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.</Callout>
 <Callout>Special characters that may be interpreted as dividers of the connection string (e.g. `@`, `:`, `/`, `#`) must be [percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding), including in passwords. For example, `password#` should be `password%23`.</Callout>
 </div>
 
 #### `--version`, `V`
 
 <div class="option-details" markdown="1">
-Print ReadySet version information.
+Print Readyset version information.
 </div>
 
 #### `--volume-id`
 
 <div class="option-details" markdown="1">
 
-The volume associated with a ReadySet Server.
+The volume associated with a Readyset Server.
 
-For a distributed ReadySet deployment with multiple ReadySet Servers, snapshotted tables are scheduled, round-robin, onto volumes associated with Server instances. If a Server restarts, the Server must know which volume contains its portion of the snapshot.
+For a distributed Readyset deployment with multiple Readyset Servers, snapshotted tables are scheduled, round-robin, onto volumes associated with Server instances. If a Server restarts, the Server must know which volume contains its portion of the snapshot.
 
 **Env variable:** `VOLUME_ID`
 </div>
 
 ## Examples
 
-These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server and Adapter running as distinct processes and separate machines). For running a standard ReadySet deployment, see the [`readyset` examples](readyset.md#examples).
+These examples focus on a distributed Readyset deployment (i.e., Readyset Server and Adapter running as distinct processes and separate machines). For running a standard Readyset deployment, see the [`readyset` examples](readyset.md#examples).
 
-### Start ReadySet
+### Start Readyset
 
 1. Start an instance of Consul to serve as the external authority for node discovery, leader election, and consensus, and to manage internal state and metrics.
 
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
-1. Start the ReadySet Server:
+1. Start the Readyset Server:
         ``` shell
         readyset-server \
         --upstream-db-url="postgresql://<db user>:<db password>@<db address>:5432/<database>" \
         >> logs/readyset.log 2>&1 &
         ```
-1. Start one or more ReadySet Adapters:
+1. Start one or more Readyset Adapters:
 
         ``` shell
         readyset \
@@ -323,13 +323,13 @@ These examples focus on a distributed ReadySet deployment (i.e., ReadySet Server
         ```
 </Tab>
 <Tab>
-1. Start the ReadySet Server:
+1. Start the Readyset Server:
         ``` shell
         readyset-server \
         --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \
         >> logs/readyset.log 2>&1 &
         ```
-1. Start one or more ReadySet Adapters:
+1. Start one or more Readyset Adapters:
         ``` shell
         readyset \
         --upstream-db-url="mysql://<db user>:<db password>@<db address>:3306/<database>" \

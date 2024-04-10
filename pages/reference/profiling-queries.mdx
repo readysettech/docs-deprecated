@@ -32,7 +32,7 @@ CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 </Tab>
 
 <Tab>
-To enable ReadySet metrics, start ReadySet with the following options:
+To enable Readyset metrics, start Readyset with the following options:
 
 - [`--prometheus-metrics`](/using/cli/readyset/#--prometheus-metrics)
 - [`--metrics-address`](/using/cli/readyset/#--metrics-address)
@@ -42,13 +42,13 @@ To include query-specific execution metrics, also pass:
 - [`--query-log`](/using/cli/readyset/#--query-log)
 - [`--query-log-ad-hoc`](/using/cli/readyset/#--query-log-ad-hoc)
 
-You can access ReadySet metrics at `<metrics address>/metrics`, where the metrics address is defined by the [`--metrics-address`](/using/cli/readyset/#--metrics-address) option (default: `0.0.0.0:6034/metrics`).
+You can access Readyset metrics at `<metrics address>/metrics`, where the metrics address is defined by the [`--metrics-address`](/using/cli/readyset/#--metrics-address) option (default: `0.0.0.0:6034/metrics`).
 </Tab>
 </Tabs>
 ## Analyzing per-query metrics
 <Tabs items={['Using pg_stat_statements with Postgres']}>
 <Tab>
-ReadySet can cache many `SELECT` queries.
+Readyset can cache many `SELECT` queries.
 
 To find `SELECT` queries with the highest latency, run:
 
@@ -56,7 +56,7 @@ To find `SELECT` queries with the highest latency, run:
 SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHERE query ILIKE '%SELECT%' order by mean_exec_time DESC;
 ```
 
-Similarly, ReadySet can be used to offload high-impact queries to improve throughput.
+Similarly, Readyset can be used to offload high-impact queries to improve throughput.
 
 To find the most frequently-run `SELECT` queries, run:
 
@@ -71,7 +71,7 @@ SELECT query, calls, total_exec_time, mean_exec_time from pg_stat_statements WHE
 ```
 </Tab>
 <Tab>
-ReadySet metrics are formatted for easy integration with [Prometheus](https://prometheus.io/). However, the quickest way to examine per-query metrics is to use a simple metrics utility written in Python that queries the metrics endpoint and displays latencies for queries received by ReadySet.
+Readyset metrics are formatted for easy integration with [Prometheus](https://prometheus.io/). However, the quickest way to examine per-query metrics is to use a simple metrics utility written in Python that queries the metrics endpoint and displays latencies for queries received by Readyset.
 
 1. Download the metrics utility and its `requirements.txt`:
 
@@ -96,7 +96,7 @@ export METRICS_HOST="<metrics-host>"
 python3 metrics.py --host=${METRICS_HOST}
 ```
 
-5. You can filter the output of this script to show only queries displayed in `SHOW PROXIED QUERIES` or `SHOW CACHES` by passing the `--filter-queries` flag and piping the output of those ReadySet commands into the script like so:
+5. You can filter the output of this script to show only queries displayed in `SHOW PROXIED QUERIES` or `SHOW CACHES` by passing the `--filter-queries` flag and piping the output of those Readyset commands into the script like so:
 
 ```sql copy 
 PGPASSWORD=noria psql --host=127.0.0.1 --port=5433 --username=postgres --dbname=noria -c "SHOW CACHES" | python3 metrics.py --filter-queries

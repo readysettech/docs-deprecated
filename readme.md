@@ -1,6 +1,6 @@
-# ReadySet Docs
+# Readyset Docs
 
-This repository contains the source files for the ReadySet documentation available at [docs.readyset.io](https://docs.readyset.io/).
+This repository contains the source files for the Readyset documentation available at [docs.readyset.io](https://docs.readyset.io/).
 
 ## Suggest Improvements
 

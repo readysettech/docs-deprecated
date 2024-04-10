@@ -1,6 +1,6 @@
-# ReadySet Internals
+# Readyset Internals
 
-The heart of ReadySet is a query engine. This query engine, however, is very different from those of 
+The heart of Readyset is a query engine. This query engine, however, is very different from those of 
 traditional relational databases in that it is based on **partially-stateful, streaming dataflow**. 
 
 What's that? Let's break it down. First, we'll take a look at the basics of **streaming dataflow**, then 
@@ -12,15 +12,15 @@ of operations is applied to each element of a stream (a given a sequence of data
 
 #### Stream
 
-The stream that ReadySet deals with is a the sequence of data changes made to your underlying database due to writes. 
-ReadySet receives this stream as input by registering itself as a [read replica of your primary database](https://dev.mysql.com/doc/internals/en/replication.html). 
+The stream that Readyset deals with is a the sequence of data changes made to your underlying database due to writes. 
+Readyset receives this stream as input by registering itself as a [read replica of your primary database](https://dev.mysql.com/doc/internals/en/replication.html). 
 The data change stream primarily consists of **inserts of new records** to the base tables and **updates of 
 existing records** in the base tables.  
 
 #### Operations 
 
-ReadySet applies SQL operations over this data change stream to compute the results of the SQL queries you give it. 
-Specifically, given a SQL query, ReadySet creates a query plan (i.e., the ordered sequence of transformations over the data in 
+Readyset applies SQL operations over this data change stream to compute the results of the SQL queries you give it. 
+Specifically, given a SQL query, Readyset creates a query plan (i.e., the ordered sequence of transformations over the data in 
 the base tables that needs to be applied to compute the correct query result) and instantiates a long-lived **dataflow graph** that 
 actually executes the operations in the query plan over the incoming data stream. 
 
@@ -30,16 +30,16 @@ For example, let's say we have a table like this one– we'll call it the `Votes
 | VoteID | Story |
 | --- | ----------- |
 | 1 | "Intro to Streaming Dataflow" |
-| 2 | "ReadySet 101" |
+| 2 | "Readyset 101" |
 | 3 | "Caching in the Wild" |
-| 4 | "ReadySet 101" |
+| 4 | "Readyset 101" |
 
 We want to compute the following SQL query, using the information in the `Votes` table: 
 
 ``` SELECT Story, COUNT(*) FROM Votes GROUP BY Story;```
 
-To perform this computation via streaming dataflow, ReadySet breaks the query down into its constituent operations, 
-in the order they must be applied to ensure a correct result. ReadySet then creates a graph that represents this plan: 
+To perform this computation via streaming dataflow, Readyset breaks the query down into its constituent operations, 
+in the order they must be applied to ensure a correct result. Readyset then creates a graph that represents this plan: 
 
 `Votes` table ==> `GROUP BY Story` ==> `PROJECT(Story, COUNT(*) AS VoteCount)` 
 
@@ -56,17 +56,17 @@ operation downstream to its children nodes. By the time this process completes, 
 | VoteID | Story |
 | --- | ----------- |
 | 1 | "Intro to Streaming Dataflow" |
-| 2 | "ReadySet 101" |
+| 2 | "Readyset 101" |
 | 3 | "Caching in the Wild" |
-| 4 | "ReadySet 101" |
+| 4 | "Readyset 101" |
 
 ==> `GROUP BY Story` 
 
 | VoteID | Story |
 | --- | ----------- |
 | 1 | "Intro to Streaming Dataflow" |
-| 2 | "ReadySet 101" |
-| 3 | "ReadySet 101" |
+| 2 | "Readyset 101" |
+| 3 | "Readyset 101" |
 | 4 | "Caching in the Wild" |
 
 ==> `PROJECT(Story, COUNT(*) AS VoteCount)`
@@ -74,7 +74,7 @@ operation downstream to its children nodes. By the time this process completes, 
 | Story | VoteCount |
 | --- | ----------- |
 | "Intro to Streaming Dataflow" | 1 |
-| "ReadySet 101" | 2 |
+| "Readyset 101" | 2 |
 | "Caching in the Wild" | 1 |
 
 ## Stateful Streaming Dataflow 
@@ -88,7 +88,7 @@ that query into a dataflow graph that is responsible for executing that query. T
 nodes that represent the application base tables (“base table nodes”). 
 
 ## Data Change Ingestion 
-ReadySet monitors the primary database’s binlogs (log files that contain information about data modifications 
+Readyset monitors the primary database’s binlogs (log files that contain information about data modifications 
 made as the result of users issuing inserts/updates/deletes) and replicates these data changes (“deltas”) to 
 the base table nodes. The base table nodes serve as an entry point to the overall dataflow graph: once deltas 
 enter the base tables nodes, they then propagate down through any outgoing edges connected to these nodes, passing 
@@ -108,12 +108,12 @@ they are materialized in memory, they are optimized in a different way. The leaf
 reader nodes, cache the final query results. Reader nodes can be replicated on arbitrary machines in the same region 
 or in different ones.
 
-As writes occur, the resulting data changes are immediately replicated to ReadySet. ReadySet incrementally updates the 
+As writes occur, the resulting data changes are immediately replicated to Readyset. Readyset incrementally updates the 
 cached query results to reflect these changes. This automatic cache result repair mechanism replaces any developer-written 
 cache eviction logic.
 
 ## Example Application: Hacker News
-To illustrate these concepts, we will walk through an example of using ReadySet for a news forum application inspired 
+To illustrate these concepts, we will walk through an example of using Readyset for a news forum application inspired 
 by HackerNews.
 
 ### Schema 
@@ -138,11 +138,11 @@ combine all of the raw info about the story with its computed vote count. The re
 the > filter on vcount. To then get the result of this query for a given story ID 4, you would instantiate it and replace 
 the ? parameter with 4. We will refer to this parameter as the key.
 
-### Caching Query Results with ReadySet 
-Traditional databases would compute the results of this query from scratch every time it was issued. ReadySet takes a 
+### Caching Query Results with Readyset 
+Traditional databases would compute the results of this query from scratch every time it was issued. Readyset takes a 
 different approach and instead precomputes and incrementally maintains the results of this query for commonly read keys.
 
-To accomplish this, ReadySet creates a streaming dataflow graph, as described in the previous section. Under the hood, the 
+To accomplish this, Readyset creates a streaming dataflow graph, as described in the previous section. Under the hood, the 
 dataflow graph would look as follows:
 
 Next, we’ll take a look at what happens when the data changes. Let’s say that we add a record to the Votes table to reflect 

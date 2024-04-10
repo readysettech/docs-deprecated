@@ -2,9 +2,9 @@
   "index": {
     "display": "hidden"
   },
-  "demo": "ReadySet Demo",
-  "cloud": "ReadySet Cloud",
-  "get-started": "ReadySet Self-Hosted",
+  "demo": "Readyset Demo",
+  "cloud": "Readyset Cloud",
+  "get-started": "Readyset Self-Hosted",
   "reference": "Reference",
   "demos": "Demos & Tutorials",
   "concepts": "Concepts",

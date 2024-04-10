@@ -1,35 +1,35 @@
-# Deploy ReadySet to an Existing VPC 
-These instructions walk you through how to manually deploy ReadySet into an existing VPC via CloudFormation and connect it to an existing RDS database. 
+# Deploy Readyset to an Existing VPC 
+These instructions walk you through how to manually deploy Readyset into an existing VPC via CloudFormation and connect it to an existing RDS database. 
 
-> The ReadySet orchestrator is a simple command line tool that automates the full set up process. If you're just interested in trying ReadySet 
-> out but not necessarily deploying it in production, we recommend using the ReadySet Orchestrator. 
+> The Readyset orchestrator is a simple command line tool that automates the full set up process. If you're just interested in trying Readyset 
+> out but not necessarily deploying it in production, we recommend using the Readyset Orchestrator. 
 
 ## Part 0: Prerequisites
 
-### 1. Configure your RDS database to allow ReadySet to follow updates to the primary database. 
+### 1. Configure your RDS database to allow Readyset to follow updates to the primary database. 
 First, check that the database’s current parameter group has binlog_format set to `ROW`. In the RDS console for the database, click the Configuration tab and then the Parameter group. In the parameters screen, filter by `binlog_format` and verify it is `ROW`. If it isn’t, edit the parameter group.
 
 Then, check that the backup retention period for the database is not `0`. If your backup retention period is `0`, set it to any integer (e.g., `1`).
 
 To check your backup retention period, navigate to the RDS Console for the database, click the Maintenance & Backup tab and then see if Automated Backups are enabled. If they aren’t enabled, click the Modify button on the database page to set the Backup Retention Period to at least 1 day. 
 
-**Note:** During the ReadySet server DB snapshotting process, all tables will undergo a full table lock, so new writes will be blocked until the snapshot completes. If your DB needs to be writeable during this time, we recommend creating a new RDS  snapshot of the desired instance, or use last night's snapshot (if you have automated backups enabled) to create a new DB 
+**Note:** During the Readyset server DB snapshotting process, all tables will undergo a full table lock, so new writes will be blocked until the snapshot completes. If your DB needs to be writeable during this time, we recommend creating a new RDS  snapshot of the desired instance, or use last night's snapshot (if you have automated backups enabled) to create a new DB 
 instance for the test.
 
 ### 2. Configure your VPC for high availability and access. 
-Confirm that your VPC has exactly 3 private subnets in different availability zones. This ensures that ReadySet is able to handle intermittent AWS instance failures. This can be found by filtering the Subnets list in the VPC console by the VPC ID and verifying the availability zones.
+Confirm that your VPC has exactly 3 private subnets in different availability zones. This ensures that Readyset is able to handle intermittent AWS instance failures. This can be found by filtering the Subnets list in the VPC console by the VPC ID and verifying the availability zones.
 
 Then, check that there is a security group that is configured to allow SSH traffic. Instances will later be attached to this security group to allow direct host access.
 
 ### 3. Make sure you have a EC2 SSH Key set up for accessing the various instances that will be created.
 Copy the name of the key for use in the next step and in Part 1.
 
-### 4. Ensure that your current Consul cluster can connect to ReadySet or set up a new Consul cluster. 
-ReadySet requires a Consul cluster to operate correctly. If you have an existing Consul cluster you would like to use, go to 4a. Otherwise, go to 4b.
-#### a. If you have an existing Consul cluster you would like to use, make sure that your existing Consul cluster can be used by ReadySet:
+### 4. Ensure that your current Consul cluster can connect to Readyset or set up a new Consul cluster. 
+Readyset requires a Consul cluster to operate correctly. If you have an existing Consul cluster you would like to use, go to 4a. Otherwise, go to 4b.
+#### a. If you have an existing Consul cluster you would like to use, make sure that your existing Consul cluster can be used by Readyset:
 Check that it can be found using the retry-join feature. Create an IAM Managed Policy which has the `ec2:DescribeInstances` permission to find instances for retry-join. Copy this `IAMManagedPolicyARN` for use in Part 1.
 
-#### b. If you don’t already have a Consul cluster, then you can set one up by launching this ReadySet-provided Consul stack. 
+#### b. If you don’t already have a Consul cluster, then you can set one up by launching this Readyset-provided Consul stack. 
 **Step 1: Specify Template**
 
 The first page should already be pre-configured for you. You can just click Next at the bottom of the page.
@@ -39,16 +39,16 @@ The first page should already be pre-configured for you. You can just click Next
 Fill in the fields that using the instructions below. 
 | Parameter      | Guidance |
 | ----------- | ----------- |
-| `Stack name` | You will be creating another ReadySet stack in Part 1, so we recommend naming your stack something like "ReadySetConsul".  |
+| `Stack name` | You will be creating another Readyset stack in Part 1, so we recommend naming your stack something like "ReadysetConsul".  |
 | `BastionSecurityGroupID` | This should be a security group that will be added to all Consul instances for access. |
 | `KeyPairName` | Paste in the name of the key you copied from Part 0 Step 3. |
-| `VPCID`   | This should be the ID of the VPC that will have  Consul and ReadySet installed.  |
+| `VPCID`   | This should be the ID of the VPC that will have  Consul and Readyset installed.  |
 | `VPCCIDR` | Copy the CIDR from the VPC provided in VPCID. To find the CIDR, navigate to the VPC console, find the row corresponding to your selected VPCID, and copy the CIDR.|
 | `PrivateSubnet<1, 2, 3>ID` | Fill in the IDs of the subnets referenced in Part 0 Step 2. |
 
 **Step 3: Configure Stack Options**
 
-Fill in your desired stack options. We highly recommend selecting "Preserve successfully provisioned resources" to allow ReadySet to help debug deployment issues that may arise.
+Fill in your desired stack options. We highly recommend selecting "Preserve successfully provisioned resources" to allow Readyset to help debug deployment issues that may arise.
 These options are dependent on your company's AWS security policies. We currently do not have a list of all IAM permissions required to deploy these stacks. 
 
 **Step 4: Review**
@@ -57,74 +57,74 @@ This page provides a review of your Consul setup configurations. You must accept
 Once the stack has reached the `CREATE_COMPLETED` state, copy the `ConsulJoinManagedPolicy` output and provide it as the `ConsulJoinManagedPolicyArn` input as a part of launching this stack.
 
 
-## Part 1: Deploy ReadySet
+## Part 1: Deploy Readyset
 
-If you created a Consul stack using the ReadySet-provided CloudFormation template, you will need to wait for it to complete. 
+If you created a Consul stack using the Readyset-provided CloudFormation template, you will need to wait for it to complete. 
 Once the stack has reached the `CREATE_COMPLETED` state, copy the `ConsulJoinManagedPolicy` output and provide it as the 
 `ConsulJoinManagedPolicyArn` input as a part of launching this stack.
 
-For the next steps, use the ReadySet CloudFormation template link we sent you. 
+For the next steps, use the Readyset CloudFormation template link we sent you. 
 
-### Launch ReadySet via CloudFormation
+### Launch Readyset via CloudFormation
 #### Step 1: Specify Template
 The first page should already be pre-configured for you. You can just click Next at the bottom of the page. Fill in the fields that are blank following the instructions in the gray text. 
 #### Step 2: Specify Stack Details
 Fill in the fields using the guidance below.
 | Parameter      | Guidance |
 | ----------- | ----------- |
-| `Stack name` | We recommend naming your stack something like "ReadySet".   |
-| `VPCID`   | This should be the ID of the VPC that will have  Consul and ReadySet installed.  |
+| `Stack name` | We recommend naming your stack something like "Readyset".   |
+| `VPCID`   | This should be the ID of the VPC that will have  Consul and Readyset installed.  |
 | `VPCCIDR` | Copy the CIDR from the VPC provided in VPCID. To find the CIDR, navigate to the VPC console, find the row corresponding to your selected VPCID, and copy the CIDR.|
 | `PrivateSubnet<1, 2, 3>ID` | Fill in the IDs of the subnets referenced in Part 0 Step 2. |
-| `BastionSecurityGroupID` | This should be a security group that will be added to all ReadySet instances for access. |
+| `BastionSecurityGroupID` | This should be a security group that will be added to all Readyset instances for access. |
 | `KeyPairName` | Paste in the name of the key you copied from Part 0 Step 3. |
-| `ConsulJoinManagedPolicyArn` | Paste the IAM Managed Policy ARN you copied from. This is the output from the Consul stack if you used the ReadySet-provided Consul CloudFormation template. |
-| `ReadySetAdapterInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
-| `ReadySetAdapterNodes` | We recommend setting this to at least 3 for high-availability. |
-| `ReadySetServerInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
-| `ReadySetServerNodes` | We recommend setting this to at least 3 for high-availability. |
-| `ReadySetMonitorInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
-| `ReadySetServerVolumeSizeGB` | This is the volume size for storing the base tables. We recommend setting this to the storage size of your RDS instance. |
-| `ReadySetMemoryLimitGB` | This is the memory limit for ReadySetServerInstances in GB. We recommend setting this to 80% of the total memory on the selected ReadySetServerInstanceType. |
+| `ConsulJoinManagedPolicyArn` | Paste the IAM Managed Policy ARN you copied from. This is the output from the Consul stack if you used the Readyset-provided Consul CloudFormation template. |
+| `ReadysetAdapterInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadysetAdapterNodes` | We recommend setting this to at least 3 for high-availability. |
+| `ReadysetServerInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadysetServerNodes` | We recommend setting this to at least 3 for high-availability. |
+| `ReadysetMonitorInstanceType` | We recommend setting this to c5.4xlarge for production workloads. This can be changed at a later date but downtime will be required. |
+| `ReadysetServerVolumeSizeGB` | This is the volume size for storing the base tables. We recommend setting this to the storage size of your RDS instance. |
+| `ReadysetMemoryLimitGB` | This is the memory limit for ReadysetServerInstances in GB. We recommend setting this to 80% of the total memory on the selected ReadysetServerInstanceType. |
 | `MySQLDatabaseURL` | database connection string of the form `mysql://<user>:<password>@<host>:<port>/<db_name>` |
 
 
 #### Step 3: Configure Stack Options
-Fill in your desired stack options. We highly recommend selecting "Preserve successfully provisioned resources" to allow ReadySet to help debug deployment issues that may arise.
+Fill in your desired stack options. We highly recommend selecting "Preserve successfully provisioned resources" to allow Readyset to help debug deployment issues that may arise.
 
 These options are dependent on your company's AWS security policies. We currently do not have a list of all IAM permissions required to deploy these stacks. 
 
 #### Step 4: Review
 This page provides a review of your Consul setup configurations. 
 You must accept the Capabilities acknowledgement before creating your stack.
-Once the ReadySet stack has reached the `CREATE_COMPLETED` state, go to the Outputs tab in the ReadySet stack to obtain the following values:
+Once the Readyset stack has reached the `CREATE_COMPLETED` state, go to the Outputs tab in the Readyset stack to obtain the following values:
 - The value of the key corresponding to `ReadysetDBSecurityGroup` for use in Part 2. 
 - The value of the key corresponding to `ReadysetAdapterNLBDNSName` for use in Part 3.
 
-## Part 2: Connect ReadySet to your primary database
+## Part 2: Connect Readyset to your primary database
 
-**Connect ReadySet to your database by adding the `ReadysetDBSecurityGroup` to your existing RDS database.**
+**Connect Readyset to your database by adding the `ReadysetDBSecurityGroup` to your existing RDS database.**
 
-The `ReadysetDBSecurityGroup` output from the ReadySet stack is the ID of the security group. The RDS console requires you to type in the name of the security group; to find it, navigate to the EC2 Console, Security Groups, filter by ID and copy the name over.
+The `ReadysetDBSecurityGroup` output from the Readyset stack is the ID of the security group. The RDS console requires you to type in the name of the security group; to find it, navigate to the EC2 Console, Security Groups, filter by ID and copy the name over.
 
-**Once you have the `ReadySetDBSecurityGroup`, go to the AWS RDS console:**
-1. Navigate to the RDS database that you wish to connect to ReadySet.
+**Once you have the `ReadysetDBSecurityGroup`, go to the AWS RDS console:**
+1. Navigate to the RDS database that you wish to connect to Readyset.
 2. Click the Modify button to edit your RDS instance. 
-3. Go to Security Groups under Connectivity. Add the security group created by the ReadySet CloudFormation stack to this database, then click Continue at the bottom of the page.
+3. Go to Security Groups under Connectivity. Add the security group created by the Readyset CloudFormation stack to this database, then click Continue at the bottom of the page.
 4. On the next page, select Apply immediately under Scheduling of modifications to submit your modifications.
-5. Wait about thirty seconds to allow ReadySet to connect to the underlying database. Once that is complete, ReadySet Adapters and Servers will be able to read your database!
+5. Wait about thirty seconds to allow Readyset to connect to the underlying database. Once that is complete, Readyset Adapters and Servers will be able to read your database!
 
 Logs will be uploaded to CloudWatch in a Log Group with the same name as the CloudFormation stack. In the Log Stream named `readyset`, once you see a message containing "Snapshot finished" then you can move on to Part 3.
 
-## Part 3: Start using ReadySet
-### Get your ReadySet connection string 
-Copy the `ReadysetAdapterNLBDNSName` from the ReadySet CloudFormation stack output. This a DNS host name that will resolve to live ReadySet adapters. This DNS host name is only valid inside the VPC the stack was started in.
+## Part 3: Start using Readyset
+### Get your Readyset connection string 
+Copy the `ReadysetAdapterNLBDNSName` from the Readyset CloudFormation stack output. This a DNS host name that will resolve to live Readyset adapters. This DNS host name is only valid inside the VPC the stack was started in.
 
-Use this DNS name for connecting to ReadySet in place of your existing database connection string. This database connection requires no authentication or database name. For example, the connection string should look something like `mysql://<ReadysetAdapterNLBDNSName>/`. 
+Use this DNS name for connecting to Readyset in place of your existing database connection string. This database connection requires no authentication or database name. For example, the connection string should look something like `mysql://<ReadysetAdapterNLBDNSName>/`. 
 
-If you are using the command  line MySQL client, you can connect to ReadySet by running `mysql -h <ReadysetAdapterNLBDNSName>`. We recommend using a different instance to test connections, such as an application server, rather than using any individual Adapter or Server instance.
+If you are using the command  line MySQL client, you can connect to Readyset by running `mysql -h <ReadysetAdapterNLBDNSName>`. We recommend using a different instance to test connections, such as an application server, rather than using any individual Adapter or Server instance.
 
 ### Notes 
 The `BastionSecurityGroupID` and `KeyPairName` were added to every adapter and server instance which will allow you to SSH into any individual adapter or server instance assuming you have those credentials. This should not need to be done. 
 
-As you use ReadySet, logs are also being uploaded to a CloudWatch Log Group with the name of your ReadySet stack.
+As you use Readyset, logs are also being uploaded to a CloudWatch Log Group with the name of your Readyset stack.

@@ -1,5 +1,5 @@
 # Example: News Forum
-To illustrate these concepts, we will walk through an example of using ReadySet for a news forum application inspired by HackerNews.
+To illustrate these concepts, we will walk through an example of using Readyset for a news forum application inspired by HackerNews.
 
 ## Schema
 First we define two tables to keep track of HackerNews stories and votes. 
@@ -23,11 +23,11 @@ ON VoteCount.story_id = stories.id WHERE stories.id = ?;
 
 ``` 
 
-## Caching with ReadySet
+## Caching with Readyset
 
-Traditional databases would compute the results of this query from scratch every time it was issued. ReadySet takes a 
+Traditional databases would compute the results of this query from scratch every time it was issued. Readyset takes a 
 different approach and instead precomputes and incrementally maintains the results of this query for commonly read keys.
-To accomplish this, ReadySet creates a streaming dataflow graph, as described in the previous section. At a high level, the 
+To accomplish this, Readyset creates a streaming dataflow graph, as described in the previous section. At a high level, the 
 dataflow graph would look as follows:
 
 ![Vote Count](/prepared-to-high-level.png)

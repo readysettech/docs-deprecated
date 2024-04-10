@@ -7,16 +7,16 @@ increasing the risk of failures and outages.
 
 <br></br>
 
-# ReadySet 
+# Readyset 
 
-ReadySet is a distributed SQL cache that automatically keeps query results fresh based on changes to your primary database.
+Readyset is a distributed SQL cache that automatically keeps query results fresh based on changes to your primary database.
 
 ### Automatic Cache Maintenance
-Under the hood, ReadySet precomputes and caches the results of prepared statements (i.e., parameterized SQL queries). ReadySet 
-connects to your primary database and receives a replication stream of data updates. Using these updates, ReadySet **incrementally 
+Under the hood, Readyset precomputes and caches the results of prepared statements (i.e., parameterized SQL queries). Readyset 
+connects to your primary database and receives a replication stream of data updates. Using these updates, Readyset **incrementally 
 updates** its own cache state to reflect the data changes. 
 
 ### Wire-Compatible with MySQL and Postgres
-ReadySet is wire-compatible with MySQL and Postgres so it can be integrated slotted between your existing MySQL or Postgres database
+Readyset is wire-compatible with MySQL and Postgres so it can be integrated slotted between your existing MySQL or Postgres database
 without any code changes. 
 

@@ -1,9 +1,9 @@
 import { Tabs, Tab } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
-# ReadySet
+# Readyset
 
-The `readyset` command starts the ReadySet server and adapter as a single process on a single machine or starts the ReadySet adapter (with the `--deployment-mode=adapter` option) as a distinct process from the ReadySet server ([`readyset-server`](readyset-server.md)).
+The `readyset` command starts the Readyset server and adapter as a single process on a single machine or starts the Readyset adapter (with the `--deployment-mode=adapter` option) as a distinct process from the Readyset server ([`readyset-server`](readyset-server.md)).
 
 <Callout type="info">
 The default and recommended deployment method of Readyset is to run server and adaptor in a single process.
@@ -11,13 +11,13 @@ The default and recommended deployment method of Readyset is to run server and a
 
 ## Usage
 
-Start the ReadySet Server and Adapter as a single process:
+Start the Readyset Server and Adapter as a single process:
 
 ``` {.text .no-copy}
 readyset --standalone [OPTIONS]
 ```
 
-Start the ReadySet Adapter as a distinct process, after starting the ReadySet Server:
+Start the Readyset Adapter as a distinct process, after starting the Readyset Server:
 
 ``` {.text .no-copy}
 readyset-server [OPTIONS]
@@ -35,7 +35,7 @@ readyset --help
 #### `--address`, `-a`
 
 <div class="option-details" markdown="1">
-The IP address/hostname and port that ReadySet listens on.
+The IP address/hostname and port that Readyset listens on.
 
 **Default:** 3307 for MySQL deployments and 5433 for PostgreSQL deployments.
 
@@ -45,9 +45,9 @@ The IP address/hostname and port that ReadySet listens on.
 #### `--authority-address`
 
 <div class="option-details" markdown="1">
-The IP address/hostname and port of the external authority. ReadySet clusters support Consul as the external authority.
+The IP address/hostname and port of the external authority. Readyset clusters support Consul as the external authority.
 
-This option is ignored when `--standalone` is passed. In that case, the ReadySet Server and Adapter are run as a single process, and no external authority is required.
+This option is ignored when `--standalone` is passed. In that case, the Readyset Server and Adapter are run as a single process, and no external authority is required.
 
 **Env variable:** `AUTHORITY_ADDRESS`
 </div>
@@ -55,7 +55,7 @@ This option is ignored when `--standalone` is passed. In that case, the ReadySet
 #### `--db-dir`
 
 <div class="option-details" markdown="1">
-The path to the directory where ReadySet stores replicated table data.
+The path to the directory where Readyset stores replicated table data.
 
 **Default:** Current working directory
 
@@ -65,7 +65,7 @@ The path to the directory where ReadySet stores replicated table data.
 #### `--deployment`
 
 <div class="option-details" markdown="1">
-A unique identifier for the ReadySet deployment.
+A unique identifier for the Readyset deployment.
 
 **Default:** tmp-readyset
 
@@ -75,7 +75,7 @@ A unique identifier for the ReadySet deployment.
 #### `--disable-telemetry`
 
 <div class="option-details" markdown="1">
-Don't sent anonymous [telemetry data](../telemetry.md) to ReadySet.
+Don't sent anonymous [telemetry data](../telemetry.md) to Readyset.
 
 **Env variable:** `DISABLE_TELEMETRY`
 </div>
@@ -83,7 +83,7 @@ Don't sent anonymous [telemetry data](../telemetry.md) to ReadySet.
 #### `--embedded-readers`
 
 <div class="option-details" markdown="1">
-For a distributed ReadySet deployment, store cached query results with the Adapter instead of the Server.
+For a distributed Readyset deployment, store cached query results with the Adapter instead of the Server.
 
 To use this option, you must pass `--no-readers` and `--reader-replicas` when starting [`readyset-server`](readyset-server.md).
 
@@ -134,7 +134,7 @@ Log Rotation policy to use if a log file is set. Defaults to daily. Does nothing
 #### `--log-level`
 
 <div class="option-details" markdown="1">
-The [severity level(s)](https://docs.rs/tracing-core/0.1.30/tracing_core/metadata/struct.Level.html#implementations) to include in ReadySet logs. Messages at the specified and more severe levels are included. For example, when set to `INFO`, messages at the `INFO`, `WARN`, and `ERROR` levels are included.
+The [severity level(s)](https://docs.rs/tracing-core/0.1.30/tracing_core/metadata/struct.Level.html#implementations) to include in Readyset logs. Messages at the specified and more severe levels are included. For example, when set to `INFO`, messages at the `INFO`, `WARN`, and `ERROR` levels are included.
 
 Possible values, from most to least severe:
 
@@ -144,7 +144,7 @@ Possible values, from most to least severe:
 - `DEBUG`: Used for lower priority information.
 - `TRACE`: Used for very low priority, often extremely verbose information.
 
-<Callout type="info">The `TRACE` level is not available for [official releases of ReadySet](https://github.com/readysettech/readyset/), or for binaries built with the `--release` flag. Also, `--log-level` can be set to a comma-separated list of directives for debugging during development. For the directive syntax, see the [docs for the tracing library](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html).</Callout>
+<Callout type="info">The `TRACE` level is not available for [official releases of Readyset](https://github.com/readysettech/readyset/), or for binaries built with the `--release` flag. Also, `--log-level` can be set to a comma-separated list of directives for debugging during development. For the directive syntax, see the [docs for the tracing library](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html).</Callout>
 
 **Default:** `INFO`
 
@@ -154,11 +154,11 @@ Possible values, from most to least severe:
 #### `--memory-limit`, `-m`
 
 <div class="option-details" markdown="1">
-The amount of memory, in bytes, available to ReadySet.
+The amount of memory, in bytes, available to Readyset.
 
-This memory limit accounts for all memory use, including partial materializations (i.e., queries for which ReadySet stores only part of the result set), full materializations (i.e., queries for which ReadySet stores the entire result set), and other parts of the ReadySet process (e.g., RocksDB).
+This memory limit accounts for all memory use, including partial materializations (i.e., queries for which Readyset stores only part of the result set), full materializations (i.e., queries for which Readyset stores the entire result set), and other parts of the Readyset process (e.g., RocksDB).
 
-Once memory usage surpasses this limit, ReadySet starts evicting cache entries from partial materializations based on the [`--eviction-policy`](#--eviction-policy).
+Once memory usage surpasses this limit, Readyset starts evicting cache entries from partial materializations based on the [`--eviction-policy`](#--eviction-policy).
 
 **Default:** `0` (unlimited)
 
@@ -170,9 +170,9 @@ Once memory usage surpasses this limit, ReadySet starts evicting cache entries f
 #### `--metrics-address`
 
 <div class="option-details" markdown="1">
-The IP address/hostname and port of the Prometheus endpoint for [ReadySet metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
+The IP address/hostname and port of the Prometheus endpoint for [Readyset metrics](http://docs/rustdoc/readyset_client/metrics/recorded/index.html).
 
-This option is ignored unless [`--prometheus-metrics`](#--prometheus-metrics) is passed. Also, when running a distributed ReadySet deployment, this option determines the Prometheus endpoint for the ReadySet Adapter only. The [`--external-address`](readyset-server.md#--external-address) option for the `readyset-server` command determines the Prometheus endpoint for the ReadySet Server.
+This option is ignored unless [`--prometheus-metrics`](#--prometheus-metrics) is passed. Also, when running a distributed Readyset deployment, this option determines the Prometheus endpoint for the Readyset Adapter only. The [`--external-address`](readyset-server.md#--external-address) option for the `readyset-server` command determines the Prometheus endpoint for the Readyset Server.
 
 **Default:** `0.0.0.0:6034`
 
@@ -182,7 +182,7 @@ This option is ignored unless [`--prometheus-metrics`](#--prometheus-metrics) is
 #### `--password`
 
 <div class="option-details" markdown="1">
-The password for authenticating connections to ReadySet. This can differ from the password in the database connections string in [`--upstream-db-url`](#--upstream-db-url).
+The password for authenticating connections to Readyset. This can differ from the password in the database connections string in [`--upstream-db-url`](#--upstream-db-url).
 
 This option is ignored when [`--allow-unauthenticated-connections`](#--allow-unauthenticated-connections) is passed.    
 
@@ -194,7 +194,7 @@ This option is ignored when [`--allow-unauthenticated-connections`](#--allow-una
 #### `--prometheus-metrics`
 
 <div class="option-details" markdown="1">
-Output ReadySet metrics to the Prometheus endpoint at `<metrics address>/metrics`. The metrics address is defined by [`--metrics-address`](#--metrics-address).
+Output Readyset metrics to the Prometheus endpoint at `<metrics address>/metrics`. The metrics address is defined by [`--metrics-address`](#--metrics-address).
 
 **Env variable:** `PROMETHEUS_METRICS`
 </div>
@@ -222,7 +222,7 @@ To use this option, you must pass [`--query-log](#--query-log) as well.
 #### `--replication-tables`
 
 <div class="option-details" markdown="1">
-By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use this option to limit the tables ReadySet snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
+By default, Readyset attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in Readyset access only a subset of tables in the database, you can use this option to limit the tables Readyset snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
 This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.
 
@@ -235,7 +235,7 @@ Only tables specified in the list will be eligible to be used by caches.
 
 <div class="option-details" markdown="1">
 
-By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if you know the queries you want to cache in ReadySet won't access a subset of tables in the database, you can use this option to limit the tables ReadySet snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
+By default, Readyset attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if you know the queries you want to cache in Readyset won't access a subset of tables in the database, you can use this option to limit the tables Readyset snapshots and replicates. Filtering out tables that will not be used in caches will speed up the snapshotting process.
 
 This option accepts a comma-separated list of `<schema>.<table>` (specific table in a schema) or `<schema>.*` (all tables in a schema) for Postgres and `<database>.<table>` for MySQL.
 
@@ -257,7 +257,7 @@ Path to the PEM or DER root certificate that the upstream database connection wi
 #### `--standalone`
 
 <div class="option-details" markdown="1">
-Run the ReadySet Server and Adapter as a single process. When this option is not passed, the `readyset` command starts just ReadySet Adapter. In this case, the ReadySet Server must be started first via the [`readyset-server`](readyset-server.md) command.
+Run the Readyset Server and Adapter as a single process. When this option is not passed, the `readyset` command starts just Readyset Adapter. In this case, the Readyset Server must be started first via the [`readyset-server`](readyset-server.md) command.
 
 **Env variable:** `STANDALONE`
 </div>
@@ -287,18 +287,18 @@ To use this option, you must set [`--tracing-host`](#--tracing-host).
 #### `--upstream-db-url`
 
 <div class="option-details" markdown="1">
-The URL for connecting ReadySet to to the upstream database. This connection URL includes the username and password for ReadySet to authenticate with as well as the database to snapshot/replicate.
+The URL for connecting Readyset to to the upstream database. This connection URL includes the username and password for Readyset to authenticate with as well as the database to snapshot/replicate.
 
 **Env variable:** `UPSTREAM_DB_URL`
 
-<Callout>By default, ReadySet attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in ReadySet access only a subset of tables in the database, you can use the [`--replication-tables`](#--replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.</Callout>
+<Callout>By default, Readyset attempts to snapshot and replicate all tables in the database specified in [`--upstream-db-url`](#--upstream-db-url). However, if the queries you want to cache in Readyset access only a subset of tables in the database, you can use the [`--replication-tables`](#--replication-tables) option to narrow the scope accordingly. Filtering out tables that will not be used in caches will speed up the snapshotting process.</Callout>
 <Callout>Special characters that may be interpreted as dividers of the connection string (e.g. `@`, `:`, `/`, `#`) must be [percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding), including in passwords. For example, `password#` should be `password%23`.</Callout>
 </div>
 
 #### `--username`, `-u`
 
 <div class="option-details" markdown="1">
-The username for authenticating connections to ReadySet. This can differ from the username in the database connections string in [`--upstream-db-url`](#--upstream-db-url).
+The username for authenticating connections to Readyset. This can differ from the username in the database connections string in [`--upstream-db-url`](#--upstream-db-url).
 
 This option is ignored when [`--allow-unauthenticated-connections`](#--allow-unauthenticated-connections) is passed.
 
@@ -310,16 +310,16 @@ This option is ignored when [`--allow-unauthenticated-connections`](#--allow-una
 #### `--version`, `V`
 
 <div class="option-details" markdown="1">
-Print ReadySet version information. See the [example](#print-version-information) below.
+Print Readyset version information. See the [example](#print-version-information) below.
 
-<Callout>You can also use the custom `SHOW READYSET VERSION` SQL command to print ReadySet version information.</Callout>
+<Callout>You can also use the custom `SHOW READYSET VERSION` SQL command to print Readyset version information.</Callout>
 </div>
 
 ## Examples
 
-These examples focus on running a standard ReadySet deployment (i.e., ReadySet Server and Adapter running as a single process on a single machine). For running a distributed ReadySet deployment, see the [`readyset-server` examples](readyset-server.md#examples).
+These examples focus on running a standard Readyset deployment (i.e., Readyset Server and Adapter running as a single process on a single machine). For running a distributed Readyset deployment, see the [`readyset-server` examples](readyset-server.md#examples).
 
-### Start ReadySet
+### Start Readyset
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
     ``` shell
@@ -346,7 +346,7 @@ These examples focus on running a standard ReadySet deployment (i.e., ReadySet S
 </Tabs>
 ### Output metrics to Prometheus
 
-To output ReadySet metrics to Prometheus, pass `--metrics-address` and `--prometheus-metrics`. To include query-specific execution details, pass `--query-log` and `--query-log-ad-hoc` as well.
+To output Readyset metrics to Prometheus, pass `--metrics-address` and `--prometheus-metrics`. To include query-specific execution details, pass `--query-log` and `--query-log-ad-hoc` as well.
 
 <Tabs items={['Postgres', 'MySQL']}>
 <Tab>
@@ -377,7 +377,7 @@ To output ReadySet metrics to Prometheus, pass `--metrics-address` and `--promet
 </Tabs>
 ### Print version information
 
-To print ReadySet version information, pass the `--version` flag:
+To print Readyset version information, pass the `--version` flag:
 
 ``` shell
 readyset --version
@@ -393,14 +393,14 @@ profile:         release
 opt_level:       3
 ```
 
-Alternatively, you can connect a SQL shell to ReadySet and run the following custom SQL command:
+Alternatively, you can connect a SQL shell to Readyset and run the following custom SQL command:
 
 ``` sql
 SHOW READYSET VERSION;
 ```
 
 ``` {.text .no-copy}
-ReadySet      |             Version Information
+Readyset      |             Version Information
 --------------------+---------------------------------------------
 release version    | beta-2023-02-15
 commit id          | 0f40cee0b4583d559d247077b7c140dce6977f00

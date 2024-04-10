@@ -1,14 +1,14 @@
 import { Tabs, Tab } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
-# ReadySet CLI
+# Readyset CLI
 
-ReadySet is made up of the following core components:
+Readyset is made up of the following core components:
 
 | Component | Purpose |
 |-----------|---------|
-| ReadySet Server | Takes a snapshot of your database, listens to the database's replication stream for updates, and keeps queries cached in an in-memory dataflow graph. |
-| ReadySet Adapter | Handles connections from SQL clients and ORMs, forwards uncached queries to the upstream database, and runs cached queries against the ReadySet Server.
+| Readyset Server | Takes a snapshot of your database, listens to the database's replication stream for updates, and keeps queries cached in an in-memory dataflow graph. |
+| Readyset Adapter | Handles connections from SQL clients and ORMs, forwards uncached queries to the upstream database, and runs cached queries against the Readyset Server.
 
 This page introduces the `readyset` commands for running these components, as well as information about environment variables that can be used in place of certain command options.
 
@@ -16,20 +16,20 @@ This page introduces the `readyset` commands for running these components, as we
 
 Command | Usage
 --------|----
-[`readyset`](/reference/cli/readyset) | <p>Start the ReadySet Server and Adapter as a single process (with the `--standalone` option), or start the ReadySet Adapter as a distinct process from the ReadySet Server.</p>
-[`readyset-server`](/reference/cli/readyset-server) | <p>Start the ReadySet Server, when running the ReadySet Adapter as a distinct process.</p>
+[`readyset`](/reference/cli/readyset) | <p>Start the Readyset Server and Adapter as a single process (with the `--standalone` option), or start the Readyset Adapter as a distinct process from the Readyset Server.</p>
+[`readyset-server`](/reference/cli/readyset-server) | <p>Start the Readyset Server, when running the Readyset Adapter as a distinct process.</p>
 
 ## Environment variables
 
 For many common `readyset` and `readyset-server` options, you can set environment variables once instead of manually passing the flags each time you execute commands.
 
 - To find out which flags support environment variables, see the documentation for each [command](#commands).
-- To output the current configuration of ReadySet and other environment variables, run `env`.
+- To output the current configuration of Readyset and other environment variables, run `env`.
 - When a command uses environment variables, the variable names are printed to the command's logs.
 
-ReadySet prioritizes command flags, environment variables, and defaults as follows:
+Readyset prioritizes command flags, environment variables, and defaults as follows:
 
-1. If a flag is set for a command, ReadySet uses it.
-2. If a flag is not set for a command, ReadySet uses the corresponding environment variable.
-3. If neither the flag nor environment variable is set, ReadySet uses the default for the flag.
-4. If there's no flag default, ReadySet returns an error.
+1. If a flag is set for a command, Readyset uses it.
+2. If a flag is not set for a command, Readyset uses the corresponding environment variable.
+3. If neither the flag nor environment variable is set, Readyset uses the default for the flag.
+4. If there's no flag default, Readyset returns an error.
