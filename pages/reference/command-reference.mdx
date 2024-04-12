@@ -1,0 +1,146 @@
+# Readyset Command Reference
+
+This section provides a reference for all built-in commands from Readyset
+
+### `CREATE`
+
+#### `CACHE`
+<div class="option-details" markdown="1">
+Create a new cache entry for a specific `SELECT Statement` or `QueryID`
+
+**Command** : `CREATE CACHE FROM [select_statement | QueryID]`
+</div>
+
+### `DROP`
+#### `CACHE`
+<div class="option-details" markdown="1">
+Drop a cache entry based on a `CacheID` from [`SHOW CACHES`](#caches). 
+
+**Command** : `DROP CACHE {CacheID}`
+</div>
+
+#### `ALL CACHES`
+<div class="option-details" markdown="1">
+Drop all cache entries. 
+
+**Command** : `DROP ALL CACHES`
+</div>
+
+#### `PROXIED QUERIES`
+<div class="option-details" markdown="1">
+Clear the list of proxied queries show at [`SHOW PROXIED QUERIES`](#proxied-queries-1). 
+
+**Command** : `DROP ALL PROXIED QUERIES`
+</div>
+
+### `EXPLAIN`
+
+#### `CACHES`
+<div class="option-details" markdown="1">
+List all CREATE CACHE statements that have been executed, for the purpose of exporting them.
+
+**Command** : `EXPLAIN CACHES`
+</div>
+
+#### `CREATE CACHE`
+<div class="option-details" markdown="1">
+Display information about how Readyset will interpret a specific query. Including if the query is supported or not.
+
+**Command** : `EXPLAIN CREATE CACHE FROM select_statement`
+</div>
+
+#### `DOMAINS`
+<div class="option-details" markdown="1">
+List domain shard replicas and what worker they're running on.
+
+**Command** : `EXPLAIN DOMAINS`
+</div>
+
+#### `GRAPHVIZ`
+<div class="option-details" markdown="1">
+Print a graphviz representation of the current query graph to stdout.
+
+**Command** : `EXPLAIN [SIMPLIFIED] GRAPHVIZ [FOR CACHE CacheID]`
+</div>
+
+#### `MATERIALIZATIONS`
+<div class="option-details" markdown="1">
+List and give information about all materializations in the graph.
+
+**Command** : `EXPLAIN MATERIALIZATIONS`
+</div>
+
+#### `LAST STATEMENT`
+<div class="option-details" markdown="1">
+Provides metadata about the last statement that was executed.
+
+**Command** : `EXPLAIN LAST STATEMENT`
+</div>
+
+
+
+### `SHOW`
+
+#### `PROXIED QUERIES`
+<div class="option-details" markdown="1">
+Display a list of proxied queries to upstream. Optionally users can filter only **SUPPORTED** queries.
+
+**Command** : `SHOW PROXIED [SUPPORTED] QUERIES`
+</div>
+
+#### `CACHES`
+<div class="option-details" markdown="1">
+Display a list of cached queries.
+
+**Command** : `SHOW CACHES`
+
+</div>
+
+#### `READYSET STATUS`
+<div class="option-details" markdown="1">
+Display current Readyset server status
+
+**Command** : `SHOW READYSET STATUS`
+</div>
+
+#### `READYSET STATUS ADAPTER`
+<div class="option-details" markdown="1">
+Display current Readyset adapter status.
+
+**Command** : `SHOW READYSET STATUS ADAPTER`
+</div>
+
+#### `READYSET MIGRATION STATUS`
+<div class="option-details" markdown="1">
+Display the migration status for a specific ID.
+
+**Command** : `SHOW MIGRATION STATUS {ID}`
+
+</div>
+
+#### `READYSET VERSION`
+<div class="option-details" markdown="1">
+Display information about the current Readyset version.
+
+**Command** : `SHOW READYSET VERSION`
+
+</div>
+
+#### `READYSET TABLES`
+<div class="option-details" markdown="1">
+Display the list of tables and their status
+
+**Command** : `SHOW READYSET TABLES`
+
+</div>
+
+#### `CONNECTIONS`
+<div class="option-details" markdown="1">
+Display a list of client connections.
+
+
+**Command** : `SHOW CONNECTIONS`
+
+</div>
+
+

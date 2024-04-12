@@ -1,5 +1,6 @@
 {
     "features": "SQL Support", 
+    "command-reference": "Command Reference",
     "profiling-queries": "Profiling Queries", 
     "cli": "CLI", 
     "telemetry": "Telemetry",
