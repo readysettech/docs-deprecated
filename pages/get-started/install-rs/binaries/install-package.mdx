@@ -6,13 +6,15 @@ import { Cards, Card } from 'nextra/components'
 # Install Readyset System Packages
 
 Readyset can be installed as a stand-alone `systemd` service using a Linux
-distribution package.  We currently only produce a `deb` package for the
-x86_64/amd64 architecture which installs on Debian-based systems running
-OpenSSL 3 (i.e. Ubuntu 22.04, Debian 12).
+distribution package.  We currently produce the following x86_64/amd64 packages:
+* `deb` for Debian-based systems running OpenSSL 3 (i.e. Ubuntu 22.04, Debian 12).
+* `rpm` for Fedora Core 39 (and compatible distros).
+* `rpm` for Amazon Linux 2023.
 
 To install the package:
-1. [Download the `deb` package from `Assets` on our GitHub release page](https://github.com/readysettech/readyset/releases/latest).
-2. Install the package using `sudo dpkg -i <PACKAGE_NAME>`
+1. [Download the `deb` or `rpm` package from `Assets` on our GitHub release page](https://github.com/readysettech/readyset/releases/latest).
+2. Install `deb` packages using `sudo dpkg -i <PACKAGE_NAME>`.
+3. Install `rpm` packages using `sudo rpm -ivh <PACKAGE_NAME>`.
 
 
 ## Configure Readyset Service
@@ -47,6 +49,13 @@ in `readyset.conf`.
 
 ## Uninstalling Readyset Service
 
-To uninstall, use `sudo apt remove readyset`.  This will uninstall the service
-and executable, but will leave the `/etc/readyset/readyset.conf` configuration
-file.  To remove all `readyset` files entirely, use `sudo apt purge readyset`.
+**For Ubuntu/Debian:** To uninstall, use `sudo apt remove readyset`.  This will
+uninstall the service and executable, but will leave the
+`/etc/readyset/readyset.conf` configuration file.  To remove all `readyset`
+files entirely, use `sudo apt purge readyset`.
+
+**For Fedora, Amazon Linux, or rpm-based distros:** To uninstall, use `sudo rpm
+--erase readyset`.  This will uninstall the service and executable.  The
+`/etc/readyset/readyset.conf` configuration file will be preserved.  To remove
+all readyset files, delete the `/var/lib/readyset` and `/etc/readyset`
+directories.
