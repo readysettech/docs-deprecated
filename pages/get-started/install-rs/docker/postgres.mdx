@@ -1,24 +1,24 @@
 import { Callout } from 'nextra/components'
 
-# Readyset Installation Guide for PostgreSQL 
+# Readyset Installation Guide for PostgreSQL
 
 This guide walks you through how to run Readyset using Docker, connecting to an existing primary database.
 
-## 0. Make sure you can connect to your primary database.  
+## 0. Make sure you can connect to your primary database.
 
-Readyset needs to be installed on a machine that can communicate with your primary database. To check to make sure that it can, 
+Readyset needs to be installed on a machine that can communicate with your primary database. To check to make sure that it can,
 you can run the following on that instance:
 
 ```sh copy
 psql -h <ip address> -p <port> -d <database name which you want to connect> -U <username of the database server>
 ```
 
-If you are able to successfully make the connection, you should be all set. 
+If you are able to successfully make the connection, you should be all set.
 
-## 1. Ensure you have sufficient disk space and memory for Readyset 
-Any tables referenced by queries that you would like to cache need to be pulled into Readyset. Before installing Readyset, 
-ensure that the machine that you are installing it on has sufficient disk space and memory to replicate the base tables and 
-cache queries. 
+## 1. Ensure you have sufficient disk space and memory for Readyset
+Any tables referenced by queries that you would like to cache need to be pulled into Readyset. Before installing Readyset,
+ensure that the machine that you are installing it on has sufficient disk space and memory to replicate the base tables and
+cache queries.
 
 
 <Callout type="info"> Note that by default, Readyset will pull in all tables from your database. If you only want to pull in specific
@@ -33,20 +33,22 @@ docker pull readysettech/readyset
 
 ## 3.  Run Readyset
 
-First, find your primary database's connection string. 
+First, find your primary database's connection string.
 
-It should look something like this: 
+It should look something like this:
 
 ```postgres://<username>:<password>@<host>:<port>/<db_name>```
 
-**By default, Readyset will import all tables.** If you'd like to import all database tables, 
-you can skip defining a `REPLICATION_TABLES` environment variable. If, however, you'd only like
-to import a a subset of your database, then you need to define the list of tables you want to pull 
-into Readyset as a comma-separated list: ```<schema>.<table>, <schema>.<table2>```. 
-Note, this is optional - you can import all tables too by ignoring this command line flag. If you'd 
-like to import all of the tables in a given schema, you can specify everything as follows: ```<schema name>.*```. 
+<Callout>Special characters that may be interpreted as dividers of the connection string (e.g. `@`, `:`, `/`, `#`) must be [percent-encoded](https://developer.mozilla.org/en-US/docs/Glossary/percent-encoding), including in passwords. For example, `password#` should be `password%23`.</Callout>
 
-Now, you're ready to start Readyset. In your terminal, run the following command:  
+**By default, Readyset will import all tables.** If you'd like to import all database tables,
+you can skip defining a `REPLICATION_TABLES` environment variable. If, however, you'd only like
+to import a a subset of your database, then you need to define the list of tables you want to pull
+into Readyset as a comma-separated list: ```<schema>.<table>,<schema>.<table2>```.
+Note, this is optional - you can import all tables too by ignoring this command line flag. If you'd
+like to import all of the tables in a given schema, you can specify everything as follows: ```<schema name>.*```.
+
+Now, you're ready to start Readyset. In your terminal, run the following command:
 
 ```sh copy
 docker run -d -p 5433:5433 -p 6034:6034         \
@@ -57,22 +59,22 @@ docker run -d -p 5433:5433 -p 6034:6034         \
 readysettech/readyset:latest
 ```
 
-As you can see above, Readyset is exposing two ports: 5433 and 6034. The Readyset 
-process will listen for query traffic on port 5433 and emits telemetry on port 6034 via 
-a `/metrics` endpoint. All `-e` environment variables can be 
-placed into a file and referenced via Docker's `--env-file` flag if you'd rather simply your command 
+As you can see above, Readyset is exposing two ports: 5433 and 6034. The Readyset
+process will listen for query traffic on port 5433 and emits telemetry on port 6034 via
+a `/metrics` endpoint. All `-e` environment variables can be
+placed into a file and referenced via Docker's `--env-file` flag if you'd rather simply your command
 line experience.
 
-<Callout type="info"> If your database is running locally, you'll need to 
+<Callout type="info"> If your database is running locally, you'll need to
 use `host.docker.internal` rather than `localhost`. </Callout>
 
-<Callout type="info">If you're running our current docker 
-image on a Mac, you'll see a warning: `WARNING: The requested image's platform (linux/amd64) does 
-not match the detected host platform (linux/arm64/v8) and no specific platform was requested`. You 
-can ignore this; alternatively, you can pass the `--platform linux/amd64` flag to the docker 
+<Callout type="info">If you're running our current docker
+image on a Mac, you'll see a warning: `WARNING: The requested image's platform (linux/amd64) does
+not match the detected host platform (linux/arm64/v8) and no specific platform was requested`. You
+can ignore this; alternatively, you can pass the `--platform linux/amd64` flag to the docker
 `run` command to suppress the warning.  </Callout>
 
-Connecting to a locally running docker Postgres and importing all tables 
+Connecting to a locally running docker Postgres and importing all tables
 in the `locution` database, for instance, would look like this:
 
 ```sh
@@ -82,11 +84,11 @@ docker run -d -p 5433:5433 -p 6034:6034 --name readyset                         
 readysettech/readyset:latest
 ```
 
-Readyset will then connect to your database and replicate specified tables (i.e. all or the explictly defined ones). 
-Depending on how large these tables are and the network connection between Readyset and your database, 
-this could take between seconds and hours. 
+Readyset will then connect to your database and replicate specified tables (i.e. all or the explictly defined ones).
+Depending on how large these tables are and the network connection between Readyset and your database,
+this could take between seconds and hours.
 
-To check whether the tables have been imported, run the following: 
+To check whether the tables have been imported, run the following:
 
 ```sh copy
 docker logs readyset-cache
@@ -107,12 +109,12 @@ Alternatively, you can log into the Readyset shell and run
 ```sql
 SHOW READYSET STATUS;
 ```
-Look at the `Snapshot Status` column. If snapshotthing successfully completed, 
+Look at the `Snapshot Status` column. If snapshotthing successfully completed,
 it'll report `Completed`.
 
 Now Readyset is ready to start caching queries.
 
 ## Next Steps
 
-As a next step, you can [connect to Readyset from a database shell ](/get-started/connect/connect-via-database-shell) or [connect from your application](/get-started/connect/connect-an-application-via-an-orm). 
+As a next step, you can [connect to Readyset from a database shell ](/get-started/connect/connect-via-database-shell) or [connect from your application](/get-started/connect/connect-an-application-via-an-orm).
 
