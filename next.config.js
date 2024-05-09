@@ -7,29 +7,14 @@ module.exports = withNextra({
   async redirects() {
     return [
       {
-        source: '/guides/intro/quickstart',
-        destination: '/quickstart',
+        source: '/',
+        destination: `https://readyset.io/docs/`,
         permanent: true,
       },
       {
-        source: '/guides/intro/intro',
-        destination: '/quickstart',
+        source: '/:path*',
+        destination: `https://readyset.io/docs/:path*`,
         permanent: true,
-      },
-      {
-        source: '/releases/readyset-core',
-        destination: 'https://github.com/readysettech/readyset/releases',
-        permanent: true,
-      },
-      {
-        source: '/quickstart',
-        destination: '/demo',
-        permanent: true,
-      },
-      {
-        source: '/deploy/configure-your-database',
-        destination: '/get-started/configure-your-database/postgres',
-        permanent: false
       }
     ]
   },
