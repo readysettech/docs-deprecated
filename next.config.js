@@ -4,6 +4,7 @@ const withNextra = require('nextra')({
 })
 
 module.exports = withNextra({
+  basePath: "/docs",
   async redirects() {
     return [
       {
@@ -18,4 +19,5 @@ module.exports = withNextra({
       }
     ]
   },
+
 })
